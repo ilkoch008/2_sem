@@ -1,0 +1,3 @@
+R:/progi_2_sem/triangle/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+R:/progi_2_sem/triangle/cmake-build-debug/CMakeFiles/triangle.dir
+R:/progi_2_sem/triangle/cmake-build-debug/CMakeFiles/edit_cache.dir
