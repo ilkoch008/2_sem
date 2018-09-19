@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+R:/progi_2_sem/2_sem_exercises/sec_sem_ex/matrix/main.c
+stdio.h
+-
+malloc.h
+-
+
