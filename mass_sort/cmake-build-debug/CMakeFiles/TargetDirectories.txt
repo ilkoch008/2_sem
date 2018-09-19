@@ -1,0 +1,3 @@
+R:/progi_2/exercises/mass_sort/cmake-build-debug/CMakeFiles/mass_sort.dir
+R:/progi_2/exercises/mass_sort/cmake-build-debug/CMakeFiles/edit_cache.dir
+R:/progi_2/exercises/mass_sort/cmake-build-debug/CMakeFiles/rebuild_cache.dir
