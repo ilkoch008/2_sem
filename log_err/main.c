@@ -17,7 +17,5 @@ int main(int argc, char **argv, char **envp) {
         }
     }
     printf("strs: %d\nwords: %d\n", nstr, nwor);
-    free(sttr);
-    fclose(texxt);
     return 0;
 }
