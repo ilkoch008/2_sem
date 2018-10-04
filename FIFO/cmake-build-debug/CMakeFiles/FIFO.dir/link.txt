@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/FIFO.dir/main.c.o  -o FIFO 
