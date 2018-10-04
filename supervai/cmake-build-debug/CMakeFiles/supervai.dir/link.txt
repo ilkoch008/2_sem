@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/supervai.dir/main.c.o  -o supervai 
