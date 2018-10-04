@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://www.ostechnix.com/xmlrpc.php">
+<title>Betty - The Siri-like Commandline Virtual Assistant For Linux - OSTechNix</title>
+<script>document.documentElement.className = document.documentElement.className.replace("no-js","js");</script>
+
+<meta name="description" content="Betty is a Siri-like commandline virtual assistant that translates English-like phrases into Linux commands." />
+<link rel="canonical" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Betty - The Siri-like Commandline Virtual Assistant For Linux - OSTechNix" />
+<meta property="og:description" content="Betty is a Siri-like commandline virtual assistant that translates English-like phrases into Linux commands." />
+<meta property="og:url" content="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/" />
+<meta property="og:site_name" content="OSTechNix" />
+<meta property="article:publisher" content="https://www.facebook.com/ostechnix/" />
+<meta property="article:tag" content="Betty" />
+<meta property="article:tag" content="Commandline" />
+<meta property="article:tag" content="Google Voice Search" />
+<meta property="article:tag" content="Linux" />
+<meta property="article:tag" content="Ruby" />
+<meta property="article:tag" content="Siri" />
+<meta property="article:tag" content="Virtual Assistant" />
+<meta property="article:section" content="Command line fun" />
+<meta property="article:published_time" content="2017-08-17T14:02:44+00:00" />
+<meta property="article:modified_time" content="2018-08-20T12:02:10+00:00" />
+<meta property="og:updated_time" content="2018-08-20T12:02:10+00:00" />
+<meta property="og:image" content="https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1.png" />
+<meta property="og:image:secure_url" content="https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="744" />
+<meta property="og:image:alt" content="Betty - The Siri-like Commandline Virtual Assistant for Linux" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="Betty is a Siri-like commandline virtual assistant that translates English-like phrases into Linux commands." />
+<meta name="twitter:title" content="Betty - The Siri-like Commandline Virtual Assistant For Linux - OSTechNix" />
+<meta name="twitter:site" content="@ostechnix" />
+<meta name="twitter:image" content="https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1.png" />
+<meta name="twitter:creator" content="@ostechnix" />
+<script type='application/ld+json'>{"@context":"https:\/\/schema.org","@type":"Person","url":"https:\/\/www.ostechnix.com\/","sameAs":["https:\/\/www.facebook.com\/ostechnix\/","https:\/\/in.linkedin.com\/in\/ostechnix","https:\/\/twitter.com\/ostechnix"],"@id":"#person","name":"Senthilkumar Palani"}</script>
+
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="OSTechNix &raquo; Feed" href="https://www.ostechnix.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="OSTechNix &raquo; Comments Feed" href="https://www.ostechnix.com/comments/feed/" />
+<link id="hu-user-gfont" href="//fonts.googleapis.com/css?family=Ubuntu:400,400italic,300italic,300,700&subset=latin,latin-ext" rel="stylesheet" type="text/css"><link rel="alternate" type="application/rss+xml" title="OSTechNix &raquo; Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux Comments Feed" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/feed/" />
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.ostechnix.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='font-customizer-style-css' href='https://www.ostechnix.com/wp-content/themes/hueman-pro/addons/pro/wfc/front/assets/css/font_customizer.min.css?ver=3.0.4' type='text/css' media='all' />
+<link rel='stylesheet' id='responsive-lightbox-swipebox-css' href='https://www.ostechnix.com/wp-content/plugins/responsive-lightbox/assets/swipebox/css/swipebox.min.css?ver=2.0.5' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css' href='https://www.ostechnix.com/wp-includes/css/dashicons.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='hph-front-style-css' href='https://www.ostechnix.com/wp-content/themes/hueman-pro/addons/assets/front/css/hph-front.min.css?ver=1.1.3' type='text/css' media='all' />
+<link rel='stylesheet' id='hueman-main-style-css' href='https://www.ostechnix.com/wp-content/themes/hueman-pro/assets/front/css/main.min.css?ver=1.1.3' type='text/css' media='all' />
+<style id='hueman-main-style-inline-css' type='text/css'>
+body { font-family:'Ubuntu', Arial, sans-serif;font-size:1.00rem }@media only screen and (min-width: 720px) {
+        .nav > li { font-size:1.00rem; }
+      }::selection { background-color: #3b8dbd; }
+::-moz-selection { background-color: #3b8dbd; }a,a+span.hu-external::after,.themeform label .required,#flexslider-featured .flex-direction-nav .flex-next:hover,#flexslider-featured .flex-direction-nav .flex-prev:hover,.post-hover:hover .post-title a,.post-title a:hover,.sidebar.s1 .post-nav li a:hover i,.content .post-nav li a:hover i,.post-related a:hover,.sidebar.s1 .widget_rss ul li a,#footer .widget_rss ul li a,.sidebar.s1 .widget_calendar a,#footer .widget_calendar a,.sidebar.s1 .alx-tab .tab-item-category a,.sidebar.s1 .alx-posts .post-item-category a,.sidebar.s1 .alx-tab li:hover .tab-item-title a,.sidebar.s1 .alx-tab li:hover .tab-item-comment a,.sidebar.s1 .alx-posts li:hover .post-item-title a,#footer .alx-tab .tab-item-category a,#footer .alx-posts .post-item-category a,#footer .alx-tab li:hover .tab-item-title a,#footer .alx-tab li:hover .tab-item-comment a,#footer .alx-posts li:hover .post-item-title a,.comment-tabs li.active a,.comment-awaiting-moderation,.child-menu a:hover,.child-menu .current_page_item > a,.wp-pagenavi a{ color: #3b8dbd; }.themeform input[type="submit"],.themeform button[type="submit"],.sidebar.s1 .sidebar-top,.sidebar.s1 .sidebar-toggle,#flexslider-featured .flex-control-nav li a.flex-active,.post-tags a:hover,.sidebar.s1 .widget_calendar caption,#footer .widget_calendar caption,.author-bio .bio-avatar:after,.commentlist li.bypostauthor > .comment-body:after,.commentlist li.comment-author-admin > .comment-body:after{ background-color: #3b8dbd; }.post-format .format-container { border-color: #3b8dbd; }.sidebar.s1 .alx-tabs-nav li.active a,#footer .alx-tabs-nav li.active a,.comment-tabs li.active a,.wp-pagenavi a:hover,.wp-pagenavi a:active,.wp-pagenavi span.current{ border-bottom-color: #3b8dbd!important; }.sidebar.s2 .post-nav li a:hover i,
+.sidebar.s2 .widget_rss ul li a,
+.sidebar.s2 .widget_calendar a,
+.sidebar.s2 .alx-tab .tab-item-category a,
+.sidebar.s2 .alx-posts .post-item-category a,
+.sidebar.s2 .alx-tab li:hover .tab-item-title a,
+.sidebar.s2 .alx-tab li:hover .tab-item-comment a,
+.sidebar.s2 .alx-posts li:hover .post-item-title a { color: #82b965; }
+.sidebar.s2 .sidebar-top,.sidebar.s2 .sidebar-toggle,.post-comments,.jp-play-bar,.jp-volume-bar-value,.sidebar.s2 .widget_calendar caption{ background-color: #82b965; }.sidebar.s2 .alx-tabs-nav li.active a { border-bottom-color: #82b965; }
+.post-comments span:before { border-right-color: #82b965; }
+      .search-expand,
+              #nav-topbar.nav-container { background-color: #00aeef}@media only screen and (min-width: 720px) {
+                #nav-topbar .nav ul { background-color: #00aeef; }
+              }.is-scrolled #header .nav-container.desktop-sticky,
+              .is-scrolled #header .search-expand { background-color: #00aeef; background-color: rgba(0,174,239,0.90) }.is-scrolled .topbar-transparent #nav-topbar.desktop-sticky .nav ul { background-color: #00aeef; background-color: rgba(0,174,239,0.95) }#header { background-color: #eaeaea; }
+@media only screen and (min-width: 720px) {
+  #nav-header .nav ul { background-color: #eaeaea; }
+}
+        .is-scrolled #header #nav-mobile { background-color: #454e5c; background-color: rgba(69,78,92,0.90) }#nav-header.nav-container, #main-header-search .search-expand { background-color: #ef4423; }
+@media only screen and (min-width: 720px) {
+  #nav-header .nav ul { background-color: #ef4423; }
+}
+        .site-title a img { max-height: 120px; }body { background-color: #eaeaea; }
+</style>
+<link rel='stylesheet' id='theme-stylesheet-css' href='https://www.ostechnix.com/wp-content/themes/ostechnix_child_theme/style.css?ver=1.1.3' type='text/css' media='all' />
+<link rel='stylesheet' id='hueman-font-awesome-css' href='https://www.ostechnix.com/wp-content/themes/hueman-pro/assets/front/css/font-awesome.min.css?ver=1.1.3' type='text/css' media='all' />
+<link rel='stylesheet' id='an_style-css' href='https://www.ostechnix.com/wp-content/uploads/UWMayjOEbsuO/ilwNfyAFDGPI.css?ver=2.2.3' type='text/css' media='all' />
+<style id='an_style-inline-css' type='text/css'>
+/*	an_style.css	AdBlock Notify	Copyright: (c) 2016 Themeisle, themeisle.com	Version: 2.2.3*/.AfgjetQapDaN-bg {	display: none;	position: fixed;	z-index: 100;	top: 0;	left: 0;	width: 100%;	height: 100%;	background: #000;	background: rgba(0,0,0,0.75);}.AfgjetQapDaN {	visibility: hidden;	position: fixed;	z-index: 101;	top: 100px;	right: 0;	left: 0;	max-width: 640px;	margin-right: auto;	margin-left: auto;	background: #fff;	-webkit-box-shadow: 0 3px 5px 2px rgba(0,0,0,0.25);	box-shadow: 0 3px 5px 2px rgba(0,0,0,0.25);	font-family: Arial, Helvetica, sans-serif;}.AfgjetQapDaN-default,.AfgjetQapDaN-ok {	padding: 30px 30px 15px;}.AfgjetQapDaN-image {	overflow: hidden;	position: relative;	width: 100%;}.AfgjetQapDaN-image .AfgjetQapDaN-left {	position: absolute;	top: 0;	left: 0;	width: 50%;	height: 100%;}.AfgjetQapDaN-image .AfgjetQapDaN-right {	float: right;	width: 50%;	padding: 30px;}.AfgjetQapDaN.small {	width: 200px;	margin-left: -140px;}.AfgjetQapDaN.medium {	width: 400px;	margin-left: -240px;}.AfgjetQapDaN.large {	width: 600px;	margin-left: -340px;}.AfgjetQapDaN.xlarge {	width: 800px;	margin-left: -440px;}.close-AfgjetQapDaN {	display: inline-block;	position: absolute;	top: 15px;	right: 15px;	width: 30px;	height: 30px;	color: #bbb;	font-size: 32px;	font-weight: 700;	line-height: 30px;	text-align: center;	cursor: pointer;	-webkit-transition: 0.3s;	transition: 0.3s;}.close-AfgjetQapDaN:hover {	color: #252b37;}.AfgjetQapDaN h1 {	margin-bottom: 15px;	padding: 0 30px;	color: #252b37;	font-size: 28px;	line-height: 1.25;	text-align: center;}.AfgjetQapDaN-right h1 {	padding: 0 30px 0 0;	text-align: left;}.AfgjetQapDaN p {	margin-bottom: 15px;	color: #333745;	font-size: 14px;}.AfgjetQapDaN p a {	color: #ff6160;}.AfgjetQapDaN-right .close-modal,.AfgjetQapDaN-footer .close-modal {	padding: 15px !important;	border-radius: 0 !important;	background-color: #ff6160;	font-size: 14px;	letter-spacing: 2px !important;	-webkit-transition: 0.3s;	transition: 0.3s;}.AfgjetQapDaN-right .close-modal:hover,.AfgjetQapDaN-footer .close-modal:hover {	background-color: #252b37 !important;}.AfgjetQapDaN-footer .grey-button-modal {	margin-right: 15px;	background-color: #a5a5a5;}.AfgjetQapDaN-footer {	display: block;	padding: 15px 30px;	background-color: #eff4f7;	text-align: right;}@media only screen and (max-width: 640px) {	.AfgjetQapDaN {		right: 5%;		left: 5%;		max-width: 90%;	}	.AfgjetQapDaN-default {		padding: 20px;	}	.AfgjetQapDaN-image .AfgjetQapDaN-left {		width: 100%;		height: 250px;	}	.AfgjetQapDaN-image .AfgjetQapDaN-right {		float: left;		width: 100%;		margin-top: 250px;		padding: 20px;	}	.AfgjetQapDaN h1 {		margin-bottom: 10px;		font-size: 20px;	}	.AfgjetQapDaN-right h1 {		padding: 0;	}	.AfgjetQapDaN p {		margin-bottom: 10px;	}	.close-AfgjetQapDaN {		color: #fcfcfc;		background-color: #252b37;	}	.close-AfgjetQapDaN:hover {		color: #252b37;		background-color: #fcfcfc;	}	.AfgjetQapDaN-footer {		padding: 15px 20px;	}}@media only screen and (max-width: 480px) {	.AfgjetQapDaN-image .AfgjetQapDaN-left {		height: 200px;	}	.AfgjetQapDaN-image .AfgjetQapDaN-right {		margin-top: 200px;	}	.AfgjetQapDaN-footer {		text-align: center;	}	.AfgjetQapDaN-footer .close-modal {		width: 80%;		margin: 5px 10%;	}}
+</style>
+<link rel='stylesheet' id='social-logos-css' href='https://www.ostechnix.com/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=1' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css' href='https://www.ostechnix.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.5' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.ostechnix.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/plugins/responsive-lightbox/assets/swipebox/js/jquery.swipebox.min.js?ver=2.0.5'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/plugins/responsive-lightbox/assets/infinitescroll/infinite-scroll.pkgd.min.js?ver=4.9.8'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var rlArgs = {"script":"swipebox","selector":"lightbox","customEvents":"","activeGalleries":"1","animation":"1","hideCloseButtonOnMobile":"0","removeBarsOnMobile":"0","hideBars":"1","hideBarsDelay":"5000","videoMaxWidth":"1080","useSVG":"1","loopAtEnd":"0","woocommerce_gallery":"0","ajaxurl":"https:\/\/www.ostechnix.com\/wp-admin\/admin-ajax.php","nonce":"e544747077"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/plugins/responsive-lightbox/js/front.js?ver=2.0.5'></script>
+<link rel='https://api.w.org/' href='https://www.ostechnix.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.ostechnix.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.ostechnix.com/wp-includes/wlwmanifest.xml" />
+<meta name="generator" content="WordPress 4.9.8" />
+<link rel='shortlink' href='https://www.ostechnix.com/?p=9857' />
+<link rel="alternate" type="application/json+oembed" href="https://www.ostechnix.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.ostechnix.com%2Fbetty-siri-like-commandline-virtual-assistant-linux%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.ostechnix.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.ostechnix.com%2Fbetty-siri-like-commandline-virtual-assistant-linux%2F&#038;format=xml" />
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-6701402139964678",
+    enable_page_level_ads: true
+  });
+</script><style type='text/css'>img#wpstats{display:none}</style><!--[if lt IE 9]>
+<script src="https://www.ostechnix.com/wp-content/themes/hueman-pro/assets/front/js/ie/html5shiv-printshiv.min.js"></script>
+<script src="https://www.ostechnix.com/wp-content/themes/hueman-pro/assets/front/js/ie/selectivizr.js"></script>
+<![endif]-->
+<link rel="icon" href="https://www.ostechnix.com/wp-content/uploads/2016/10/cropped-favicon-500x500-150x150.png" sizes="32x32" />
+<link rel="icon" href="https://www.ostechnix.com/wp-content/uploads/2016/10/cropped-favicon-500x500-300x300.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://www.ostechnix.com/wp-content/uploads/2016/10/cropped-favicon-500x500-300x300.png" />
+<meta name="msapplication-TileImage" content="https://www.ostechnix.com/wp-content/uploads/2016/10/cropped-favicon-500x500-300x300.png" />
+<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+
+Use this field to test small chunks of CSS code. For important CSS customizations, it is recommended to modify the style.css file of a child theme.
+http//codex.wordpress.org/Child_Themes
+*/
+		</style>
+<style id="grids-css" type="text/css">
+                .post-list .grid-item {float: left; }
+                .cols-1 .grid-item { width: 100%; }
+                .cols-2 .grid-item { width: 50%; }
+                .cols-3 .grid-item { width: 33.3%; }
+                .cols-4 .grid-item { width: 25%; }
+                @media only screen and (max-width: 719px) {
+                      #grid-wrapper .grid-item{
+                        width: 100%;
+                      }
+                }
+            </style>
+</head>
+<body class="post-template-default single single-post postid-9857 single-format-image wp-custom-logo col-2cl full-width topbar-enabled header-desktop-sticky unknown">
+<div id="wrapper">
+<header id="header" class="both-menus-mobile-on two-mobile-menus both_menus header-ads-desktop header-ads-mobile topbar-transparent no-header-img">
+<nav class="nav-container group desktop-menu desktop-sticky " id="nav-topbar" data-menu-id="header-1">
+
+<div class="ham__navbar-toggler-two collapsed" title="Menu" aria-expanded="false">
+<div class="ham__navbar-span-wrapper">
+<span class="line line-1"></span>
+<span class="line line-2"></span>
+<span class="line line-3"></span>
+</div>
+</div>
+<div class="nav-text"></div>
+<div class="topbar-toggle-down">
+<i class="fas fa-angle-double-down" aria-hidden="true" data-toggle="down" title="Expand menu"></i>
+<i class="fas fa-angle-double-up" aria-hidden="true" data-toggle="up" title="Collapse menu"></i>
+</div>
+<div class="nav-wrap container">
+<ul id="menu-top-menu" class="nav container-inner group"><li id="menu-item-9" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-9"><a href="http://www.ostechnix.com/">Home</a></li>
+<li id="menu-item-11" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-11"><a target="_blank" href="https://www.ostechnix.com/category/opensource/">Open Source</a></li>
+<li id="menu-item-10" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10"><a target="_blank" href="https://www.ostechnix.com/category/technology/">Technology</a></li>
+<li id="menu-item-12" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-has-children menu-item-12"><a target="_blank" href="https://www.ostechnix.com/category/linux/">Linux</a>
+<ul class="sub-menu">
+<li id="menu-item-14" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-14"><a href="https://www.ostechnix.com/category/linux-basics/">Linux Basics</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-15"><a href="https://www.ostechnix.com/category/linux_distributions/">Linux Distributions</a>
+<ul class="sub-menu">
+<li id="menu-item-16" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-16"><a href="https://www.ostechnix.com/category/linux_distributions/arch-linux/">Arch Linux</a></li>
+<li id="menu-item-17" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-17"><a href="https://www.ostechnix.com/category/linux_distributions/centos/">CentOS</a></li>
+<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="https://www.ostechnix.com/category/linux_distributions/debian/">Debian</a></li>
+<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-19"><a href="https://www.ostechnix.com/category/linux_distributions/fedora/">Fedora</a></li>
+<li id="menu-item-20" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-20"><a href="https://www.ostechnix.com/category/linux_distributions/linuxmint/">Linux Mint</a></li>
+<li id="menu-item-21" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-21"><a href="https://www.ostechnix.com/category/linux_distributions/mageia/">Mageia</a></li>
+<li id="menu-item-22" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-22"><a href="https://www.ostechnix.com/category/linux_distributions/mandrake/">Mandrake</a></li>
+<li id="menu-item-23" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-23"><a href="https://www.ostechnix.com/category/linux_distributions/mandriva/">Mandriva</a></li>
+<li id="menu-item-24" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-24"><a href="https://www.ostechnix.com/category/linux_distributions/opensuse/">openSUSE</a></li>
+<li id="menu-item-929" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-929"><a href="https://www.ostechnix.com/category/linux_distributions/red-hat-enterprise-linux/">Red Hat Enterprise Linux</a></li>
+<li id="menu-item-930" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-930"><a href="https://www.ostechnix.com/category/linux_distributions/scientific-linux/">Scientific Linux</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-13" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-13"><a target="_blank" href="https://www.ostechnix.com/category/unix/">Unix</a>
+<ul class="sub-menu">
+<li id="menu-item-931" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-931"><a href="https://www.ostechnix.com/category/unix/freebsd/">FreeBSD</a></li>
+</ul>
+</li>
+<li id="menu-item-5925" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5925"><a target="_blank" href="http://ostechnix.tradepub.com/category/information-technology/1207/">Free Videos and EBooks</a></li>
+<li id="menu-item-7430" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7430"><a target="_blank" href="https://www.ostechnix.com/donate/">Donate</a></li>
+</ul> </div>
+<div id="topbar-header-search" class="container">
+<div class="container-inner">
+<div class="toggle-search"><i class="fas fa-search"></i></div>
+<div class="search-expand">
+<div class="search-expand-inner"><form method="get" class="searchform themeform" action="https://www.ostechnix.com/">
+<div>
+<input type="text" class="search" name="s" onblur="if(this.value=='')this.value='To search type and hit enter';" onfocus="if(this.value=='To search type and hit enter')this.value='';" value="To search type and hit enter" />
+</div>
+</form></div>
+</div>
+</div>
+</div>
+</nav>
+<div class="container group">
+<div class="container-inner">
+<div class="group pad central-header-zone">
+<div class="logo-tagline-group">
+<p class="site-title"><a class="custom-logo-link" href="https://www.ostechnix.com/" rel="home" title="OSTechNix | Home page"><img src="https://www.ostechnix.com/wp-content/uploads/2016/12/cropped-OSTechNix.png" alt="OSTechNix"></a></p>
+</div>
+<div id="header-widgets">
+<div id="text-7" class="widget widget_text"> <div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6701402139964678" data-ad-slot="3238338142"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div> </div>
+</div>
+<nav class="nav-container group desktop-menu " id="nav-header" data-menu-id="header-2">
+
+<div class="ham__navbar-toggler-two collapsed" title="Menu" aria-expanded="false">
+<div class="ham__navbar-span-wrapper">
+<span class="line line-1"></span>
+<span class="line line-2"></span>
+<span class="line line-3"></span>
+</div>
+</div>
+<div class="nav-text"></div>
+<div class="nav-wrap container">
+<ul id="menu-header-menu" class="nav container-inner group"><li id="menu-item-940" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-940"><a target="_blank" href="https://www.ostechnix.com/category/backup-tools/">Backup tools</a></li>
+<li id="menu-item-943" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-943"><a target="_blank" href="https://www.ostechnix.com/category/cloud/">Cloud</a></li>
+<li id="menu-item-941" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-941"><a target="_blank" href="https://www.ostechnix.com/category/database/">Database</a></li>
+<li id="menu-item-942" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-942"><a target="_blank" href="https://www.ostechnix.com/category/directory-servers/">Directory servers</a></li>
+<li id="menu-item-944" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-944"><a target="_blank" href="https://www.ostechnix.com/category/mobile/">Mobile</a>
+<ul class="sub-menu">
+<li id="menu-item-945" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-945"><a href="https://www.ostechnix.com/category/android/">Android</a></li>
+</ul>
+</li>
+<li id="menu-item-939" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-939"><a target="_blank" href="https://www.ostechnix.com/category/reviews/">Reviews</a></li>
+<li id="menu-item-932" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-932"><a target="_blank" href="https://www.ostechnix.com/category/security/">Security</a>
+<ul class="sub-menu">
+<li id="menu-item-936" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-936"><a href="https://www.ostechnix.com/category/encryption-decryption/">Encryption / Decryption</a></li>
+<li id="menu-item-938" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-938"><a href="https://www.ostechnix.com/category/monitoring-tools/">Monitoring Tools</a></li>
+</ul>
+</li>
+<li id="menu-item-933" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-has-children menu-item-933"><a target="_blank" href="https://www.ostechnix.com/category/tips-and-tricks/">Tips and Tricks</a>
+<ul class="sub-menu">
+<li id="menu-item-937" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-937"><a href="https://www.ostechnix.com/category/internet-hacks/">Internet hacks</a></li>
+</ul>
+</li>
+<li id="menu-item-934" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-934"><a target="_blank" href="https://www.ostechnix.com/category/trouble-shooting/">Trouble shooting</a></li>
+<li id="menu-item-935" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-935"><a target="_blank" href="https://www.ostechnix.com/category/virtualization/">Virtualization</a></li>
+</ul> </div>
+</nav>
+</div>
+</div>
+</header>
+<div class="container" id="page">
+<div class="container-inner">
+<div class="main">
+<div class="main-inner group">
+ <section class="content">
+<div class="page-title pad group">
+<ul class="meta-single group">
+<li class="category"><a href="https://www.ostechnix.com/category/command-line-fun/" rel="category tag">Command line fun</a> <span>/</span> <a href="https://www.ostechnix.com/category/command-line-utilities/" rel="category tag">Command line utilities</a> <span>/</span> <a href="https://www.ostechnix.com/category/faq/" rel="category tag">FAQ</a> <span>/</span> <a href="https://www.ostechnix.com/category/linux/" rel="category tag">Linux</a> <span>/</span> <a href="https://www.ostechnix.com/category/linux-basics/" rel="category tag">Linux Basics</a> <span>/</span> <a href="https://www.ostechnix.com/category/linux-commands/" rel="category tag">Linux Commands</a> <span>/</span> <a href="https://www.ostechnix.com/category/opensource/" rel="category tag">Opensource</a> <span>/</span> <a href="https://www.ostechnix.com/category/tips-and-tricks/" rel="category tag">Tips and Tricks</a> <span>/</span> <a href="https://www.ostechnix.com/category/unixlinux-beginners/" rel="category tag">Unix/Linux Beginners</a> <span>/</span> <a href="https://www.ostechnix.com/category/utilities/" rel="category tag">Utilities</a></li>
+</ul>
+</div>
+<div class="pad group">
+<article class="post-9857 post type-post status-publish format-image has-post-thumbnail hentry category-command-line-fun category-command-line-utilities category-faq category-linux category-linux-basics category-linux-commands category-opensource category-tips-and-tricks category-unixlinux-beginners category-utilities tag-betty tag-commandline tag-google-voice-search tag-linux tag-ruby tag-siri tag-virtual-assistant post_format-post-format-image">
+<div class="post-inner group">
+<h1 class="post-title entry-title">Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux</h1>
+<p class="post-byline">by <span class="vcard author">
+<span class="fn"><a href="https://www.ostechnix.com/author/sk/" title="Posts by sk" rel="author">sk</a></span>
+</span> &middot;
+Published <time class="published" datetime="August 17, 2017">August 17, 2017</time>
+&middot; Updated <time class="updated" datetime="August 20, 2018">August 20, 2018</time>
+</p>
+<div class="post-format">
+<div class="image-container">
+<img width="720" height="340" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1-720x340.png" class="attachment-thumb-large size-thumb-large wp-post-image" alt="Betty - The Siri-like Commandline Virtual Assistant for Linux" data-srcset="https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1-720x340.png 720w, https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1-520x245.png 520w" data-sizes="(max-width: 720px) 100vw, 720px" /> </div>
+</div>
+<div class="clear"></div>
+<div class="entry themeform share">
+<div class="entry-inner">
+
+<div style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6701402139964678" data-ad-slot="8447266942" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<p>The Linux newbies might wondering how to become master at Linux command-line. My advice is, and it&#8217;s always will be, avoid using GUI mode as much as you can. Learn how to do stuffs from Terminal. Ask any Linux expert, and they will always say &#8211; &#8220;Command line mode is more powerful and easy&#8221;. I fully concur with this statement. In case, you don&#8217;t know how to do a specific task from command line, just google your question and start from there. Linux command line is not that difficult as you may think. However, some users are not so interested to use CLI mode no matter how hard you try to persuade them. They always prefer to use GUI mode only. If you&#8217;re one of them, meet <strong>&#8220;Betty&#8221;</strong>, a command-line virtual assistant for Linux.</p>
+
+<div style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6701402139964678" data-ad-slot="5359879344" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<p>Betty is somewhat similar to Apple&#8217;s Siri personal assistant or Google Voice Search feature. It is a friendly English-like interface for your command line that translates English-like phrases into Linux commands. You don&#8217;t need to google your question or don&#8217;t even need to refer the man pages. Just ask your questions in simple English sentences, and Betty will instantly do what you just said. In this brief tutorial, I will show you how to install and use Betty in Linux.</p>
+<h2>Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux</h2>
+<h4 class="qtext_para"><b>Install Betty</b></h4>
+<p class="qtext_para">First, Install the necessary prerequisites.</p>
+<p>On Arch Linux and derivatives:</p>
+<pre>$ sudo pacman -S <span class="pln">git curl ruby</span></pre>
+<p class="qtext_para"><b>On Debian based systems:</b></p>
+<pre class="qtext_para"><span class="pln">$ sudo apt</span><span class="pun">-</span><span class="kwd">get</span><span class="pln"> install git curl ruby</span></pre>
+<p class="qtext_para"><b>On RPM based systems:</b></p>
+<pre class="qtext_para">$ sudo yum install git curl ruby</pre>
+<p class="qtext_para"><strong>On SUSE, openSUSE:</strong></p>
+<pre>$ sudo zypper install git curl ruby</pre>
+<p class="qtext_para">Then, git clone the Betty repository using the following command:</p>
+<pre class="qtext_para"><span class="pln">$ git clone https</span><span class="pun">:</span><span class="com">//github.com/pickhardt/betty</span></pre>
+<p>I have cloned Betty repository in my $HOME directory.</p>
+<p class="qtext_para">Add the betty alias in <strong>.bashrc</strong> file.</p>
+<p>To do so, edit .bashrc file:</p>
+<pre>$ vi ~/.bashrc</pre>
+<p class="qtext_para">Press <strong>&#8216;i&#8217;</strong> to switch to interactive mode and paste the following line at the end:</p>
+<pre class="qtext_para"><span class="kwd">alias</span><span class="pln"> betty</span><span class="pun">=</span><span class="str">"/home/sk/betty/main.rb"</span></pre>
+<p>Then, press <strong>ESC</strong> and type <strong>:wq</strong> to save and quit the file. Alternatively, you can use the following one-liner command to add betty alias in .bashrc file.</p>
+<pre>echo 'alias betty="/home/sk/betty/main.rb"' &gt;&gt; ~/.bashrc</pre>
+<p>Thanks to <strong>https://www.reddit.com/user/ReturningTarzan</strong> for this one-liner command.</p>
+<p class="qtext_para">Replace <strong>/home/sk/betty/</strong> path with your own. Since I have cloned the betty repository in my HOME directory, I have added the above path.</p>
+<p>Finally, update the changes made in your bashrc file using the following command:</p>
+<pre>$ source ~/.bashrc</pre>
+<div id="exam_announcement"><i class="fa fa-book" style="color: #28557a; font-size: 20px;"></i><b>Recommended Download</b> &#8211; <a style="text-decoration: underline;" href="https://ostechnix.tradepub.com/free/w_lina01/prgm.cgi" target="_blank" rel="noopener noreferrer" title=""><strong>Free Cheat Sheet: &#8220;Linux Command Line Cheat Sheet&#8221;</strong></a></div>
+<h4 class="qtext_para"><b>Betty Usage</b></h4>
+<p class="qtext_para">Betty usage is trivial. Allow me show you some practical examples.</p>
+<p>Let us say, you want to find your username.</p>
+<p class="qtext_para">To do so, you would type:</p>
+<pre class="qtext_para">$ whoami</pre>
+<p class="qtext_para">However, you don&#8217;t need to run the actual command. You don’t have to memorize and remember all Linux commands any more. Just ask the Betty in plain English phrases.</p>
+<p class="qtext_para">Say for example, to know your username, just type:</p>
+<pre class="qtext_para"><span class="pln">$ betty whats </span><span class="kwd">my</span><span class="pln"> username</span></pre>
+<p class="qtext_para">Sample output would be:</p>
+<pre class="qtext_para"><span class="typ">Betty</span><span class="pun">:</span> <span class="typ">Running</span><span class="pln"> whoami</span>
+sk</pre>
+<p><a href="http://www.ostechnix.com/wp-content/uploads/2017/08/betty.png" data-rel="lightbox-image-0" data-rl_title="" data-rl_caption="" title=""><img class="aligncenter wp-image-9863 size-full" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="http://www.ostechnix.com/wp-content/uploads/2017/08/betty.png" alt="betty" width="828" height="518" data-srcset="https://www.ostechnix.com/wp-content/uploads/2017/08/betty.png 828w, https://www.ostechnix.com/wp-content/uploads/2017/08/betty-300x188.png 300w, https://www.ostechnix.com/wp-content/uploads/2017/08/betty-768x480.png 768w" data-sizes="(max-width: 828px) 100vw, 828px" /></a></p>
+<p class="qtext_para">Cool, isn&#8217;t? Betty is smart enough to understand your question and It will execute the command &#8220;whoami&#8221; and display the result.</p>
+<p>Here are more examples.</p>
+<pre><strong>$ betty whats my kernel version</strong>
+Betty: Running uname -a
+Linux ubuntuserver 4.15.0-30-generic #32-Ubuntu SMP Thu Jul 26 17:42:43 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux</pre>
+<pre><strong>$ betty what time is it</strong>
+Betty: Running date +"%r (%T)"
+06:59:17 PM (18:59:17)</pre>
+<pre><strong>$ betty what month is it</strong>
+Betty: Running date +%B
+August</pre>
+<p>If there&#8217;s more than one way Betty could respond, she&#8217;ll ask you to select the one you want. Have a look at the following example. I have asked her the IP address of my system. She asked me back &#8211; Internal Ip or External IP. I wanted her to display my internal IP, so I entered 1 (number one). She ran &#8220;ifconfig&#8221; command and displayed the IP address.</p>
+<pre><strong>$ betty whats my ip address</strong>
+Betty: Okay, I have multiple ways to respond.
+Betty: Enter the number of the command you want me to run, or N (no) if you don't want me to run any.
+[1] ifconfig
+ Gets your internal ip address.
+[2] curl -sL http://pannous.net/ip.php
+ Gets your external ip address.
+<strong>1</strong>
+Betty: Running ifconfig
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt; mtu 65536
+ inet 127.0.0.1 netmask 255.0.0.0
+ inet6 ::1 prefixlen 128 scopeid 0x10&lt;host&gt;
+ loop txqueuelen 1000 (Local Loopback)
+ RX packets 0 bytes 0 (0.0 B)
+ RX errors 0 dropped 0 overruns 0 frame 0
+ TX packets 0 bytes 0 (0.0 B)
+ TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0
+
+wlp9s0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt; mtu 1500
+ inet <strong>192.168.43.192</strong> netmask 255.255.255.0 broadcast 192.168.43.255
+ inet6 fe80::c218:85ff:fe50:474f prefixlen 64 scopeid 0x20&lt;link&gt;
+ ether a0:38:73:10:99:5h txqueuelen 1000 (Ethernet)
+ RX packets 102938 bytes 101205525 (96.5 MiB)
+ RX errors 0 dropped 0 overruns 0 frame 0
+ TX packets 75264 bytes 12390762 (11.8 MiB)
+ TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0</pre>
+<p>If Betty can&#8217;t understand your question, she will display the following message:</p>
+<pre>Betty: I don't understand. Hopefully someone will make a pull request so that one day I will understand.</pre>
+<p>For more examples, see Betty GitHub project page.</p>
+<p>Don&#8217;t think Betty will do all complex things, for instance deploying a Web server. Betty can&#8217;t such complex tasks on her own. You can use Betty to perform some simple commands. If you want to add more features, send a pull request and contribute to the project in GitHub (Link is provided at the end of this guide).</p>
+<p>Even though Betty is not being actively maintained, it&#8217;s still fully functional. If you&#8217;re too lazy to learn Linux commands, Betty might be a perfect companion for you. Give it a try, you won&#8217;t be disappointed.</p>
+<p>Cheers!</p>
+<p><strong>Resource: </strong></p>
+<ul>
+<li><a href="https://github.com/pickhardt/betty" target="_blank" rel="noopener"><strong>Betty GitHub Repository</strong></a></li>
+</ul>
+<div class="after-post-box">
+<p style="text-align: center;"><strong style="color: #ef4423; font-size: 20px;">Thanks for stopping by! </strong></p>
+<h4>Help us to help you:</h4>
+<ul>
+<li>Subscribe to our Email Newsletter : <strong><a title="Subscribe to our Email newsletter" href="http://feedburner.google.com/fb/a/mailverify?uri=ostechnix" target="_blank" rel="nofollow noopener noreferrer">Sign Up Now</a></strong></li>
+<li>Support OSTechNix : <strong><a title="Donate Via PayPal" href="https://www.paypal.me/ostechnix" target="_blank" rel="nofollow noopener noreferrer">Donate Via PayPal</a></strong></li>
+<li>Download free E-Books and Videos : <a href="http://ostechnix.tradepub.com/category/information-technology/1207/" target="_blank" rel="noopener noreferrer"><strong>OSTechNix on TradePub</strong></a></li>
+<li>Connect with us: <a href="https://www.facebook.com/ostechnix/" target="_blank" rel="noopener noreferrer"><strong>Facebook</strong></a> | <a href="https://twitter.com/ostechnix" target="_blank" rel="noopener noreferrer"><strong>Twitter</strong></a> | <strong><a href="https://plus.google.com/+SenthilkumarP/" target="_blank" rel="noopener noreferrer">Google Plus</a> </strong>|<strong> <a href="https://www.linkedin.com/in/ostechnix" target="_blank" rel="noopener noreferrer">LinkedIn</a> </strong>|<strong> <a href="http://feeds.feedburner.com/Ostechnix" target="_blank" rel="noopener noreferrer">RSS feeds</a></strong></li>
+</ul>
+<p style="text-align: center;"><strong style="color: #ef4423; font-size: 20px;">Have a Good day!!</strong></p>
+</div>
+
+<div style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block" data-ad-format="autorelaxed" data-ad-client="ca-pub-6701402139964678" data-ad-slot="4635513743"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=reddit" target="_blank" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-9857" class="share-twitter sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-9857" class="share-facebook sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-google-plus-1"><a rel="nofollow noopener noreferrer" data-shared="sharing-google-9857" class="share-google-plus-1 sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span>Google</span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-9857" class="share-linkedin sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-pocket"><a rel="nofollow noopener noreferrer" data-shared="" class="share-pocket sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=pocket" target="_blank" title="Click to share on Pocket"><span>Pocket</span></a></li><li class="share-jetpack-whatsapp"><a rel="nofollow noopener noreferrer" data-shared="" class="share-jetpack-whatsapp sd-button share-icon" href="https://api.whatsapp.com/send?text=Betty%20-%20The%20Siri-like%20Commandline%20Virtual%20Assistant%20For%20Linux%20https%3A%2F%2Fwww.ostechnix.com%2Fbetty-siri-like-commandline-virtual-assistant-linux%2F" target="_blank" title="Click to share on WhatsApp"><span>WhatsApp</span></a></li><li class="share-telegram"><a rel="nofollow noopener noreferrer" data-shared="" class="share-telegram sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=telegram" target="_blank" title="Click to share on Telegram"><span>Telegram</span></a></li><li class="share-email"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/?share=email" target="_blank" title="Click to email this to a friend"><span>Email</span></a></li><li class="share-print"><a rel="nofollow noopener noreferrer" data-shared="" class="share-print sd-button share-icon" href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/#print" target="_blank" title="Click to print"><span>Print</span></a></li><li class="share-end"></li></ul></div></div></div> <nav class="pagination group">
+</nav>
+</div>
+<div class="sharrre-container no-counter">
+<span>Share</span>
+<div id="twitter" data-url="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/" data-text="Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux" data-title="Tweet"><a class="box" href="#"><div class="count" href="#"><i class="fas fa-plus"></i></div><div class="share"><i class="fab fa-twitter"></i></div></a></div>
+<div id="facebook" data-url="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/" data-text="Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux" data-title="Like"></div>
+<div id="googleplus" data-url="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/" data-text="Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux" data-title="+1"></div>
+<div id="linkedin" data-url="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/" data-text="Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux" data-title="Publish on Linked In"></div>
+</div>
+<style type="text/css"></style>
+<script type="text/javascript">
+  	// Sharrre
+  	jQuery( function($) {
+      //<temporary>
+      $('head').append( $( '<style>', { id : 'hide-sharre-count', type : 'text/css', html:'.sharrre-container.no-counter .box .count {display:none;}' } ) );
+      //</temporary>
+                		$('#twitter').sharrre({
+        			share: {
+        				twitter: true
+        			},
+        			template: '<a class="box" href="#"><div class="count" href="#">{total}</div><div class="share"><i class="fab fa-twitter"></i></div></a>',
+        			enableHover: false,
+        			enableTracking: true,
+        			buttons: { twitter: {via: 'ostechnix'}},
+        			click: function(api, options){
+        				api.simulateClick();
+        				api.openPopup('twitter');
+        			}
+        		});
+            		            $('#facebook').sharrre({
+        			share: {
+        				facebook: true
+        			},
+        			template: '<a class="box" href="#"><div class="count" href="#">{total}</div><div class="share"><i class="fab fa-facebook-square"></i></div></a>',
+        			enableHover: false,
+        			enableTracking: true,
+              buttons:{layout: 'box_count'},
+        			click: function(api, options){
+        				api.simulateClick();
+        				api.openPopup('facebook');
+        			}
+        		});
+                                    		$('#googleplus').sharrre({
+        			share: {
+        				googlePlus: true
+        			},
+        			template: '<a class="box" href="#"><div class="count" href="#">{total}</div><div class="share"><i class="fab fa-google-plus-square"></i></div></a>',
+        			enableHover: false,
+        			enableTracking: true,
+              buttons:{size: 'tall'},
+        			urlCurl: 'https://www.ostechnix.com/wp-content/themes/hueman-pro/addons/assets/front/js/sharrre.php',
+        			click: function(api, options){
+        				api.simulateClick();
+        				api.openPopup('googlePlus');
+        			}
+        		});
+                                    $('#linkedin').sharrre({
+              share: {
+                linkedin: true
+              },
+              template: '<a class="box" href="#" rel="nofollow"><div class="count" href="#">{total}</div><div class="share"><i class="fab fa-linkedin"></i></div></a>',
+              enableHover: false,
+              enableTracking: true,
+              buttons: {
+              linkedin: {
+                description: 'Betty &#8211; The Siri-like Commandline Virtual Assistant For Linux',media: 'https://www.ostechnix.com/wp-content/uploads/2017/08/Betty-The-Siri-like-Commandline-Virtual-Assistant-1.png'                }
+              },
+              click: function(api, options){
+                api.simulateClick();
+                api.openPopup('linkedin');
+              }
+            });
+        
+    		
+    			// Scrollable sharrre bar, contributed by Erik Frye. Awesome!
+    			var $_shareContainer = $(".sharrre-container"),
+    			    $_header         = $('#header'),
+    			    $_postEntry      = $('.entry'),
+        			$window          = $(window),
+        			startSharePosition = $_shareContainer.offset(),//object
+        			contentBottom    = $_postEntry.offset().top + $_postEntry.outerHeight(),
+        			topOfTemplate    = $_header.offset().top,
+              topSpacing       = _setTopSpacing();
+
+          //triggered on scroll
+    			shareScroll = function(){
+      				var scrollTop     = $window.scrollTop() + topOfTemplate,
+      				    stopLocation  = contentBottom - ($_shareContainer.outerHeight() + topSpacing);
+
+              $_shareContainer.css({position : 'fixed'});
+
+      				if( scrollTop > stopLocation ){
+      					  $_shareContainer.css( { position:'relative' } );
+                  $_shareContainer.offset(
+                      {
+                        top: contentBottom - $_shareContainer.outerHeight(),
+                        left: startSharePosition.left,
+                      }
+                  );
+      				}
+      				else if (scrollTop >= $_postEntry.offset().top - topSpacing){
+      					 $_shareContainer.css( { position:'fixed',top: '100px' } );
+                 $_shareContainer.offset(
+                      {
+                        //top: scrollTop + topSpacing,
+                        left: startSharePosition.left,
+                      }
+                  );
+      				} else if (scrollTop < startSharePosition.top + ( topSpacing - 1 ) ) {
+      					 $_shareContainer.css( { position:'relative' } );
+                 $_shareContainer.offset(
+                      {
+                        top: $_postEntry.offset().top,
+                        left:startSharePosition.left,
+                      }
+                  );
+      				}
+    			},
+
+          //triggered on resize
+    			shareMove = function() {
+      				startSharePosition = $_shareContainer.offset();
+      				contentBottom = $_postEntry.offset().top + $_postEntry.outerHeight();
+      				topOfTemplate = $_header.offset().top;
+      				_setTopSpacing();
+    			};
+
+    			/* As new images load the page content body gets longer. The bottom of the content area needs to be adjusted in case images are still loading. */
+    			setTimeout( function() {
+    				  contentBottom = $_postEntry.offset().top + $_postEntry.outerHeight();
+    			}, 2000);
+
+          function _setTopSpacing(){
+              var distanceFromTop  = 20;
+
+              if( $window.width() > 1024 ) {
+                topSpacing = distanceFromTop + $('.nav-wrap').outerHeight();
+              } else {
+                topSpacing = distanceFromTop;
+              }
+              return topSpacing;
+          }
+
+          //setup event listeners
+          $window.scroll( _.throttle( function() {
+              if ( $window.width() > 719 ) {
+                  shareScroll();
+              } else {
+                  $_shareContainer.css({
+                      top:'',
+                      left:'',
+                      position:''
+                  })
+              }
+          }, 50 ) );
+          $window.resize( _.debounce( function() {
+              if ( $window.width() > 719 ) {
+                  shareMove();
+              } else {
+                  $_shareContainer.css({
+                      top:'',
+                      left:'',
+                      position:''
+                  })
+              }
+          }, 50 ) );
+    		
+  	});
+</script>
+<div class="clear"></div>
+</div>
+</div>
+</article>
+<div class="clear"></div>
+<p class="post-tags"><span>Tags:</span> <a href="https://www.ostechnix.com/tag/betty/" rel="tag">Betty</a><a href="https://www.ostechnix.com/tag/commandline/" rel="tag">Commandline</a><a href="https://www.ostechnix.com/tag/google-voice-search/" rel="tag">Google Voice Search</a><a href="https://www.ostechnix.com/tag/linux/" rel="tag">Linux</a><a href="https://www.ostechnix.com/tag/ruby/" rel="tag">Ruby</a><a href="https://www.ostechnix.com/tag/siri/" rel="tag">Siri</a><a href="https://www.ostechnix.com/tag/virtual-assistant/" rel="tag">Virtual Assistant</a></p>
+<ul class="post-nav group">
+<li class="next"><a href="https://www.ostechnix.com/adjust-size-root-partition-live-arch-linux/" rel="next"><i class="fas fa-chevron-right"></i><strong>Next story</strong> <span>How To Adjust The Size Of The Root Partition On Live Arch Linux</span></a></li>
+<li class="previous"><a href="https://www.ostechnix.com/clear-web-browser-cache-commandline-linux/" rel="prev"><i class="fas fa-chevron-left"></i><strong>Previous story</strong> <span>How To Clear Web Browser Cache From Commandline In Linux</span></a></li>
+</ul>
+<script type="text/javascript">
+        jQuery( function($) {
+              czrapp.proRelPostsRendered = $.Deferred();
+              var waypoint = new Waypoint({
+                  element: document.getElementById('pro-related-posts-wrapper'),
+                  handler: function(direction) {
+                        if ( 'pending' == czrapp.proRelPostsRendered.state() ) {
+                              var $wrap = $('#pro-related-posts-wrapper');
+                              $wrap.addClass('loading');
+                              czrapp.doAjax( {
+                                      action: "ha_inject_pro_related",
+                                      // => Always get the option from the $_POSTED data in ajax
+                                      related_post_id : 9857,
+                                      pro_related_posts_opt : [],
+                                      free_related_posts_opt : "tags",
+                                      layout_class : "col-2cl"
+                                  } ).done( function( r ) {
+                                        if ( r && r.data && r.data.html ) {
+                                            if ( 'pending' == czrapp.proRelPostsRendered.state() ) {
+                                                $.when( $('#pro-related-posts-wrapper').append( r.data.html ) ).done( function() {
+                                                      czrapp.proRelPostsRendered.resolve();
+                                                      $wrap.find('.czr-css-loader').css('opacity', 0);
+                                                      _.delay( function() {
+                                                            $wrap.removeClass('loading').addClass('loaded');
+                                                      }, 800 );
+                                                });
+                                            }
+                                        }
+                                  });
+                        }
+                  },
+                  offset: '110%'
+              });
+        });//jQuery()
+    </script>
+<div id="pro-related-posts-wrapper"><div class="czr-css-loader czr-mr-loader dark"><div></div><div></div><div></div></div></div>
+<section id="comments" class="themeform">
+<h3 class="heading">3 Responses</h3>
+<ul class="comment-tabs group">
+<li class="active"><a href="#commentlist-container"><i class="far fa-comments"></i>Comments<span>3</span></a></li>
+<li><a href="#pinglist-container"><i class="fas fa-share"></i>Pingbacks<span>0</span></a></li>
+</ul>
+<div id="commentlist-container" class="comment-tab">
+<ol class="commentlist">
+<li class="comment even thread-even depth-1" id="comment-1700">
+<div id="div-comment-1700" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/8e9737a7ddf22ac21655aba288a9b158?s=48&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8e9737a7ddf22ac21655aba288a9b158?s=96&#038;d=mm&#038;r=g 2x' class='avatar avatar-48 photo' height='48' width='48' /> <cite class="fn">richardstevenhack</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/#comment-1700">
+August 18, 2017 at 4:43 am</a> </div>
+<p>A command line Siri? I don&#8217;t think so&#8230;</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-1700' onclick='return addComment.moveForm( "div-comment-1700", "1700", "respond", "9857" )' aria-label='Reply to richardstevenhack'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-11254">
+<div id="div-comment-11254" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/db7a9ea8358792c427cd07956baacfd4?s=48&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/db7a9ea8358792c427cd07956baacfd4?s=96&#038;d=mm&#038;r=g 2x' class='avatar avatar-48 photo' height='48' width='48' /> <cite class="fn">Rob</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/#comment-11254">
+August 30, 2018 at 8:15 am</a> </div>
+<p>How can I REMOVE betty? It&#8217;s not for me but it&#8217;s embedded in the system and I need to clear it out as though it was never there. Nobody seems to have any remove instructions</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-11254' onclick='return addComment.moveForm( "div-comment-11254", "11254", "respond", "9857" )' aria-label='Reply to Rob'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-sk bypostauthor even depth-2" id="comment-11273">
+<div id="div-comment-11273" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/82930172130088777d42141847e45c10?s=48&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/82930172130088777d42141847e45c10?s=96&#038;d=mm&#038;r=g 2x' class='avatar avatar-48 photo' height='48' width='48' /> <cite class="fn"><a href='http://www.ostechnix.com/' rel='external nofollow' class='url'>sk</a></cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.ostechnix.com/betty-siri-like-commandline-virtual-assistant-linux/#comment-11273">
+August 30, 2018 at 12:15 pm</a> </div>
+<p>Just remove the betty directory and its entry in your ~/.bashrc file.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-11273' onclick='return addComment.moveForm( "div-comment-11273", "11273", "respond", "9857" )' aria-label='Reply to sk'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+<div id="respond" class="comment-respond">
+<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/betty-siri-like-commandline-virtual-assistant-linux/#respond" style="display:none;">Cancel reply</a></small></h3> <form action="https://www.ostechnix.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" /></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='9857' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e213cd68ee" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="11" /></p> </form>
+</div>
+<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p>
+</section> </div>
+</section>
+
+<div class="sidebar s1 collapsed" data-position="right" data-layout="col-2cl" data-sb-id="s1">
+<a class="sidebar-toggle" title="Expand Sidebar"><i class="fas icon-sidebar-toggle"></i></a>
+<div class="sidebar-content">
+<div class="sidebar-top group">
+<p>Follow:</p>
+<ul class="social-links"><li><a rel="nofollow" class="social-tooltip" title="Follow us on Facebook-square" aria-label="Follow us on Facebook-square" href="https://www.facebook.com/ostechnix/" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-facebook-square"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Twitter-square" aria-label="Follow us on Twitter-square" href="https://twitter.com/ostechnix" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-twitter-square"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Google-plus-square" aria-label="Follow us on Google-plus-square" href="https://plus.google.com/u/0/+SenthilkumarP" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-google-plus-square"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Linkedin-square" aria-label="Follow us on Linkedin-square" href="https://in.linkedin.com/in/ostechnix" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-linkedin"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Rss" aria-label="Follow us on Rss" href="http://feeds.feedburner.com/Ostechnix" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fas fa-rss"></i></a></li></ul> </div>
+<div id="text-6" class="widget widget_text"> <div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-6701402139964678" data-ad-slot="3689433741"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="text-4" class="widget widget_text"><h3 class="widget-title">To Search, Type and Hit Enter</h3> <div class="textwidget"><script>
+  (function() {
+    var cx = '008602152458925632792:qnuzfwvz-gy';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:searchbox-only></gcse:searchbox-only></div>
+</div><div id="responsive_lightbox_image_widget-2" class="widget rl-image-widget"><h3 class="widget-title">Free eBook Of the Week</h3><a href="https://ostechnix.tradepub.com/free/w_goaa22/prgm.cgi" class="rl-image-widget-link"><img class="rl-image-widget-image" src="https://www.ostechnix.com/wp-content/uploads/2018/03/w_goaa22c8-768x995.jpg" width="100%" height="auto" title="Linux Notes" alt="Linux Notes for Professionals" style="margin-left: auto; margin-right: auto; display: block;" /></a><div class="rl-image-widget-text"></div></div><div id="text-11" class="widget widget_text"> <div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-6701402139964678" data-ad-slot="4424653341"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="alxtabs-3" class="widget widget_hu_tabs">
+<h3 class="widget-title"></h3><ul class="alx-tabs-nav group tab-count-3"><li class="alx-tab tab-recent"><a href="#tab-recent-3" title="Recent Posts"><i class="far fa-clock"></i><span>Recent Posts</span></a></li><li class="alx-tab tab-popular"><a href="#tab-popular-3" title="Popular Posts"><i class="fas fa-star"></i><span>Popular Posts</span></a></li><li class="alx-tab tab-comments"><a href="#tab-comments-3" title="Recent Comments"><i class="far fa-comments"></i><span>Recent Comments</span></a></li></ul>
+<div class="alx-tabs-container">
+<ul id="tab-recent-3" class="alx-tab group ">
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/oomox-customize-and-create-your-own-gtk2-gtk3-themes/" rel="bookmark" title="Oomox &#8211; Customize And Create Your Own GTK2, GTK3 Themes">Oomox &#8211; Customize And Create Your Own GTK2, GTK3 Themes</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/how-to-adjust-monitor-brightness-from-command-line-in-linux/" rel="bookmark" title="How To Adjust Monitor Brightness From Command Line In Linux">How To Adjust Monitor Brightness From Command Line In Linux</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/how-to-check-laptop-battery-status-in-terminal-in-linux/" rel="bookmark" title="How To Check Laptop Battery Status And Level In Terminal In Linux">How To Check Laptop Battery Status And Level In Terminal In Linux</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/easypdf-a-free-and-secure-online-pdf-conversion-suite/" rel="bookmark" title="EasyPDF &#8211; A Free And Secure Online PDF Conversion Suite">EasyPDF &#8211; A Free And Secure Online PDF Conversion Suite</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/how-to-find-and-delete-duplicate-files-in-linux/" rel="bookmark" title="How To Find And Delete Duplicate Files In Linux">How To Find And Delete Duplicate Files In Linux</a></p>
+</div>
+</li>
+</ul>
+<ul id="tab-popular-3" class="alx-tab group ">
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/setup-ftp-server-step-by-step-in-centos-6-x-rhel-6-x-scientific-linux-6-x/" rel="bookmark" title="Setup FTP Server step by step in CentOS 6.5">Setup FTP Server step by step in CentOS 6.5</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/setup-dns-server-step-by-step-in-centos-6-3-rhel-6-3-scientific-linux-6-3-3/" rel="bookmark" title="How to Setup DNS Server in CentOS 6.5">How to Setup DNS Server in CentOS 6.5</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/setup-mail-server-using-postfixdovecotsquirrelmail-in-centosrhelscientific-linux-6-3-step-by-step/" rel="bookmark" title="Setup Mail Server using Postfix, Dovecot and SquirrelMail in CentOS">Setup Mail Server using Postfix, Dovecot and SquirrelMail in CentOS</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/install-apache-mariadb-php-lamp-stack-on-arch-linux-2016/" rel="bookmark" title="Install Apache, MariaDB, PHP (LAMP) stack on Arch Linux 2016">Install Apache, MariaDB, PHP (LAMP) stack on Arch Linux 2016</a></p>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<p class="tab-item-title"><a href="https://www.ostechnix.com/setup-local-yum-server-in-centos-6-x-rhel-6-x-scientific-linux-6-x/" rel="bookmark" title="Setup Local YUM Server in CentOS 6">Setup Local YUM Server in CentOS 6</a></p>
+</div>
+</li>
+</ul>
+<ul id="tab-comments-3" class="alx-tab group ">
+<li>
+<div class="tab-item-inner group">
+<div class="tab-item-name">sk says:</div>
+<div class="tab-item-comment"><a href="https://www.ostechnix.com/how-to-check-laptop-battery-status-in-terminal-in-linux/#comment-13689">Cool. It works. Thanks.</a></div>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<div class="tab-item-name">buda says:</div>
+<div class="tab-item-comment"><a href="https://www.ostechnix.com/how-to-check-laptop-battery-status-in-terminal-in-linux/#comment-13685">complication in simple business !!!! cat /sys/class/power_supply/BAT0/capacity all...</a></div>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<div class="tab-item-name">sk says:</div>
+<div class="tab-item-comment"><a href="https://www.ostechnix.com/manage-games-using-lutris-linux/#comment-13677">Hello Tom, Lutris is not part of OSTechNix and we are...</a></div>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<div class="tab-item-name">tom randolph says:</div>
+<div class="tab-item-comment"><a href="https://www.ostechnix.com/manage-games-using-lutris-linux/#comment-13648">i don&#039;t use paypal;what other way to donate. trying to setup...</a></div>
+</div>
+</li>
+<li>
+<div class="tab-item-inner group">
+<div class="tab-item-name">Jorge Calderon says:</div>
+<div class="tab-item-comment"><a href="https://www.ostechnix.com/osboxes-free-unixlinux-virtual-machines-for-vmware-and-virtualbox/#comment-13617">Do not trust OSBoxes.org PERIOD!! I just downloaded...</a></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+﻿ </div>
+</div>
+</div>
+</div>
+<footer id="footer">
+<section class="container" id="footer-widgets">
+<div class="container-inner">
+<div class="pad group">
+<div class="footer-widget-1 grid one-third ">
+<div id="text-5" class="widget widget_text"><h3 class="widget-title">Email Newsletter</h3> <div class="textwidget"><form style="border:3px solid #ccc;border-color:#a8a9ad;padding:10px;text-align:center; font-weight:bold; font-size:18px;line-height: 29px;background-color: #00AEEF; color: #FFFFFF;
+" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow" onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=Ostechnix', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true"><p>Subscribe to our mailing list</p><p><input type="text" style="width:240px" name="email" /></p><input type="hidden" value="Ostechnix" name="uri" /><input type="hidden" name="loc" value="en_US" /><input type="submit" value="Sign Up Now" /><p>We respect your privacy</p></form></div>
+</div> </div>
+<div class="footer-widget-2 grid one-third ">
+<div id="archives-4" class="widget widget_archive"><h3 class="widget-title">Blog Archive</h3> <label class="screen-reader-text" for="archives-dropdown-4">Blog Archive</label>
+<select id="archives-dropdown-4" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+<option value="">Select Month</option>
+<option value='https://www.ostechnix.com/2018/10/'> October 2018 &nbsp;(3)</option>
+<option value='https://www.ostechnix.com/2018/09/'> September 2018 &nbsp;(20)</option>
+<option value='https://www.ostechnix.com/2018/08/'> August 2018 &nbsp;(20)</option>
+<option value='https://www.ostechnix.com/2018/07/'> July 2018 &nbsp;(19)</option>
+<option value='https://www.ostechnix.com/2018/06/'> June 2018 &nbsp;(17)</option>
+<option value='https://www.ostechnix.com/2018/05/'> May 2018 &nbsp;(18)</option>
+<option value='https://www.ostechnix.com/2018/04/'> April 2018 &nbsp;(23)</option>
+<option value='https://www.ostechnix.com/2018/03/'> March 2018 &nbsp;(24)</option>
+<option value='https://www.ostechnix.com/2018/02/'> February 2018 &nbsp;(17)</option>
+<option value='https://www.ostechnix.com/2018/01/'> January 2018 &nbsp;(25)</option>
+<option value='https://www.ostechnix.com/2017/12/'> December 2017 &nbsp;(27)</option>
+<option value='https://www.ostechnix.com/2017/11/'> November 2017 &nbsp;(23)</option>
+<option value='https://www.ostechnix.com/2017/10/'> October 2017 &nbsp;(20)</option>
+<option value='https://www.ostechnix.com/2017/09/'> September 2017 &nbsp;(26)</option>
+<option value='https://www.ostechnix.com/2017/08/'> August 2017 &nbsp;(26)</option>
+<option value='https://www.ostechnix.com/2017/07/'> July 2017 &nbsp;(24)</option>
+<option value='https://www.ostechnix.com/2017/06/'> June 2017 &nbsp;(17)</option>
+<option value='https://www.ostechnix.com/2017/05/'> May 2017 &nbsp;(27)</option>
+<option value='https://www.ostechnix.com/2017/04/'> April 2017 &nbsp;(26)</option>
+<option value='https://www.ostechnix.com/2017/03/'> March 2017 &nbsp;(34)</option>
+<option value='https://www.ostechnix.com/2017/02/'> February 2017 &nbsp;(36)</option>
+<option value='https://www.ostechnix.com/2017/01/'> January 2017 &nbsp;(29)</option>
+<option value='https://www.ostechnix.com/2016/12/'> December 2016 &nbsp;(22)</option>
+<option value='https://www.ostechnix.com/2016/11/'> November 2016 &nbsp;(16)</option>
+<option value='https://www.ostechnix.com/2016/10/'> October 2016 &nbsp;(10)</option>
+<option value='https://www.ostechnix.com/2016/09/'> September 2016 &nbsp;(14)</option>
+<option value='https://www.ostechnix.com/2016/08/'> August 2016 &nbsp;(25)</option>
+<option value='https://www.ostechnix.com/2016/07/'> July 2016 &nbsp;(6)</option>
+<option value='https://www.ostechnix.com/2016/06/'> June 2016 &nbsp;(17)</option>
+<option value='https://www.ostechnix.com/2016/05/'> May 2016 &nbsp;(13)</option>
+<option value='https://www.ostechnix.com/2016/04/'> April 2016 &nbsp;(23)</option>
+<option value='https://www.ostechnix.com/2016/03/'> March 2016 &nbsp;(27)</option>
+<option value='https://www.ostechnix.com/2016/02/'> February 2016 &nbsp;(24)</option>
+<option value='https://www.ostechnix.com/2016/01/'> January 2016 &nbsp;(4)</option>
+<option value='https://www.ostechnix.com/2015/11/'> November 2015 &nbsp;(1)</option>
+<option value='https://www.ostechnix.com/2015/10/'> October 2015 &nbsp;(5)</option>
+<option value='https://www.ostechnix.com/2015/09/'> September 2015 &nbsp;(9)</option>
+<option value='https://www.ostechnix.com/2015/08/'> August 2015 &nbsp;(2)</option>
+<option value='https://www.ostechnix.com/2013/12/'> December 2013 &nbsp;(3)</option>
+<option value='https://www.ostechnix.com/2013/04/'> April 2013 &nbsp;(1)</option>
+<option value='https://www.ostechnix.com/2013/03/'> March 2013 &nbsp;(2)</option>
+<option value='https://www.ostechnix.com/2013/02/'> February 2013 &nbsp;(3)</option>
+<option value='https://www.ostechnix.com/2013/01/'> January 2013 &nbsp;(11)</option>
+<option value='https://www.ostechnix.com/2012/12/'> December 2012 &nbsp;(8)</option>
+<option value='https://www.ostechnix.com/2012/11/'> November 2012 &nbsp;(1)</option>
+</select>
+</div> </div>
+<div class="footer-widget-3 grid one-third last">
+<div id="pages-5" class="widget widget_pages"><h3 class="widget-title">Who we are</h3> <ul>
+<li class="page_item page-item-676"><a href="https://www.ostechnix.com/about/">About</a></li>
+<li class="page_item page-item-660"><a href="https://www.ostechnix.com/contact-us/">Contact Us</a></li>
+<li class="page_item page-item-7410"><a href="https://www.ostechnix.com/donate/">Donate</a></li>
+<li class="page_item page-item-1103"><a href="https://www.ostechnix.com/privacy-policy/">Privacy Policy</a></li>
+<li class="page_item page-item-1096"><a href="https://www.ostechnix.com/terms-and-conditions/">Terms and Conditions</a></li>
+</ul>
+</div> </div>
+</div>
+</div>
+</section>
+<section class="container" id="footer-bottom">
+<div class="container-inner">
+<a id="back-to-top" href="#"><i class="fa fa-angle-up"></i></a>
+<div class="pad group">
+<div class="grid one-half">
+<img id="footer-logo" src="https://www.ostechnix.com/wp-content/uploads/2016/10/cropped-OSTechNix_280915-01-1.png" alt="">
+<div id="copyright">
+<p>OSTechNix &copy; 2018. All Rights Reserved.</p>
+</div>
+<div id="credit">
+<p>This site is licensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/" rel="nofollow">CC BY-NC 4.0</a>. </div>
+</div>
+<div class="grid one-half last">
+<ul class="social-links"><li><a rel="nofollow" class="social-tooltip" title="Follow us on Facebook-square" aria-label="Follow us on Facebook-square" href="https://www.facebook.com/ostechnix/" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-facebook-square"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Twitter-square" aria-label="Follow us on Twitter-square" href="https://twitter.com/ostechnix" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-twitter-square"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Google-plus-square" aria-label="Follow us on Google-plus-square" href="https://plus.google.com/u/0/+SenthilkumarP" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-google-plus-square"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Linkedin-square" aria-label="Follow us on Linkedin-square" href="https://in.linkedin.com/in/ostechnix" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fab fa-linkedin"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Follow us on Rss" aria-label="Follow us on Rss" href="http://feeds.feedburner.com/Ostechnix" target="_blank" style="color:rgba(255,255,255,0.7)"><i class="fas fa-rss"></i></a></li></ul> </div>
+</div>
+</div>
+</section>
+</footer>
+</div>
+<div id="huDngaHgESbM" class="AfgjetQapDaN" style="background:#dddddd;z-index:9999999; "></div> <script type="text/javascript">/* <![CDATA[ */var anOptions ={"anOptionChoice":"1","anOptionStats":"1","anOptionAdsSelectors":"","anOptionCookie":"1","anOptionCookieLife":"30","anPageRedirect":"","anPermalink":"undefined","anOptionModalEffect":"fadeAndPop","anOptionModalspeed":"350","anOptionModalclose":true,"anOptionModalOverlay":"rgba( 0,0,0,0.8 )","anAlternativeActivation":false,"anAlternativeElement":"","anAlternativeText":"<p><strong>AdBlock detected!<\/strong><\/p>\n<p>Please add <a title=\"http:\/\/themeisle.com\/\" href=\"themeisle.com\" target=\"_blank\">www.themeisle.com<\/a> to your adblocking whitelist or disable your adblocking software.<\/p>\n","anAlternativeClone":"2","anAlternativeProperties":"","anOptionModalShowAfter":0,"anPageMD5":"","anSiteID":0,"modalHTML":"<div class=\"AfgjetQapDaN-default\">\n\t<h1 style=\"\">Adblocker detected! Please consider reading this notice.<\/h1>\n\t<p>We've detected that you are using AdBlock Plus ore some other adblocking software which is preventing the page from fully loading.<\/p>\n<p>We need money to operate the site, and almost all of it comes from our online advertising.<\/p>\n<p><strong>Please add <a title=\"OSTechNix\" href=\"http:\/\/www.ostechnix.com\" target=\"_blank\" rel=\"noopener\">www.ostechnix.com<\/a> to your ad blocking whitelist or disable your adblocking software.\u00a0<\/strong><\/p>\n<p>To close this box, click on the (X) button on the top or click anywhere on the background.<\/p>\n<p>We really appreciate you for white-listing our site.<\/p>\n<\/div>\n<a class=\"close-modal close-AfgjetQapDaN\">&#215;<\/a>"}/* ]]> */</script><div id="adsense" class="an-sponsored" style="position:absolute; z-index:-1; height:1px; width:1px; visibility: hidden; top: -1px; left: 0;"><img class="an-advert-banner" alt="sponsored" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></div>
+<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/www.ostechnix.com\/betty-siri-like-commandline-virtual-assistant-linux\/":9857};
+	</script>
+<div id="sharing_email" style="display: none;">
+<form action="/betty-siri-like-commandline-virtual-assistant-linux/" method="post">
+<label for="target_email">Send to Email Address</label>
+<input type="email" name="target_email" id="target_email" value="" />
+<label for="source_name">Your Name</label>
+<input type="text" name="source_name" id="source_name" value="" />
+<label for="source_email">Your Email Address</label>
+<input type="email" name="source_email" id="source_email" value="" />
+<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed" />
+<img style="float: right; display: none" class="loading" src="https://www.ostechnix.com/wp-content/plugins/jetpack/modules/sharedaddy/images/loading.gif" alt="loading" width="16" height="16" />
+<input type="submit" value="Send Email" class="sharing_send" />
+<a rel="nofollow" href="#cancel" class="sharing_cancel">Cancel</a>
+<div class="errors errors-1" style="display: none;">
+Post was not sent - check your email addresses! </div>
+<div class="errors errors-2" style="display: none;">
+Email check failed, please try again </div>
+<div class="errors errors-3" style="display: none;">
+Sorry, your blog cannot share posts by email. </div>
+</form>
+</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WfcFrontParams = {"effectsAndIconsSelectorCandidates":[],"wfcOptions":null};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/themes/hueman-pro/addons/pro/wfc/front/assets/js/font-customizer-front.min.js?ver=3.0.4'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201840'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/themes/hueman-pro/addons/assets/front/js/jQuerySharrre.min.js?ver=4.9.8'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/themes/hueman-pro/addons/pro/header/assets/front/vendors/flickity.min.js?ver=1.1.3'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-includes/js/underscore.min.js?ver=1.8.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HUParams = {"_disabled":[],"SmoothScroll":{"Enabled":false,"Options":{"touchpadSupport":false}},"centerAllImg":"1","timerOnScrollAllBrowsers":"1","extLinksStyle":"1","extLinksTargetExt":"1","extLinksSkipSelectors":{"classes":["btn","button"],"ids":[]},"imgSmartLoadEnabled":"1","imgSmartLoadOpts":{"parentSelectors":[".container .content",".container .sidebar","#footer","#header-widgets"],"opts":{"excludeImg":[".tc-holder-img"],"fadeIn_options":100}},"goldenRatio":"1.618","gridGoldenRatioLimit":"350","sbStickyUserSettings":{"desktop":false,"mobile":false},"isWPMobile":"","menuStickyUserSettings":{"desktop":"stick_up","mobile":"stick_up"},"isDevMode":"","ajaxUrl":"https:\/\/www.ostechnix.com\/?huajax=1","frontNonce":{"id":"HuFrontNonce","handle":"bc2f864b5b"},"userStarted":{"with":"before|1.1.2","on":{"date":"2017-05-19 07:51:36.000000","timezone_type":3,"timezone":"UTC"}},"isWelcomeNoteOn":"","welcomeContent":"","fitTextMap":{"single_post_title":{"selectors":".single h1.entry-title","minEm":1.375,"maxEm":2.62},"page_title":{"selectors":".page-title h1","minEm":1,"maxEm":1.3},"home_page_title":{"selectors":".home .page-title","minEm":1,"maxEm":1.2,"compression":2.5},"post_titles":{"selectors":".blog .post-title, .archive .post-title","minEm":1.375,"maxEm":1.475},"featured_post_titles":{"selectors":".featured .post-title","minEm":1.375,"maxEm":2.125},"comments":{"selectors":".commentlist li","minEm":0.8125,"maxEm":0.93,"compression":2.5},"entry":{"selectors":".entry","minEm":0.9375,"maxEm":1.125,"compression":2.5},"content_h1":{"selectors":".entry h1, .woocommerce div.product h1.product_title","minEm":1.7578125,"maxEm":2.671875},"content_h2":{"selectors":".entry h2","minEm":1.5234375,"maxEm":2.390625},"content_h3":{"selectors":".entry h3","minEm":1.40625,"maxEm":1.96875},"content_h4":{"selectors":".entry h4","minEm":1.2890625,"maxEm":1.6875},"content_h5":{"selectors":".entry h5","minEm":1.0546875,"maxEm":1.40625},"content_h6":{"selectors":".entry h6","minEm":0.9375,"maxEm":1.265625,"compression":2.5}},"userFontSize":"16","fitTextCompression":"1.5"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/themes/hueman-pro/assets/front/js/scripts.min.js?ver=1.1.3'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-includes/js/comment-reply.min.js?ver=4.9.8'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var ajax_object = {"nonce":"17eb38e2eb","ajaxurl":"https:\/\/www.ostechnix.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/uploads/UWMayjOEbsuO/bGIqjIfXyyMH.js?ver=2.2.3'></script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
+<script async="async" type='text/javascript' src='https://www.ostechnix.com/wp-content/plugins/akismet/_inc/form.js?ver=4.0.8'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.ostechnix.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=6.5'></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-pocket', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-telegram', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtelegram', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+</script>
+<!--[if lt IE 9]>
+<script src="https://www.ostechnix.com/wp-content/themes/hueman-pro/assets/front/js/ie/respond.js"></script>
+<![endif]-->
+<script type='text/javascript' src='https://stats.wp.com/e-201840.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.5',blog:'84551477',post:'9857',tz:'5.5',srv:'www.ostechnix.com'} ]);
+	_stq.push([ 'clickTrackerInit', '84551477', '9857' ]);
+</script>
+</body>
+</html>

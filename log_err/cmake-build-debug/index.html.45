@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+
+    
+    
+    
+
+<!DOCTYPE html>
+<html><head>
+    <title>Java Specialists</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <meta name="description" content="This advanced Java newsletter will answer all your questions about Java ;-)  We also offer Java courses, code reviews and consulting." />
+    <meta name="keywords" content="java,core java course,core java courses,concurrency,threading, fork-join framework,java performance tuning,java performance,advanced java,dynamic proxy,java threading,java concurrency,java.util.concurrent,java.util.concurrency" />
+    <link href="https://www.javaspecialists.eu/archive/tjsn.rss" rel="alternate" type="application/rss+xml" title="rss"/>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <script type="text/javascript" src="/skin/skin4/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/skin/skin4/js/kickstart.js"></script>                                  <!-- KICKSTART -->
+    <link rel="stylesheet" type="text/css" href="/skin/skin4/css/kickstart.css" media="all" />                  <!-- KICKSTART -->
+    <link rel="stylesheet" type="text/css" href="/skin/skin4/style.css" media="all" />                          <!-- CUSTOM STYLES -->
+    
+</head><body>
+
+<div class="grid">
+    <!-- ===================================== END HEADER ===================================== -->
+
+    <div class="col_12" style="margin-top:20px;">
+        <div><h4 class="logo"><a href="/">Javaspecialists</a></h4></div>
+        <div class="strapline">Home of <span>The</span> JavaSpecialists' Newsletter</div>
+    </div>
+
+    <!---------- MAIN NAVIGATION MENU ---------->
+
+<div class="col_12" style="margin-top:20px;">
+    <ul class="menu">
+        <li><a href="/"><i class="icon-home"></i> Home</a></li>
+        <li><a href="/archive/archive.jsp"><i class="icon-align-left"></i> The Newsletter</a>
+            <ul>
+                <li><a href="/archive/archive.jsp">All Issues</a></li>
+                <li><a href="/archive/subscribe.jsp">Subscribe</a></li>
+                <li><a href="/countries.jsp">Countries</a></li>
+            </ul>
+        </li>
+        <li><a href="https://javaspecialists.teachable.com">Online Courses</a>
+            <ul>
+                
+                <li><a href="https://javaspecialists.teachable.com/p/data-structures">Data Structures in Java 9 ($250)</a>
+                <li><a href="https://javaspecialists.teachable.com/p/concurrency-in-practice-bundle">Java Concurrency in Practice Bundle ($900)</a>
+                <li><a href="https://javaspecialists.teachable.com/p/superpack">Java Specialists Superpack 2018 ($1870)</a>
+                <li><a href="https://javaspecialists.teachable.com/p/intellij-wizardry">IntelliJ Wizardry (Free)</a>
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="https://javaspecialists.teachable.com/courses">More...</a>
+            </ul>
+        </li>
+        <li><a href="/courses.jsp">Java Courses</a>
+            <ul>
+                <li><a href="/courses.jsp">Training Overview</a></li>
+<li><a href="/courses/dpc.jsp">1. Design Patterns</a></li>
+<li><a href="/courses/xj-adv.jsp">2. Advanced Topics</a></li>
+<li><a href="/courses/xj-conc-j8.jsp">3. Concurrency Performance</a></li>
+<li><a href="/courses/lambda.jsp">4. Refactoring to Streams</a></li>
+<li><a href="/courses.jsp#inhouse">In-House</a></li>
+<li><a href="/courses/self-study.jsp">Self-Study</a></li>
+
+            </ul>
+        </li>
+        <li><a href="/slack">Slack</a>
+        </li>
+        <li><a href="/about">About Us</a>
+            <ul>
+                <li><a href="/about">The Company</a>
+                <li><a href="/about/heinz.jsp">About Heinz</a>
+                <li><a href="/about/java-trainers.jsp">Java Trainers</a></li>
+                <li><a href="/about/champion.jsp">Java Champions</a></li>
+                <li><a href="/about/testimonials.jsp">Course Feedback</a></li>
+                <li><a href="/about/privacy.jsp">Privacy Statement</a></li>
+            </ul>
+        </li>
+        <li><a href="/contact.jsp"> Contact</a></li>
+    </ul>
+</div><!---------- END MAIN NAV ---------->
+	
+
+
+<!-- ===================================== MAIN BODY CONTENT ===================================== -->
+
+<!-------- INTRO HERO AREA ---------->
+
+<div class="col_12 intro">
+
+    <div class="col_8">
+        <h2>Helping Make Better Java and Making Java Better...</h2>
+        <h4>From expert level <a href="/archive">specialists articles</a>,
+            to inhouse <a href="/courses/xj-conc-j8.jsp">concurrency courses</a>
+            to <a href="/services/emergency-consulting.jsp">emergency consulting</a>
+            - if it's at the bleeding edge of Java - you're in the right place.</h4>
+    </div>
+
+    <!-------- INTRO PROFILE RIGHT ---------->
+
+    <div class="col_4 profile">
+        <img src="/skin/skin4/images/heinz-devoxx-slim-blue.jpg" alt="demo">
+        <p>Java Champion, author of the Java Specialists Newsletter, conference speaking regular...
+            <a href="/about/heinz.jsp">About Heinz</a></p></div>
+</div>
+
+
+
+<!-------- SHOWCASE NEWSLETTER ---------->
+
+
+<div class="col_12 showcase"><img class="align-left" src="/skin/skin4/images/badge.png" width="152" height="160" alt="badge">
+    <h4>The JavaSpecialist Newsletter: 
+<!-------- SHOWCASE NEWSLETTER ---------->
+
+
+
+Celebrating <span>17</span> years of
+publication, enjoyed in over <span>145</span>
+countries by <span>70,000</span> of the world's top Java
+programmers and spanning over <span>250</span>
+specialist Java articles.
+</h4></div>
+
+<!-------- NEWSLETTER SLIDER ---------->
+
+
+
+
+
+
+
+
+
+<div class="col_12 news-slider">
+    <ul class="slideshow">
+        
+        <li>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">261</span><a href="/archive/Issue261.html">Concurrent Queue Sizes and Hot Fields</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Concurrency&locale=en_US">Concurrency</a></span></h5>
+                     <p>ConcurrentLinkedQueue's size() method is not very useful in a multi-threaded environment, because it counts the numbe... <a href="/archive/Issue261.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">260</span><a href="/archive/Issue260.html">Java Is Still Free</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Language&locale=en_US">Language</a></span></h5>
+                     <p>Is the Java Ecosystem still safe and robust or should we move to a different language?  Maybe Go or Python?  In this ... <a href="/archive/Issue260.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">259</span><a href="/archive/Issue259.html">Try-With-Resource in Plain Java</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Language&locale=en_US">Language</a></span></h5>
+                     <p>How would the plain Java code look for our try-with-resource constructs?  Watch how 4 lines of code are expanded into... <a href="/archive/Issue259.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">258</span><a href="/archive/Issue258.html">ShuffleCollector</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Tips and Tricks&locale=en_US">Tips and Tricks</a></span></h5>
+                     <p>Sorting a stream is easy.  But what if we want the opposite: shuffling?  We can shuffle a List with Collections.shuff... <a href="/archive/Issue258.html">Full Article</a></p>
+            </div>
+            
+        </li>
+        
+        <li>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">257</span><a href="/archive/Issue257.html">CountDownLatch vs Phaser</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Concurrency&locale=en_US">Concurrency</a></span></h5>
+                     <p>Java 7 gave us a brilliant new class called Phaser, which we can use to coordinate actions between threads.  It repla... <a href="/archive/Issue257.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">256</span><a href="/archive/Issue256.html">Java 10: Parallel Full GC in G1GC</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Performance&locale=en_US">Performance</a></span></h5>
+                     <p>Apparently Full GC is done in parallel in the Java 10 G1 collector.  Or is it?  In this newsletter we set out to disc... <a href="/archive/Issue256.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">255</span><a href="/archive/Issue255.html">Java 10: Inferred Local Variables</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Language&locale=en_US">Language</a></span></h5>
+                     <p>Local variable type inference is finally here, but dangers lurk.  We might encourage overly long methods and lose the... <a href="/archive/Issue255.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">254</span><a href="/archive/Issue254.html">Big O Cost of Class.getMethod()</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Tips and Tricks&locale=en_US">Tips and Tricks</a></span></h5>
+                     <p>We now look at why the best-case scenario for a getMethod() call is O(n), not O(1) as we would expect.  We also disco... <a href="/archive/Issue254.html">Full Article</a></p>
+            </div>
+            
+        </li>
+        
+        <li>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">253</span><a href="/archive/Issue253.html">Builder Pattern GoF vs Effective Java</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Tips and Tricks&locale=en_US">Tips and Tricks</a></span></h5>
+                     <p>What is the best-case computational time complexity for finding a method inside a class via reflection?  In this news... <a href="/archive/Issue253.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">252</span><a href="/archive/Issue252.html">New Year Day Spliterator</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Tips and Tricks&locale=en_US">Tips and Tricks</a></span></h5>
+                     <p>We build a simple custom Spliterator to allow us to stream over dates to find how many times the 1st of January was o... <a href="/archive/Issue252.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">251</span><a href="/archive/Issue251.html">Collections.checkedCollection()</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Language&locale=en_US">Language</a></span></h5>
+                     <p>Since Java 5, we have been able to create collections that would check at runtime that the objects added were of the ... <a href="/archive/Issue251.html">Full Article</a></p>
+            </div>
+            
+            <div class="col_6 newsletter">
+                <h5><span class="issue">250</span><a href="/archive/Issue250.html">Learning Java with jshell</a> <span>
+                    <a href="http://www.javaspecialists.eu/archive/newsletters.jsp?category=Language&locale=en_US">Language</a></span></h5>
+                     <p>Java 9 has changed the way that new programmers can be introduced to Java.  No more "public static void main(String[]... <a href="/archive/Issue250.html">Full Article</a></p>
+            </div>
+            
+        </li>
+        
+    </ul>
+</div>
+    
+   
+
+
+
+
+<!-------- NEWSLETTER SIGNUP CALL TO ACTION ---------->
+
+<div class="col_12">
+    <div class="col_9 callout subscribe">
+        <div class="grid">
+
+            <h3>Subscribe to <span>The JavaSpecialists' Newsletter</span> and you'll get; Every new issue, our Best 10 articles ever, exclusive invites to live webinars,
+                access to expert tutorials...and more!</h3>
+            <hr class="alt2">
+            <form accept-charset="UTF-8" action="https://iw127.infusionsoft.com/app/form/process/aaa05d9e465870e9a4e148cd1724545c" method="POST" name="Sign up">
+                <input name="inf_form_xid" type="hidden" value="aaa05d9e465870e9a4e148cd1724545c" />
+                <input name="inf_form_name" type="hidden" value="Sign up" />
+                <input name="infusionsoft_version" type="hidden" value="1.28.7.21" />
+
+                <input type="text" name="inf_field_FirstName" class="col_3"  placeholder="First Name *" />
+                <input type="text" name="inf_field_LastName" class="col_3"  placeholder="Last Name" />
+                <input type="text" name="inf_field_Email" class="col_3" placeholder="Email *"/>
+                <select name="inf_field_Country" class="col_3"><option value="">Country</option><option value="SPAMMER Honeypot">SPAMMER Honeypot</option><option value="Afghanistan">Afghanistan</option><option value="Albania">Albania</option><option value="Algeria">Algeria</option><option value="American Samoa">American Samoa</option><option value="Andorra">Andorra</option><option value="Angola">Angola</option><option value="Anguilla">Anguilla</option><option value="Antarctica">Antarctica</option><option value="Antigua and Barbuda">Antigua and Barbuda</option><option value="Argentina">Argentina</option><option value="Armenia">Armenia</option><option value="Aruba">Aruba</option><option value="Australia">Australia</option><option value="Austria">Austria</option><option value="&Aring;land Islands">&Aring;land Islands</option><option value="Azerbaijan">Azerbaijan</option><option value="Bahamas">Bahamas</option><option value="Bahrain">Bahrain</option><option value="Bangladesh">Bangladesh</option><option value="Barbados">Barbados</option><option value="Belarus">Belarus</option><option value="Belgium">Belgium</option><option value="Belize">Belize</option><option value="Benin">Benin</option><option value="Bermuda">Bermuda</option><option value="Bhutan">Bhutan</option><option value="Bolivia">Bolivia</option><option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option><option value="Botswana">Botswana</option><option value="Bouvet Island">Bouvet Island</option><option value="Brazil">Brazil</option><option value="British Indian Ocean Territory">British Indian Ocean Territory</option><option value="Brunei Darussalam">Brunei Darussalam</option><option value="Bulgaria">Bulgaria</option><option value="Burkina Faso">Burkina Faso</option><option value="Burundi">Burundi</option><option value="Cambodia">Cambodia</option><option value="Cameroon">Cameroon</option><option value="Canada">Canada</option><option value="Cape Verde">Cape Verde</option><option value="Cayman Islands">Cayman Islands</option><option value="Central African Republic">Central African Republic</option><option value="Chad">Chad</option><option value="Chile">Chile</option><option value="China">China</option><option value="Christmas Island">Christmas Island</option><option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option><option value="Colombia">Colombia</option><option value="Comoros">Comoros</option><option value="Congo">Congo</option><option value="Democratic Republic Of Congo">Democratic Republic Of Congo</option><option value="Cook Islands">Cook Islands</option><option value="Costa Rica">Costa Rica</option><option value="Croatia">Croatia</option><option value="Cuba">Cuba</option><option value="Netherlands Antilles">Curaçao</option><option value="Cyprus">Cyprus</option><option value="Czech Republic">Czech Republic</option><option value="C&ocirc;te D'Ivoire">C&ocirc;te D'Ivoire</option><option value="Denmark">Denmark</option><option value="Djibouti">Djibouti</option><option value="Dominica">Dominica</option><option value="Dominican Republic">Dominican Republic</option><option value="Ecuador">Ecuador</option><option value="Egypt">Egypt</option><option value="El Salvador">El Salvador</option><option value="Equatorial Guinea">Equatorial Guinea</option><option value="Eritrea">Eritrea</option><option value="Estonia">Estonia</option><option value="Ethiopia">Ethiopia</option><option value="Falkland Islands">Falkland Islands</option><option value="Faroe Islands">Faroe Islands</option><option value="Fiji">Fiji</option><option value="Finland">Finland</option><option value="France">France</option><option value="French Guiana">French Guiana</option><option value="French Polynesia">French Polynesia</option><option value="French Southern Territories">French Southern Territories</option><option value="Gabon">Gabon</option><option value="Gambia">Gambia</option><option value="Georgia">Georgia</option><option value="Germany">Germany</option><option value="Ghana">Ghana</option><option value="Gibraltar">Gibraltar</option><option value="Greece">Greece</option><option value="Greenland">Greenland</option><option value="Grenada">Grenada</option><option value="Guadeloupe">Guadeloupe</option><option value="Guam">Guam</option><option value="Guatemala">Guatemala</option><option value="Guernsey">Guernsey</option><option value="Guinea">Guinea</option><option value="Guinea-Bissau">Guinea-Bissau</option><option value="Guyana">Guyana</option><option value="Haiti">Haiti</option><option value="Heard and McDonald Islands">Heard and McDonald Islands</option><option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option><option value="Honduras">Honduras</option><option value="Hong Kong">Hong Kong</option><option value="Hungary">Hungary</option><option value="Iceland">Iceland</option><option value="India">India</option><option value="Indonesia">Indonesia</option><option value="Iran">Iran</option><option value="Iraq">Iraq</option><option value="Ireland">Ireland</option><option value="Isle of Man">Isle of Man</option><option value="Israel">Israel</option><option value="Italy">Italy</option><option value="Jamaica">Jamaica</option><option value="Japan">Japan</option><option value="Jersey">Jersey</option><option value="Jordan">Jordan</option><option value="Kazakhstan">Kazakhstan</option><option value="Kenya">Kenya</option><option value="Kiribati">Kiribati</option><option value="North Korea">North Korea</option><option value="South Korea">South Korea</option><option value="Kuwait">Kuwait</option><option value="Kyrgyzstan">Kyrgyzstan</option><option value="Laos">Laos</option><option value="Latvia">Latvia</option><option value="Lebanon">Lebanon</option><option value="Lesotho">Lesotho</option><option value="Liberia">Liberia</option><option value="Libya">Libya</option><option value="Liechtenstein">Liechtenstein</option><option value="Lithuania">Lithuania</option><option value="Luxembourg">Luxembourg</option><option value="Macao">Macao</option><option value="Republic of Macedonia">Republic of Macedonia</option><option value="Madagascar">Madagascar</option><option value="Malawi">Malawi</option><option value="Malaysia">Malaysia</option><option value="Maldives">Maldives</option><option value="Mali">Mali</option><option value="Malta">Malta</option><option value="Marshall Islands">Marshall Islands</option><option value="Martinique">Martinique</option><option value="Mauritania">Mauritania</option><option value="Mauritius">Mauritius</option><option value="Mayotte">Mayotte</option><option value="Mexico">Mexico</option><option value="Federated States of Micronesia">Federated States of Micronesia</option><option value="Moldova">Moldova</option><option value="Monaco">Monaco</option><option value="Mongolia">Mongolia</option><option value="Montenegro">Montenegro</option><option value="Montserrat">Montserrat</option><option value="Morocco">Morocco</option><option value="Mozambique">Mozambique</option><option value="Myanmar">Myanmar</option><option value="Namibia">Namibia</option><option value="Nauru">Nauru</option><option value="Nepal">Nepal</option><option value="Netherlands">Netherlands</option><option value="New Caledonia">New Caledonia</option><option value="New Zealand">New Zealand</option><option value="Nicaragua">Nicaragua</option><option value="Niger">Niger</option><option value="Nigeria">Nigeria</option><option value="Niue">Niue</option><option value="Norfolk Island">Norfolk Island</option><option value="Northern Mariana Islands">Northern Mariana Islands</option><option value="Norway">Norway</option><option value="Oman">Oman</option><option value="Pakistan">Pakistan</option><option value="Palau">Palau</option><option value="Palestine">Palestine</option><option value="Panama">Panama</option><option value="Papua New Guinea">Papua New Guinea</option><option value="Paraguay">Paraguay</option><option value="Peru">Peru</option><option value="Philippines">Philippines</option><option value="Pitcairn">Pitcairn</option><option value="Poland">Poland</option><option value="Portugal">Portugal</option><option value="Puerto Rico">Puerto Rico</option><option value="Qatar">Qatar</option><option value="Romania">Romania</option><option value="Russian Federation">Russian Federation</option><option value="Rwanda">Rwanda</option><option value="R&eacute;union">R&eacute;union</option><option value="St. Barth&eacute;lemy">St. Barth&eacute;lemy</option><option value="St. Helena, Ascension and Tristan Da Cunha">St. Helena, Ascension and Tristan Da Cunha</option><option value="St. Kitts And Nevis">St. Kitts And Nevis</option><option value="St. Lucia">St. Lucia</option><option value="St. Martin">St. Martin</option><option value="St.  Pierre And Miquelon">St.  Pierre And Miquelon</option><option value="St. Vincent And The Grenedines">St. Vincent And The Grenedines</option><option value="Samoa">Samoa</option><option value="San Marino">San Marino</option><option value="Sao Tome and Principe">Sao Tome and Principe</option><option value="Saudi Arabia">Saudi Arabia</option><option value="Senegal">Senegal</option><option value="Serbia">Serbia</option><option value="Seychelles">Seychelles</option><option value="Sierra Leone">Sierra Leone</option><option value="Singapore">Singapore</option><option value="Slovakia">Slovakia</option><option value="Slovenia">Slovenia</option><option value="Solomon Islands">Solomon Islands</option><option value="Somalia">Somalia</option><option value="South Africa">South Africa</option><option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option><option value="Spain">Spain</option><option value="Sri Lanka">Sri Lanka</option><option value="Sudan">Sudan</option><option value="Suriname">Suriname</option><option value="Svalbard And Jan Mayen">Svalbard And Jan Mayen</option><option value="Swaziland">Swaziland</option><option value="Sweden">Sweden</option><option value="Switzerland">Switzerland</option><option value="Syrian Arab Republic">Syrian Arab Republic</option><option value="Taiwan">Taiwan</option><option value="Tajikistan">Tajikistan</option><option value="Tanzania">Tanzania</option><option value="Thailand">Thailand</option><option value="Timor-Leste">Timor-Leste</option><option value="Togo">Togo</option><option value="Tokelau">Tokelau</option><option value="Tonga">Tonga</option><option value="Trinidad and Tobago">Trinidad and Tobago</option><option value="Tunisia">Tunisia</option><option value="Turkey">Turkey</option><option value="Turkmenistan">Turkmenistan</option><option value="Turks and Caicos Islands">Turks and Caicos Islands</option><option value="Tuvalu">Tuvalu</option><option value="Uganda">Uganda</option><option value="Ukraine">Ukraine</option><option value="United Arab Emirates">United Arab Emirates</option><option value="United Kingdom">United Kingdom</option><option value="United States">United States</option><option value="US Minor Outlying Islands">US Minor Outlying Islands</option><option value="Uruguay">Uruguay</option><option value="Uzbekistan">Uzbekistan</option><option value="Vanuatu">Vanuatu</option><option value="Venezuela">Venezuela</option><option value="Viet Nam">Viet Nam</option><option value="Virgin Islands, British">Virgin Islands, British</option><option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option><option value="Wallis and Futuna">Wallis and Futuna</option><option value="Western Sahara">Western Sahara</option><option value="Yemen">Yemen</option><option value="Zambia">Zambia</option><option value="Zimbabwe">Zimbabwe</option></select>
+                <select name="inf_custom_Skill" class="col_3"><option value="">Java Skill Level *</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option><option value="Guru">Guru</option></select>
+                <label><input id="inf_option_AgreetoJavaSpecialistsPrivacyPolicy" name="inf_option_AgreetoJavaSpecialistsPrivacyPolicy" type="checkbox" value="2632" />Agree to JavaSpecialists Privacy Policy *</label>
+                <button type="submit" class="button orange medium"><i class="icon-ok"></i> Subscribe</button>
+                <p>Read our <a href="/about/privacy.jsp">Privacy Policy</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-------- QUOTES SLIDESHOW ---------->
+
+    
+    <div class="col_3">
+        <i class="icon-quote-left icon-2x pull-left"></i>
+        <h4>Subscribers...</h4>
+        <ul class="slideshow2">
+            
+            <li><blockquote>
+                <p>"Heinz makes you think about parts of the core platform and Java language that many take for granted. Having a mechanical sympathy of the underlying platform is core to being a great developer."
+                    <span><a href="https://www.twitter.com/sjmaple">Simon Maple</a></span></p></blockquote>
+            </li>
+            
+            <li><blockquote>
+                <p>"Heinz's newsletter always seems to cover oddball topics in bizarre or funny ways but by the time you get to the end, you realize you just learned something about Java that is both very interesting and very useful."
+                    <span><a href="https://www.twitter.com/kcpeppe">Kirk Pepperdine</a></span></p></blockquote>
+            </li>
+            
+            <li><blockquote>
+                <p>"Each time I read the The JavaSpecialists' Newsletter I feel like a Greek Philosopher : 'I know that I know nothing' #Socrates."
+                    <span><a href="https://twitter.com/agoncal">Antonio Goncalves</a></span></p></blockquote>
+            </li>
+            
+            <li><blockquote>
+                <p>"JavaSpecialists newsletter uncovers the deepest darkest corners of JDK. There’s something to learn in every article."
+                    <span><a href="https://www.twitter.com/antonarhipov">Anton Arhipov</a></span></p></blockquote>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<!-------- SERVICES BOXOUTS ---------->
+
+<div class="col_4 boxed services">
+    <i class="icon-group icon-3x pull-left"></i>
+    <h5>Java Training</h5>
+    <p>We deliver relevant courses, by top Java developers to produce more
+        resourceful and efficient programmers within their organisations.</p>
+    <p class="right"><a href="/courses.jsp"><button class="medium grey">Java Training</button></a></p>
+</div>
+<div class="col_4 boxed services">
+    <i class="icon-comments icon-3x pull-left"></i>
+    <h5>Java Consulting</h5>
+    <p>
+        We can help make your Java application run faster and
+        trouble-shoot concurrency and performance bugs...</p>
+    <p class="right"><a href="/services/performance_consulting.jsp"><button class="medium grey">Java Consulting</button></a></p>
+</div>
+<div class="col_4 boxed services">
+    <i class="icon-plus icon-3x pull-left"></i>
+    <h5>Java Emergency?</h5>
+    <p>
+        If your system is down, we will review it for 15 minutes
+        and give you our findings for just 1 &euro; without any
+        obligation.
+    </p>
+    <p class="right"><a href="/services/emergency-consulting.jsp"><button class="medium red">Get Help Now</button></a></p>
+</div>
+
+<!-------- PREFOOTER  ---------->
+
+<div class="clear"></div>
+
+<div id="pre-footer">
+    <div class="col_12">
+        <div class="col_3">
+            <h5>JavaSpecialists</h5>
+            <p>We deliver relevant courses, by top Java developers to produce more resourceful and efficient
+                programmers within their organisations. <a href="/courses.jsp">Find Out More </a></p>
+        </div>
+        <div class="col_3">
+            <h5>Quick Links</h5>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/archive/archive.jsp">The Newsletter</a></li>
+                <li><a href="/courses.jsp">Java Training</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/services/performance_consulting.jsp">Java Consulting</a></li>
+
+            </ul>
+        </div>
+        <div class="col_6">
+            <h5>Connect With Us</h5>
+            <ul class="alt">
+                <li><i class="icon-twitter icon-2x"></i> <a href="https://twitter.com/heinzkabutz"> Follow Heinz on Twitter</a></li>
+                <li><i class="icon-facebook-sign icon-2x"></i> <a href="http://facebook.com/JavaSpecialists"> Join the Facebook Group</a></li>
+                <li><i class="icon-envelope-alt icon-2x"></i> <a href="mailto:heinz@javaspecialists.eu?subject=JavaSpecialists Enquiry">Drop Heinz an Email</a></li>
+                <li><i class="icon-edit icon-2x"></i> <a href="/contact.jsp">Contact Us Page</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ===================================== START FOOTER ===================================== -->
+<div class="clear"></div>
+
+<div id="footer">
+  Copyright &copy; 2000-2018 Dr Heinz Kabutz - All Rights Reserved.
+  &bull;  All Rights Reserved. &bull;  <a href="http://www.catch22marketing.com">Website design and build</a>
+  Catch22 Marketing &bull; <a href="/sitemap.jsp">Sitemap</a> <br>
+  Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners. JavaSpecialists.eu is not connected to Oracle, Inc. and is not sponsored by Oracle, Inc.
+</div>
+
+</div><!-- END GRID-->
+
+
+    <!-- rendered in 2 ms -->
+
+
+
+
+</body>
+</html>
+
+

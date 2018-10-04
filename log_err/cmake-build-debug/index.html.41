@@ -1,0 +1,1715 @@
+<html>
+<head>
+    <title>Java performance tuning guide: high performance Java</title>
+    <meta name="keywords" content="java performance tuning, java performance tuning guide,java performance tuning tips,java code optimization,java code tuning,java optimization,java performance faq,arraylist,sun.misc.unsafe,low latency,high throughput,high frequency trading,HFT,Java in HFT" >
+    <meta name="description" content="This is a summary of Java performance tuning tips described on java-performance.info blog." >
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="http://java-performance.com" />
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35733252-1']);
+        _gaq.push(['_setDomainName', 'java-performance.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+</head>
+<body>
+<h1>Java performance tuning tips or everything you want to know about Java performance in 15 minutes</h1>
+
+<g:plusone></g:plusone>
+
+<script type="text/javascript">
+    window.___gcfg = {
+        lang: 'en-US'
+    };
+
+    (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+</script>
+
+<p>
+    Last updated: 07 February 2015
+</p>
+<p>
+    This is a summary of Java performance tuning tips described on
+    <a href="http://java-performance.info">java-performance.info</a> website. This page will be updated after publishing
+    a new article on <a href="http://java-performance.info">Java performance tuning website</a>.
+</p>
+<p>
+    Unlike most of Java performance books, this guide targets tuning your Java code instead of your JVM settings.
+    It means that this guide will be useful for any low-latency or high-throughput application developers (especially
+    for high frequency trading area).
+</p>
+
+<h2>Tools</h2>
+
+<p>
+    <a href="http://java-performance.info/jmh/">Introduction to JMH</a>:
+    an overview of <a href="http://openjdk.java.net/projects/code-tools/jmh/" rel="nofollow">JMH</a> - a new microbenchmarking
+    framework from Oracle. I have covered most of essential functionality in the framework. JMH profilers will be the subject
+    of <a href="http://java-performance.info/introduction-jmh-profilers/">a separate article</a>. This article covers JMH 1.0.
+</p>
+<p>
+    Tags: <strong>JMH</strong>, <strong>microbenchmarking</strong>.
+</p>
+<ul>
+    <li>
+        JMH is useful for all sorts of microbenchmarking - from nanoseconds to seconds per test. It takes care of all
+        measurement logic, leaving you just a task of writing the test method(s). JMH also contains built-in support
+        for all sorts of multithreaded tests - both uniform (all threads run the same code) and non-uniform (there
+        are several groups of threads, each of them is running each own code).
+    </li>
+    <li>
+        If you have to remember just one JMH rule, it should be: <b>always read test input from <code>@State</code>
+        objects and return the result of your calculations (either explicitly or via a <code>BlackHole</code> object).</b>
+    </li>
+    <li>
+        JMH is started differently since JMH 0.5: now you have to add one more dependency to your pom file and use
+        <code>maven-shade-plugin</code>. It generates <code>target/benchmarks.jar</code> file, which contains
+        all the code required to run all tests in your project.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/introduction-jmh-profilers/">Introduction to JMH Profilers</a>:
+    an overview of profilers bundled inside <a href="http://openjdk.java.net/projects/code-tools/jmh/" rel="nofollow">JMH</a> - a new microbenchmarking
+    framework from Oracle. They will let you get an insight in your microbencmarks, which could not be available using
+    the normal profilers, because your tests could be too quick and you should separate test code from the framework code.
+</p>
+<p>
+    Tags: <strong>JMH</strong>, <strong>profiler</strong>, <strong>microbenchmarking</strong>.
+</p>
+<ul>
+    <li>
+        JMH profilers are a cheap <i>and</i> convenient way to find out the bottlenecks in your microbenchmarks:
+        they try to avoid measuring as much of JMH code as possible and you can use any subset of them simultaneously.
+    </li>
+    <li>
+        STACK profiler makes a thread dump every 10 ms by default, but you may probably want to decrease this interval
+        a little on powerful boxes.
+    </li>
+    <li>
+        JIT compiler profilers (COMP / HS_COMP) are recommended for use on most of benchmarks - they will let you know
+        if you have insufficiently warmed up your code.
+    </li>
+</ul>
+
+<h2>JDK classes</h2>
+
+<span style="color:red; font-weight: bold">NEW:</span>
+<p>
+    <a href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/">Large HashMap overview: JDK, FastUtil, Goldman Sachs, HPPC, Koloboke, Trove - January 2015 version</a>:
+    a quick overview of all major libraries implementing hashmaps.
+</p>
+<p>
+    Tags: <strong>hash map</strong>, <strong>FastUtil</strong>, <strong>GS collections</strong>, <strong>HPPC</strong>, <strong>Koloboke</strong>, <strong>Trove</strong>.
+</p>
+<ul>
+    <li>
+        <a href="http://fastutil.di.unimi.it/" rel="nofollow">FastUtil 6.6.0</a> turned out to be consistently fast.
+        It may become even faster if it would introduce any other storage structures except 2 arrays for keys and values.
+    </li>
+    <li>
+        <a href="https://github.com/OpenHFT/Koloboke" rel="nofollow">Koloboke</a> is getting second in many tests,
+        but it still outperforms FastUtil in int-int tests.
+    </li>
+    <li>
+        <a href="https://github.com/goldmansachs/gs-collections" rel="nofollow">GS</a> implementation is good enough,
+        but is slower than FastUtil and Koloboke.
+    </li>
+    <li>
+        JDK maps are pretty good for Object-Object maps provided that you can tolerate the extra memory consumption
+        and you will call <code>HashMap</code> constructor with required capacity = <code>actual_capacity / fill_factor + 1</code>
+        to avoid rehashing.
+    </li>
+    <li>
+        <a href="http://trove.starlight-systems.com/" rel="nofollow">Trove</a> suffers from using <code>mod</code>
+        operation for array index calculations and <a href="http://labs.carrotsearch.com/hppc.html" rel="nofollow">HPPC</a> is too slow
+        due to an extra underlying array (for cell states).
+    </li>
+</ul>
+
+
+<p>
+    <a href="http://java-performance.info/core-java-7-change-log/">Core Java 7 Change Log</a>:
+    a list of all changes in the core Java classes of JDK7 releases.
+</p>
+<p>
+    Tags: <strong>Java 7</strong>, <strong>changes</strong>.
+</p>
+<p>
+    I will keep track of all change in core Java JDK7 classes related to performance on this page. All JDK updates up to Java 7u45 are now covered.
+</p>
+
+<p>
+    <a href="http://java-performance.info/bigdecimal-vs-double-in-financial-calculations/">Using double/long vs BigDecimal for monetary calculations</a>:
+    <code>double</code>, <code>long</code>, <code>java.math.BigDecimal</code>, <code>java.lang.String</code>:
+</p>
+<p>
+    Tags: <strong>finance</strong>, <strong>money</strong>, <strong>HFT</strong>, <strong>low latency</strong>.
+</p>
+<ul>
+    <li>
+        If you want to implement fast and correct monetary arithmetic operations in Java, stick to the following rules:
+        <ol>
+            <li>Store monetary values in the smallest currency units (for example, cents) in <code>long</code> variables.</li>
+            <li>Avoid working with non-integral values while using <code>double</code> (calculate in the smallest currency units).</li>
+            <li>Add/subtract using <code>long</code>.</li>
+            <li>Round any multiplication/division results using <code>Math.round/rint/ceil/floor</code> (per your system requirements).</li>
+            <li>Your calculations should fit into 52 bits (<code>double</code> precision).</li>
+        </ol>
+    </li>
+    <li>
+        Always use <code>MathContext</code> for <code>BigDecimal</code> multiplication and division in order to
+        avoid <code>ArithmeticException</code> for infinitely long decimal results. Don't use <code>MathContext.UNLIMITED</code>
+        for that reason - it is equivalent to no context at all.
+    </li>
+    <li>
+        Do not convert <code>double</code> to <code>BigDecimal</code>, instead convert <code>String</code> to <code>BigDecimal</code> when
+        possible.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/changes-to-string-java-1-7-0_06/">Changes to String internal representation made in Java 1.7.0_06</a>:
+    <code>java.lang.String</code>, <code>java.util.HashMap</code>, <code>java.util.Hashtable</code>,
+    <code>java.util.HashSet</code>, <code>java.util.LinkedHashMap</code>, <code>java.util.LinkedHashSet</code>,
+    <code>java.util.WeakHashMap</code> and <code>java.util.concurrent.ConcurrentHashMap</code>:
+</p>
+<p>
+    Tags: <strong>String.substring</strong>, <strong>Java 7</strong>, <strong>memory consumption</strong>,
+    <strong>low latency</strong>.
+</p>
+<ul>
+    <li>
+        From Java 1.7.0_06 <code>String.substring</code> always creates a new underlying <code>char[] value</code> for
+        every <code>String</code> it creates. This means that this method now has a linear complexity compared to
+        previous constant complexity. The advantage of this change is a slightly smaller memory footprint of a
+        <code>String</code> (8 bytes less than before) and a guarantee to avoid memory leaks caused by
+        <code>String.substring</code> (see
+        <a href="http://java-performance.info/string-packing-converting-characters-to-bytes/">String packing part 1: converting characters to bytes</a> for
+        more details on Java object memory layout).
+    </li>
+    <li>
+        <strong>Java 7u6+ functionality. Removed in Java 8.</strong>
+        Starting from the same Java update, <code>String</code> class got a second hashing method called
+        <code>hash32</code>. This method is currently not public and could be accessed without reflection
+        only via <code>sun.misc.Hashing.stringHash32(String)</code> call. This method is used by 7 JDK hash-based
+        collections if their size will exceed <code>jdk.map.althashing.threshold</code> system property.
+        This is an experimental function and currently I don't recommend using it in your code.
+    </li>
+    <li>
+        <strong>Java 7u6 (inclusive) to Java 7u40 (exclusive) functionality. Not applicable to Java 8.</strong>
+        All standard JDK non-concurrent maps and sets in all Java versions between Java 7u6 (inclusive)
+        and Java 7u40 (exclusive) are affected by a performance bug caused by new hashing implementation.
+        This bug affects only multithreaded applications creating heaps of maps per second. See this article for more details.
+        <strong>This problem was fixed in Java 7u40.</strong>
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-string-deduplication/">String deduplication feature (from Java 8 update 20)</a>: this article will describe the string deduplication
+    feature added in Java 8 update 20. It will allow you to save memory occupied by the duplicate strings without writing a single line of Java code.
+    While this is not the most efficient memory saving tool in the absolute values, it is definitely a winner in the
+    achievement vs developer efforts nomination.
+</p>
+<p>
+    Tags: <strong>String</strong>, <strong>Java 8</strong>, <strong>memory consumption</strong>.
+</p>
+<ul>
+    <li>
+        String deduplication feature was added in Java 8 update 20. It is a part of G1 garbage collector, so
+        it should be turned on with G1 collector: <code>-XX:+UseG1GC -XX:+UseStringDeduplication</code>
+    </li>
+    <li>
+        String deduplication is an optional G1 phase. It depends on the current system load.
+    </li>
+    <li>
+        String deduplication is looking for the strings with the same contents and canonicalizing the underlying
+        <code>char[]</code> with string characters. You don't need to write code to use this feature,
+        but it means you are being left with distinct <code>String</code> objects, each of those occupying 24 bytes.
+        Sometimes it worth to intern strings explicitly using <a href="http://java-performance.info/string-intern-in-java-6-7-8/"><code>String.intern</code></a>.
+    </li>
+    <li>
+        String deduplication does not process too young strings. The minimal age of processed strings is managed by
+        <code>-XX:StringDeduplicationAgeThreshold=3</code> JVM parameter (3 is the default value of this parameter).
+    </li>
+</ul>
+
+
+<p>
+    <a href="http://java-performance.info/various-methods-of-binary-serialization-in-java/">Performance of various methods of binary serialization in Java</a>:
+    <code>java.nio.ByteBuffer</code>, <code>sun.misc.Unsafe</code>,
+    <code>java.io.DataInputStream</code>, <code>java.io.DataOutputStream</code>,
+    <code>java.io.ByteArrayInputStream</code>, <code>java.io.ByteArrayOutputStream</code>: comparison of binary
+    serialization performance using various classes:
+</p>
+<p>
+    Tags: <strong>serialization in Java</strong>, <strong>unsafe memory access in Java</strong>, <strong>high throughput</strong>,
+    <strong>low latency</strong>.
+</p>
+<ul>
+    <li>
+        It is extremely slow to write single bytes to direct byte buffers. You should avoid using direct byte buffers
+        for writing records with mostly single byte fields.
+    </li>
+    <li>
+        If you have primitive array fields - always use bulk methods to process them. <code>ByteBuffer</code> bulk
+        methods performance is close to those of <code>Unsafe</code> (though <code>ByteBuffer</code> methods are always a little slower).
+        If you need to store/load any other primitive array except <code>byte</code> - use <code>ByteBuffer.to[YourType]Buffer.put(array)</code>
+        method call followed by your byte buffer position update. Do not call <code>ByteBuffer.put[YourType]</code>
+        method in a loop!
+    </li>
+    <li>
+        The higher your average field length - the slower is a heap buffer and the faster is a direct byte buffer.
+        Unsafe access even to separate fields is still faster.
+    </li>
+    <li>
+        In Java 7 many types of <code>ByteBuffer</code> accesses were seriously optimized compared to Java 6.
+    </li>
+    <li>
+        Always try to serialize primitive arrays using <i>direct</i> byte buffer with your platform native byte order
+        - its performance is very close to <code>Unsafe</code> performance and it is portable, unlike <code>Unsafe</code> code.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-collections-overview/">Java collections overview</a>: <b>all</b> JDK 1.6/1.7 standard
+    collections are described and categorized in this overview.
+</p>
+<p>
+    Tags: <strong>Java 1.6 collections</strong>, <strong>Java 1.7 collections</strong>, <strong>Java collections guide</strong>,
+    <strong>overview</strong>.
+</p>
+<p>
+    Here is a very brief summary of all JDK collections:
+</p>
+<table border="1">
+    <tr>
+        <td>&nbsp;</td>
+        <td>Single threaded</td>
+        <td>Concurrent</td>
+    </tr>
+    <tr>
+        <td>Lists</td>
+        <td>
+            <ul>
+                <li><code>ArrayList</code> - generic array-based</li>
+                <li><code>LinkedList</code> - do not use</li>
+                <li><code>Vector</code> - deprecated</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li><code>CopyOnWriteArrayList</code> - seldom updated, often traversed</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Queues / deques</td>
+        <td>
+            <ul>
+                <li><code>ArrayDeque</code> - generic array-based</li>
+                <li><code>Stack</code> - deprecated</li>
+                <li><code>PriorityQueue</code> - sorted retrieval operations</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li><code>ArrayBlockingQueue</code> - bounded blocking queue</li>
+                <li><code>ConcurrentLinkedDeque / ConcurrentLinkedQueue</code> - unbounded linked queue (CAS)</li>
+                <li><code>DelayQueue</code> - queue with delays on each element</li>
+                <li><code>LinkedBlockingDeque / LinkedBlockingQueue</code> - optionally bounded linked queue (locks)</li>
+                <li><code>LinkedTransferQueue</code> - may transfer elements w/o storing</li>
+                <li><code>PriorityBlockingQueue</code> - concurrent <code>PriorityQueue</code></li>
+                <li><code>SynchronousQueue</code> - <code>Exchanger</code> with <code>Queue</code> interface</li>
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>Maps</td>
+        <td>
+            <ul>
+                <li><code>HashMap</code> - generic map</li>
+                <li><code>EnumMap</code> - <code>enum</code> keys</li>
+                <li><code>Hashtable</code> - deprecated</li>
+                <li><code>IdentityHashMap</code> - keys compared with <code>==</code></li>
+                <li><code>LinkedHashMap</code> - keeps insertion order</li>
+                <li><code>TreeMap</code> - sorted keys</li>
+                <li><code>WeakHashMap</code> - useful for caches</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li><code>ConcurrentHashMap</code> - generic concurrent map</li>
+                <li><code>ConcurrentSkipListMap</code> - sorted concurrent map</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Sets</td>
+        <td>
+            <ul>
+                <li><code>HashSet</code> - generic set</li>
+                <li><code>EnumSet</code> - set of <code>enum</code>s</li>
+                <li><code>BitSet</code> - set of bits/dense integers</li>
+                <li><code>LinkedHashSet</code> - keeps insertion order</li>
+                <li><code>TreeSet</code> - sorted set</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li><code>ConcurrentSkipListSet</code> - sorted concurrent set</li>
+                <li><code>CopyOnWriteArraySet</code> - seldom updated, often traversed</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <a href="http://java-performance.info/arraylist-performance/">java.util.ArrayList performance guide</a>:
+    <code>java.util.ArrayList</code>:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU cache friendly</strong>,
+    <strong>Java collections</strong>, <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<p>
+    Try to follow these rules while using <code>ArrayList</code>:
+</p>
+<ul>
+    <li>Add elements to the end of the list</li>
+    <li>Remove elements from the end too</li>
+    <li>Avoid <code>contains</code>, <code>indexOf</code> and <code>remove(Object)</code> methods</li>
+    <li>Even more avoid <code>removeAll</code> and <code>retainAll</code> methods</li>
+    <li>Use <code>subList(int, int).clear()</code> idiom to quickly clean a part of the list</li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/linkedlist-performance/">java.util.LinkedList performance</a>: <code>java.util.LinkedList</code>,
+    <code>java.util.ArrayDeque</code>:
+</p>
+<p>
+    Tags: <strong>Java collections</strong>, <strong>CPU optimization</strong>, <strong>avoid it</strong>.
+</p>
+<p>
+    If you need to write fast <code>LinkedList</code> code, try to stick to these rules:
+</p>
+<ul>
+    <li>Consider using <code>ArrayDeque</code> for queue-based algorithms</li>
+    <li>Use <code>ListIterator</code> with <code>LinkedList</code></li>
+    <li>
+        Avoid any <code>LinkedList</code> methods which accept or return index of an element in the list - they
+        have nothing in common with performance
+    </li>
+    <li>
+        Check if you have a reason to use <code>LinkedList.remove/removeFirst/removeLast</code> methods,
+        use <code>pollFirst/pollLast</code> instead
+    </li>
+    <li>Try batch processing <code>LinkedList</code></li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/bit-sets/">Bit sets</a>:
+    <code>java.util.BitSet</code>, <code>java.util.Set&lt;Integer&gt;</code>: representing set of integers in the most compact form,
+    using bit sets to store set of <code>Long/long</code> values:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU cache friendly</strong>,
+    <strong>Java collections</strong>, <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Do not forget about bit sets when you need to map a large number of integer keys to boolean flags.
+    </li>
+    <li>
+        Sets of integer values should be replaced with bit sets in a lot of cases in order to save a lot of memory.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-util-identityhashmap/">java.util.IdentityHashMap</a>:
+    discussion why an <code>IdentityHashMap</code> is so special and what alternatives does it have.
+</p>
+<p>
+    Tags: <strong>Java collections</strong>, <strong>object graph</strong>, <code>avoid it</code>.
+</p>
+<ul>
+    <li>
+        <code>java.util.IdentityHashMap</code> uses <code>System.identityHashCode</code> to get object identity hash code.
+        Avoid using <code>IdentityHashMap</code> if you either have primary key field in the objects (use them as a key
+        for ordinary <code>HashMap</code>) or use
+        <a href="http://java-performance.info/primitive-types-collections-trove-library/">Trove maps custom hashing strategy</a>
+        if you need to add your own <code>equals</code> and <code>hashCode</code> methods, but can't update the objects you are working on.
+    </li>
+    <li>
+        Do not try to iterate <code>IdentityHashMap</code> contents, because iteration order will be different
+        on every run of your program, thus making your program results inconsistent.
+    </li>
+    <li>
+        Accessing the object identity hash code is a very cheap Java intrinsic operation.
+    </li>
+    <li>
+        Beware that an object with the calculated identity hash code can not be used for
+        <a href="https://wikis.oracle.com/display/HotSpotInternals/Synchronization" rel="nofollow">biased locking</a>.
+        While very rare in normal circumstances, you may end up in this situation if your lock will be accessed by any
+        Java object graph traversal algorithm (serialization, for example).
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/regexp-related-methods-of-string/">Regexp-related methods of String</a>:
+    <code>java.util.regex.Pattern</code>, <code>java.util.regex.Matcher</code>, <code>java.lang.String</code>:
+    pattern/matcher logic:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU optimization</strong>.
+</p>
+<ul>
+    <li>
+        Always (or nearly always) replace <code>String.matches, split, replaceAll, replaceFirst</code>
+        methods with <code>Matcher</code> and <code>Pattern</code> methods - it will save you
+        from unnecessary pattern compilation.
+    </li>
+    <li>
+        In Java 7 splitting by a single not regex-special character string is optimized in
+        <code>String.split</code> method. Always use <code>String.split</code> to split such strings in Java 7.
+    </li>
+    <li>
+        In all other simple cases consider handwriting parsing methods for simple situations in the time-critical
+        code. You can easily gain 10 times speedup by replacing <code>Pattern</code> methods with
+        handcrafted methods.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-util-date-java-util-calendar-and-java-text-simpledateformat/">java.util.Date, java.util.Calendar and java.text.SimpleDateFormat performance</a>:
+    <code>java.util.Date</code>, <code>java.util.Calendar</code>, <code>java.text.SimpleDateFormat</code>: date storage,
+    parsing and converting back to string:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+
+<ul>
+    <li>Do not use <code>java.util.Date</code> unless you have to use it. Use an ordinary <code>long</code> instead.</li>
+    <li>
+        <code>java.util.Calendar</code> is useful for all sorts of date calculations and i18n, but avoid either
+        storing a lot of such objects or extensively creating them - they consume a lot of memory and expensive to create.
+    </li>
+    <li>
+        <code>java.text.SimpleDateFormat</code> is useful for general case datetime parsing, but it is better to avoid
+        it if you have to parse a lot of dates in the same format (especially dates without time).
+        Implement a parser manually instead.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/joda-time-performance/">Joda Time library performance</a>:
+    <code>org.joda.time.DateTime</code>, <code>org.joda.time.format.DateTimeFormat</code>, <code>org.joda.time.format.DateTimeFormatter</code>.
+    <br/>
+    This is a comparison of <a href="http://www.joda.org/joda-time/" rel="nofollow">Joda Time library</a> classes
+    performance with standard JDK classes performance (<code>java.util.Date</code>, <code>java.util.Calendar</code>,
+    <code>java.text.SimpleDateFormat</code>). I advice you to read this article in conjunction with a
+    <a href="http://java-performance.info/java-util-date-java-util-calendar-and-java-text-simpledateformat/">java.util.Date, java.util.Calendar and java.text.SimpleDateFormat performance</a>
+    article. This article was tested on Joda Time ver 2.1-2.3.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+
+<ul>
+    <li>
+        All Joda Time date/time objects are built on top of a <code>long</code> timestamp, so it is cheap to construct
+        those objects from a <code>long</code>.
+    </li>
+    <li>
+        Joda Time ver 2.1-2.3 is affected by a performance issue in a timezone offset calculation logic - all years after
+        the last daylight savings rule change in the given timezone use a slow calculation path (European timezones
+        are affected particularly badly). In essence it means that
+        all zones will perform badly in all years after Joda Time release you are using.
+    </li>
+    <li>
+        Date/time objects construction and date/time arithmetics in Joda work 1.5-3 times faster than <code>GregorianCalendar</code>
+        for the years not affected by an above mentioned performance issue. For affected years date operations performance in Joda
+        plummets and could be 4 times slower than in <code>GregorianCalendar</code>.
+    </li>
+    <li>
+        Joda does not keep the human time - year/month/day/hour/min/second inside its objects (unlike <code>GregorianCalendar</code>).
+        It means that accessing human time on Joda objects is more expensive if you need to get more than one field.
+    </li>
+    <li>
+        Date/time parsing in Joda is working a little faster than in JDK <code>SimpleDateFormat</code>. The advantage
+        of Joda parsing is that constructing a parser - <code>DateTimeFormatter</code> object is extremely cheap, unlike
+        an expensive <code>SimpleDateFormat</code>, so you don't have to cache parsers anymore.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/jsr-310-java-8-datetime-library-performance-well-joda-time-2-3-j-u-calendar/">JSR 310 - Java 8 Date/Time library performance (as well as Joda Time 2.3 and j.u.Calendar)</a>:
+    an overview of a new Java 8 date/time implementation also known as JSR-310 and its performance comparison with
+    Joda Time 2.3 and j.u.GregorianCalendar.
+</p>
+<p>
+    Tags: <strong>Java 8</strong>, <strong>overview</strong>, <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Java 8 date/time classes are built on top of human time - year/month/day/hour/minute/second/nanos. It makes them
+        fast for human datetime arithmetics/conversion. Nevertheless, if you are processing computer time (a.k.a. millis since epoch),
+        especially computer time in a short date range (a few days), a manual implementation based on <code>int/long</code>
+        values would be much faster.
+    </li>
+    <li>
+        Date/time component getters like <code>getDayOfMonth</code> have O(1) complexity in Java 8 implementation.
+        Joda getters require the computer-to-human time calcualtion on every getter call, which makes Joda a bottleneck
+        in such scenarios.
+    </li>
+    <li>
+        Parsing of <code>OffsetDateTime/OffsetTime/ZonedDateTime</code> is very slow in Java 8 ea b121 due to exceptions
+        thrown and caught internally in the JDK.
+    </li>
+</ul>
+
+
+<p>
+    <a href="http://java-performance.info/java-io-bytearrayoutputstream/">java.io.ByteArrayOutputStream</a>:
+    <code>java.io.ByteArrayOutputStream</code>, <code>java.nio.ByteBuffer</code>: why you should not use
+    <code>ByteArrayOutputStream</code> in the performance critical code.
+</p>
+<p>
+    Tags: <strong>Java IO</strong>, <strong>avoid it</strong>.
+</p>
+<ul>
+    <li>
+        For performance critical code try to use <code>ByteBuffer</code> instead of <code>ByteArrayOutputStream</code>.
+        If you still want to use <code>ByteArrayOutputStream</code> - get rid of its synchronization.
+    </li>
+    <li>
+        If you are working on a method which writes some sort of message to unknown <code>OutputStream</code>,
+        always write your message to the <code>ByteArrayOutputStream</code> first and use its
+        <code>writeTo(OutputStream)</code> method after that. In some rare cases when you are building
+        a <code>String</code> from its byte representation, do not forget about
+        <code>ByteArrayOutputStream.toString</code> methods.
+    </li>
+    <li>
+        In most cases avoid <code>ByteArrayOutputStream.toByteArray</code> method - it creates a copy
+        of internal byte array. Garbage collecting these copies may take a noticeable time if your application
+        is using a few gigabytes of memory (see
+        <a href="http://java-performance.info/inefficient-byte-to-string-constructor/">Inefficient byte[] to String constructor</a>
+        article for another example).
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-io-bufferedinputstream-and-java-util-zip-gzipinputstream/">java.io.BufferedInputStream and java.util.zip.GZIPInputStream</a>:
+    <code>java.io.BufferedInputStream</code>, <code>java.util.zip.GZIPInputStream</code>, <code>java.nio.channels.FileChannel</code>:
+    some minor performance pitfalls in these two streams.
+</p>
+<p>
+    Tags: <strong>high throughput</strong>, <strong>CPU optimization</strong>, <strong>memory optimization</strong>,
+    <strong>data compression</strong>.
+</p>
+<ul>
+    <li>
+        Both <code>BufferedInputStream</code> and <code>GZIPInputStream</code> have internal buffers. Default size for
+        the former one is 8192 bytes and for the latter one is 512 bytes. Generally it worth increasing any of these
+        sizes to at least 65536.
+    </li>
+    <li>
+        Do not use a <code>BufferedInputStream</code> as an input for a <code>GZIPInputStream</code>, instead explicitly set
+        <code>GZIPInputStream</code> buffer size in the constructor. Though, keeping a <code>BufferedInputStream</code>
+        is still safe.
+    </li>
+    <li>
+        If you have a <code>new BufferedInputStream( new FileInputStream( file ) )</code> object and you call its
+        <code>available</code> method rather often (for example, once or twice per each input message), consider
+        overriding <code>BufferedInputStream.available</code> method. It will greatly speed up file reading.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/performance-general-compression/">Performance of various general compression algorithms - some of them are unbelievably fast!</a>:
+    <code>java.util.zip.GZIPInputStream / GZIPOutputStream / DeflaterOutputStream / InflaterInputStream</code>, <code><a href="https://github.com/jpountz/lz4-java" rel="nofollow">LZ4</a></code>,
+    <code><a href="https://github.com/xerial/snappy-java" rel="nofollow">Snappy</a></code>: checking performance of various general purpose Java compressors.
+</p>
+<p>
+    Tags: <strong>high throughput</strong>, <strong>CPU optimization</strong>, <strong>storage optimization</strong>,
+    <strong>data compression</strong>, <strong>GZIP</strong>, <strong>deflate</strong>, <strong>LZ4</strong>, <strong>Snappy</strong>.
+</p>
+<ul>
+    <li>
+        If you think that data compression is painfully slow, then check
+        <a href="https://github.com/jpountz/lz4-java" rel="nofollow">LZ4</a> (fast) implementation, which is able
+        to compress a text file at ~320 Mb/sec - compression at such speed should be not noticeable for most of applications.
+        It makes sense to increase the LZ4 compression buffer size up to its 32M limit if possible (keep in mind that
+        you will need a similarly sized buffer for uncompression). You can also try chaining 2
+        <code>LZ4BlockOutputStream</code>-s with 32M buffer size to get most out of LZ4.
+    </li>
+    <li>
+        If you are restricted from using 3rd party libraries or want a little bit better compression, check
+        JDK deflate (lvl=1) codec - it was able to compress the same file at ~75 Mb/sec.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-lang-byte-short-integer-long-character-boxing-and-unboxing/">java.lang.Byte, Short, Integer, Long, Character (boxing and unboxing)</a>:
+    <code>java.lang.Byte</code>, <code>java.lang.Short</code>, <code>java.lang.Integer</code>,
+    <code>java.lang.Long</code>, <code>java.lang.Character</code>:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Never call <code>java.lang.Number</code> subclasses <code>valueOf(String)</code> methods.
+        If you need a primitive value - call <code>parse[Type]</code>. If you want an instance of a wrapper class,
+        still call <code>parse[Type]</code> method and rely on the JVM-implemented boxing. It will support
+        caching of most frequently used values. Never call wrapper classes constructors - they always return
+        a new <code>Object</code>, thus bypassing the caching support.
+        Here is the summary of caching support for primitive replacement classes:
+    </li>
+</ul>
+<table border="1">
+    <thead>
+    <tr>
+        <td>Byte, Short, Long</td>
+        <td>Character</td>
+        <td>Integer</td>
+        <td>Float, Double</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>From -128 to 127</td>
+        <td>From 0 to 127</td>
+        <td>From -128 to java.lang.Integer.IntegerCache.high or 127, whichever is bigger</td>
+        <td>No caching</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    <a href="http://java-performance.info/map-containskeyset-contains/">Map.containsKey/Set.contains</a>:
+    <code>java.util.Map</code>, <code>java.util.Set</code> and most of their implementations:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU optimization</strong>,
+    <strong>Java collections</strong>.
+</p>
+<ul>
+    <li>
+        For sets, <code>contains+add/remove</code> call pairs should be replaced with single <code>add/remove</code> calls
+        even if some extra logic was guarded by <code>contains</code> call.
+    </li>
+    <li>
+        For maps, <code>contains+get</code> pair shall always be replaced with <code>get</code> followed by <code>null</code>-check
+        of <code>get</code> result. <code>contains+remove</code> pair should be replaced with a single <code>remove</code>
+        call and check of its result.
+    </li>
+    <li>
+        Same ideas are applicable to <a href="http://java-performance.info/primitive-types-collections-trove-library">Trove maps and sets</a> too.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-crc32-and-adler32/">java.util.zip.CRC32 and java.util.zip.Adler32 performance</a>:
+    <code>java.util.zip.CRC32</code>, <code>java.util.zip.Adler32</code> and <code>java.util.zip.Checksum</code>:
+</p>
+<p>
+    Tags: <strong>CPU optimization</strong>, <strong>checksum</strong>.
+</p>
+<ul>
+    <li>
+        If you can choose which checksum implementation you can use - try <code>Adler32</code> first. If its quality
+        is sufficient for you, use it instead of <code>CRC32</code>. In any case, use <code>Checksum</code> interface
+        in order to access <code>Adler32/CRC32</code> logic.
+    </li>
+    <li>
+        Try to update checksum by at least 500 byte blocks. Shorter blocks will require a noticeable time to be spent
+        in JNI calls.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/hashcode-method-performance-tuning/">hashCode method performance tuning</a>:
+    <code>java.lang.String</code>, <code>java.util.HashMap</code>, <code>java.util.HashSet</code>,
+    <code>java.util.Arrays</code>:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Try to improve distribution of results of your <code>hashCode</code> method. This is far more important
+        than to optimize that method speed. Never write a <code>hashCode</code> method which returns a constant.
+    </li>
+    <li>
+        <code>String.hashCode</code> results distribution is nearly perfect, so you can sometimes substitute
+        <code>String</code>s with their hash codes. If you are working with sets of strings, try to end up with
+        <code>BitSet</code>s, as described in this article. Performance of your code will greatly improve.
+    </li>
+</ul>
+
+
+<p>
+    <a href="http://java-performance.info/throwing-an-exception-in-java-is-very-slow/">Creating an exception in Java is very slow</a>:
+    why it is too expensive to create exceptions in Java and how can you avoid those costs: <code>java.lang.Throwable</code>, <code>java.lang.Exception</code>,
+    <code>java.lang.RuntimeException</code>, <code>sun.misc.BASE64Decoder</code>, <code>java.lang.NumberFormatException</code>:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU optimization</strong>.
+</p>
+<ul>
+    <li>
+        Never use exceptions as return code replacement or for any likely to happen events. Creating an exception is too
+        expensive - the cost starts from approximately 1 microsecond per exception.
+    </li>
+    <li>
+        There are 3 ways to avoid exception costs: refactor your code not to use them; cache an instance of exception or
+        override its <code>fillInStackTrace</code> method.
+    </li>
+    <li>
+        Avoid using any <code>Number</code> subclass <code>parse*/valueOf</code> methods if you call them for each piece
+        of your data and you expect a lot of non-numerical data. Parse such values manually for top performance.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-logging-performance/">Java logging performance pitfalls</a>:
+    how to lose as little as possible performance while writing log messages: <code>java.util.logging.Logger</code>,
+    <code>java.util.logging.Handler</code>, <code>java.util.logging.Formatter</code>, <code>java.text.MessageFormat</code>:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU optimization</strong>,
+    <strong>logging</strong>.
+</p>
+<ul>
+    <li>
+        If you make expensive calculations while preparing data for log messages, either
+        use <code>Logger.isLoggable</code> and do all data preparation inside or
+        write an object which does all calculations in its <code>toString</code> method.
+    </li>
+    <li>
+        Never call <code>Object.toString</code> method in order to obtain a log message argument - just pass
+        an original object. Logging framework will call <code>toString</code> method on your object.
+    </li>
+    <li>
+        Do not mix format string concatenation with log arguments - malicious concatenated string will allow your application
+        user to break your logging/access data which was not supposed for user access.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/base64-encoding-and-decoding-performance/">Base64 encoding and decoding performance</a>:
+    an overview of several well-known Base64 Java implementations from the performance perspective:
+    <code>sun.misc.BASE64Encoder</code>, <code>sun.misc.BASE64Decoder</code>,
+    <code>java.util.Base64</code> (Java 8 specific),
+    <code>javax.xml.bind.DatatypeConverter</code> (Java 6+),
+    <code>org.apache.commons.codec.binary.Base64</code>,
+    <code>com.google.common.io.BaseEncoding</code> (Google Guava),
+    <a href="http://iharder.net/base64" rel="nofollow">http://iharder.net/base64</a>,
+    <a href="http://migbase64.sourceforge.net/" rel="nofollow">MiGBase64</a>:
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>CPU optimization</strong>,
+    <strong>serialization in Java</strong>, <strong>Java 8</strong>.
+</p>
+
+<ul>
+    <li>
+        If you looking for a fast and reliable Base64 codec - do not look outside JDK. There is a new codec in Java 8:
+        <code>java.util.Base64</code> and there is also one hidden from many eyes (from Java 6): <code>javax.xml.bind.DatatypeConverter</code>.
+        Both are fast, reliable and do not suffer from integer overflows.
+    </li>
+    <li>
+        2 out of 4 3rd party codecs described here are very fast: MiGBase64 and IHarder. Unfortunately, if you will need
+        to process hundreds of megabytes at a time, only Google Guava will allow you to decode 2G of data at a time
+        (360MB in case of MiGBase64 / 720M in case of IHarder and Apache Commons). Unfortunately, Guava does not support
+        <code>byte[] -> byte[]</code> encoding.
+    </li>
+    <li>
+        Do not try to call <code>String.getBytes(Charset)</code> on huge strings if your charset is a multibyte one - you may
+        get the whole gamma of integer overflow related exceptions.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/possible-memory-leak-in-multimap/">A possible memory leak in the manual MultiMap implementation</a>:
+    an overview of multimap implementations in Java 8, <a href="http://code.google.com/p/guava-libraries/" rel="nofollow">Google Guava</a> and
+    <a href="http://scala-lang.org/" rel="nofollow">Scala 2.10</a> as well as a description of a possible memory leak you can have while
+    manually implementing a multimap using Java 6 or 7.
+</p>
+<p>
+    Tags: <strong>Java collections</strong>, <strong>Java 8</strong>, <strong>Scala</strong>, <strong>Google Guava</strong>.
+</p>
+<ul>
+    <li>
+        As you have seen, it is quite easy to miss a memory leak while implementing a multilevel map. You need to be
+        careful and split read and write accesses to the outer map.
+    </li>
+    <li>
+        Newer frameworks and languages, like Google Guava, Java 8 and Scala already provide you more convenient
+        syntax and wider choice of collections thus allowing you to avoid possible memory leaks in the multilevel maps.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-util-random-java-util-concurrent-threadlocalrandom-multithreaded-environments/">java.util.Random and java.util.concurrent.ThreadLocalRandom in multithreaded environments</a>:
+    an overview of <code>java.util.Random</code> and <code>java.util.concurrent.ThreadLocalRandom</code> in single
+    and multithreaded environments as well as some low level analysis of their performance.
+</p>
+<p>
+    Tags: <strong>Java Random</strong>, <strong>Java 7</strong>, <strong>ThreadLocalRandom</strong>, <strong>multithreading</strong>,
+    <strong>CAS</strong>.
+</p>
+<ul>
+    <li>
+        Do not share an instance of <code>java.util.Random</code> between several threads in any circumstances, wrap
+        it in <code>ThreadLocal</code> instead.
+    </li>
+    <li>
+        From Java 7 prefer <code>java.util.concurrent.ThreadLocalRandom</code> to <code>java.util.Random</code> in
+        <strong>all</strong> circumstances - it is backwards compatible with existing code, but uses cheaper operations
+        internally.
+    </li>
+</ul>
+<p>
+    <a href="http://java-performance.info/charset-encoding-decoding-java-78/">Charset encoding and decoding in Java 7/8</a>:
+    we will check how fast are Charset encoders/decoders in Java 7 and what are the performance improvements in Java 8.
+</p>
+<p>
+    Tags: <strong>Charset</strong>, <strong>ISO-8859-1</strong>, <strong>Java 8</strong>.
+</p>
+<ul>
+    <li>
+        Always prefer national charsets like windows-1252 or Shift_JIS to UTF-8: they produce more compact binary representation
+        (as a rule) and they are faster to encode/decode (there are some exceptions in Java 7, but it becoming a rule in Java 8).
+    </li>
+    <li>
+        ISO-8859-1 always works faster than US-ASCII in Java 7 and 8. Choose ISO-8859-1 if you don't have any solid reasons
+        to use US-ASCII.
+    </li>
+    <li>
+        You can write a very fast <code>String->byte[]</code> conversion for US-ASCII/ISO-8859-1, but you can not
+        beat Java decoders - they have direct access to the output <code>String</code> they create.
+    </li>
+</ul>
+<p>
+    <a href="http://java-performance.info/string-switch-performance/">String switch performance</a>:
+    we will check how fast are various ways of implementing a string-based <code>switch</code>.
+</p>
+<p>
+    Tags: <strong>switch</strong>, <strong>Java 8</strong>, <strong>String.equals/equalsIgnoreCase</strong>.
+</p>
+<ul>
+    <li>
+        String <code>switch</code> in Java 7 is implemented using a fixed size map with a number of slots close to 20.
+        This means that you can freely use it in most of cases not worrying about its performance at all. As you have seen,
+        string <code>switch</code> has identical performance compared to manually implemented maps when you have under 100
+        <code>case</code>s in the <code>switch</code>.
+    </li>
+    <li>
+        <code>String.equals/equalsIgnoreCase</code> perform great as a replacement for string <code>switch</code> while
+        all your <code>case</code>s have different length (or at least the number of <code>case</code>s with the same
+        string length is too low compared to the total number of cases) and the number of string <code>case</code>s is not too big. This property is achieved
+        by comparing string length prior to comparing the actual contents in <code>String.equals/equalsIgnoreCase</code>.
+    </li>
+</ul>
+
+<!-------------------------------------- Memory optimization -------------------------------------------->
+
+<h2>Memory optimization</h2>
+
+<p>
+    <a href="http://java-performance.info/overview-of-memory-saving-techniques-java/">An overview of memory saving techniques in Java</a>:
+    this article will give you the basic advices on memory optimization in Java. Most of other Java memory optimization
+    techniques are based on those advices.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Prefer primitive types to their <code>Object</code> wrappers. The main cause of wrapper types usage are
+        JDK collections, so consider using one of primitive type collection frameworks like
+        <a href="http://java-performance.info/primitive-types-collections-trove-library/">Trove</a>.
+    </li>
+    <li>
+        Try to minimize number of <code>Object</code>s you have. For example, prefer array-based structures like
+        <code><a href="http://java-performance.info/arraylist-performance/">ArrayList</a>/<a href="http://java-performance.info/linkedlist-performance/">ArrayDeque</a></code> to
+        pointer based structures like <code><a href="http://java-performance.info/linkedlist-performance/">LinkedList</a></code>.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/memory-consumption-of-java-data-types-1/">Memory consumption of popular Java data types - part 1</a>:
+    this article will describe the memory consumption of enums and
+    <code>EnumMap / EnumSet / BitSet / ArrayList / LinkedList / ArrayDeque</code> JDK classes in Java 7.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>collections</strong>.
+</p>
+<p>
+    The following table summarizes the storage occupied per stored value assuming that a Java object reference occupies 4 bytes.
+    Note that you must spend 4 byte per <code>Object</code> reference in any case, so subtract 4 bytes from the values
+    in the following table to find out the storage overhead.
+</p>
+<table border="1">
+    <tr>
+        <td><code>EnumSet</code>, <code>BitSet</code></td>
+        <td>1 bit per value</td>
+    </tr>
+    <tr>
+        <td><code>EnumMap</code></td>
+        <td>4 bytes (for value, nothing for key)</td>
+    </tr>
+    <tr>
+        <td><code>ArrayList</code></td>
+        <td>4 bytes (but may be more if <code>ArrayList</code> capacity is seriously more than its size)</td>
+    </tr>
+    <tr>
+        <td><code>LinkedList</code></td>
+        <td>24 bytes (fixed)</td>
+    </tr>
+    <tr>
+        <td><code>ArrayDeque</code></td>
+        <td>4 to 8 bytes, 6 bytes on average</td>
+    </tr>
+</table>
+
+
+<p>
+    <a href="http://java-performance.info/memory-consumption-of-java-data-types-2/">Memory consumption of popular Java data types - part 2</a>:
+    this article will describe the memory consumption of
+    <code>HashMap / HashSet, LinkedHashMap / LinkedHashSet, TreeMap / TreeSet</code> and <code>PriorityQueue</code> JDK classes in Java 7
+    as well as their <a href="http://java-performance.info/primitive-types-collections-trove-library/">Trove</a> replacements.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>collections</strong>,
+    <strong>primitive collections</strong>.
+</p>
+<ul>
+    <li>
+        Always try to replace <code>HashMap</code> with Trove <code>THashMap</code>, <code>HashSet</code> with a
+        <code>THashSet</code> and finally, <code>LinkedHashSet</code> with a Trove <code>TLinkedHashSet</code>. Such
+        replacement requires adding a single letter to your code (letter 'T') and no other code changes except the
+        import statement. Such replacement will give you significant memory savings - see table below.
+    </li>
+    <li>
+        The following table summarizes the storage occupied per stored value assuming that a reference occupies 4 bytes.
+        Note that you must spend 4 byte per <code>Object</code> reference in any case, so subtract 4 bytes from the values
+        in the following table to find out the storage overhead (subtract 8 bytes for maps, because there is a key as well as
+        a value).
+    </li>
+</ul>
+<table border="1">
+    <tr>
+        <td>JDK collection</td>
+        <td>Size</td>
+        <td>Possible Trove substitution</td>
+        <td>Size</td>
+    </tr>
+    <tr>
+        <td><code>HashMap</code></td>
+        <td>32 * SIZE + 4 * CAPACITY bytes</td>
+        <td><code>THashMap</code></td>
+        <td>8 * CAPACITY bytes</td>
+    </tr>
+    <tr>
+        <td><code>HashSet</code></td>
+        <td>32 * SIZE + 4 * CAPACITY bytes</td>
+        <td><code>THashSet</code></td>
+        <td>4 * CAPACITY bytes</td>
+    </tr>
+    <tr>
+        <td><code>LinkedHashMap</code></td>
+        <td>40 * SIZE + 4 * CAPACITY bytes</td>
+        <td>None</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td><code>LinkedHashSet</code></td>
+        <td>40 * SIZE + 4 * CAPACITY bytes</td>
+        <td><code>TLinkedHashSet</code></td>
+        <td>8 * CAPACITY bytes</td>
+    </tr>
+    <tr>
+        <td><code>TreeMap, TreeSet</code></td>
+        <td>40 * SIZE bytes</td>
+        <td>None</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td><code>PriorityQueue</code></td>
+        <td>4 * CAPACITY bytes</td>
+        <td>None</td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+
+<p>
+    <a href="http://java-performance.info/a-few-more-memory-saving-techniques-in-java/">A few more memory saving techniques in Java</a>:
+    this article describes the advantages of static inner classes, string pooling, boolean flag collections as well as
+    special classes for tiny collections in JDK.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>collections</strong>.
+</p>
+<ul>
+    <li>
+        Make all your inner classes static by default. Remove <code>static</code> qualifier only when you have to.
+    </li>
+    <li>
+        If you have a collection of generally small collections, try to use
+        <code>java.util.Collections.empty*/singleton*</code> methods for memory-efficient storage of tiny collections.
+    </li>
+    <li>
+        Prefer a <code>BitSet</code> to arrays/lists of <code>boolean</code> or dense sets of any integer types: bit sets
+        are both memory and CPU cache friendly.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/string-intern-in-java-6-7-8/">String.intern in Java 6, 7 and 8 - string pooling</a>:
+    This article will describe how <code>String.intern()</code> method was implemented in Java 6 and what changes were made in it in Java 7
+    and Java 8 (which finally made it extremely useful).
+</p>
+<p>
+    Tags: <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Stay away from <code>String.intern()</code> method on Java 6 due to a fixed size memory area (PermGen) used
+        for JVM string pool storage.
+    </li>
+    <li>
+        Java 7 and 8 implement the string pool in the heap memory. It means that you are limited by the whole
+        application memory for string pooling in Java 7 and 8.
+    </li>
+    <li>
+        Use <code>-XX:StringTableSize</code> JVM parameter in Java 7 and 8 to set the string pool map size. It is fixed,
+        because it is implemented as a hash map with lists in the buckets. Approximate the number of distinct
+        strings in your application (which you intend to intern) and set the pool size equal to some prime number
+        close to this value multiplied by 2 (to reduce the likelihood of collisions).
+        It will allow <code>String.intern</code> to run in the constant time and requires
+        a rather small memory consumption per interned string (explicitly used Java <code>WeakHashMap</code> will consume
+        4-5 times more memory for the same task).
+    </li>
+    <li>
+        The default value of <code>-XX:StringTableSize</code> parameter is 1009 in Java 6 and Java 7 until Java7u40.
+        It was increased to 60013 in Java 7u40 (same value is used in Java 8 as well).
+    </li>
+    <li>
+        If you are not sure about the string pool usage, try <code>-XX:+PrintStringTableStatistics</code> JVM argument.
+        It will print you the string pool usage when your program terminates.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/string-intern-java-6-7-8-multithreaded-access/">String.intern in Java 6, 7 and 8 - multithreaded access</a>:
+    This article describes the performance impact of the multithreaded calls to <code>String.intern()</code>.
+</p>
+<p>
+    Tags: <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Feel free to use <code>String.intern()</code> in the multithreaded code. "8 writers" scenario has only
+        <strong>17%</strong> overhead compared to "1 writer" (singlethreaded) scenario. "1 writer, 7 readers"
+        scenario has <strong>9%</strong> overhead in my test compared to the singlethreaded results.
+    </li>
+    <li>
+        JVM string pool <strong>is NOT thread local.</strong> Each string added to the pool will be available
+        to all other threads in the JVM thus further improving the program memory consumption.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/string-intern-java-7-8-part-3/">String.intern in Java 6, 7 and 8 - part 3</a>:
+    <code>String.intern()</code> usage best practices.
+</p>
+<p>
+    Tags: <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Despite serious optimizations done in the <code>String.intern()</code> implementation in Java 7+,
+        it still takes a noticeable time to run (noticeable for CPU sensitive applications). The simple example in this
+        article runs 3.5 times faster without calls to <code>String.intern()</code>. You <strong>should not</strong>
+        use <code>String.intern()</code> as a safety net, passing every long living string into it. Instead process
+        only fields with a limited number of possible distinct values (for example, states/provinces if processing addresses) -
+        memory savings in this situation will definitely pay off the initial CPU costs of <code>String.intern()</code>.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/over-32g-heap-java">Going over Xmx32G heap boundary means you will have less memory available</a>:
+    increasing a Java application heap could be a routine operation in respond to the data growth. A routine until the moment the heap will exceed 32 gigabytes... At this time you will be surprised to see that you application is behaving even worse than before :(
+    What has happened? JVM has switched to using 64 bit object references at Xmx32G, which means that your app memory footprint has momentarily increased by 15-25%.
+    What should you do?
+</p>
+<ol>
+    <li>Go directly to Xmx38G and keep increasing Java heap from that point</li>
+    <li>or tune your application memory consumption!</li>
+</ol>
+<p>
+    Tags: <strong>memory optimization</strong>, <strong>Java 32G heap</strong>, <strong>Java 64 bit object references</strong>.
+</p>
+<ul>
+    <li>
+        Be careful when you increase your application heap size over 32G (from under 32G to over 32G) - JVM switches to 64 bit
+        object references at that moment, which means that your application may end up with less available heap space.
+        A rule of thumb is to jump from 32G right to 37-38G and continue adding memory from that point. The actual area
+        of "grey" territory depends on your application - the bigger an average Java object in your application, the smaller
+        is the overhead.
+    </li>
+    <li>
+        It may be wise to reduce your application memory footprint below 32G instead of dealing with a bigger heap.
+        Look at my articles for some ideas: <a href="http://java-performance.info/string-intern-in-java-6-7-8/">String interning</a>,
+        <a href="http://java-performance.info/java-string-deduplication/">String deduplication</a>,
+        <a href="http://java-performance.info/large-hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove/">Hash maps and other primitive collections</a>,
+        <a href="http://java-performance.info/primitive-types-collections-trove-library/">Trove</a>).
+    </li>
+</ul>
+
+
+<p>
+    <a href="http://java-performance.info/primitive-types-collections-trove-library/">Trove library: using primitive collections for performance</a>:
+    this is an overview of Trove library, which is a primitive type collection library. There is also guidelines for migrating your code from JDK to Trove.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>primitive collections</strong>,
+    <strong>CPU cache friendly</strong>.
+</p>
+<ul>
+    <li>
+        The main reason to use Trove maps/sets is the seriously reduced memory consumption compared to JDK maps/sets.
+        If there is a large array list/set/map
+        with keys or values that could be a primitive type, it is worth replacing it with Trove collection.
+        If there are some maps from a primitive type to a primitive type, it is especially worth to replace them.
+    </li>
+    <li>
+        Trove maps and sets support custom hashing strategies which allow to implement map/set specific
+        <code>equals</code> and <code>hashCode</code>, for example to implement identity set or map.
+    </li>
+    <li>
+        Trove collections implement several additional methods, like <code>grep</code>, <code>retainEntries</code>
+        or <code>adjustOrPutValue</code>. They allow to reduce code required for many common tasks.
+    </li>
+    <li>
+        JDK to Trove migration is quite an easy task - all you need to do in a lot of cases is to add letter 'T' to
+        initialization: <code>new HashMap</code> should be rewritten as <code>new THashMap</code>. Migration
+        to primitive-based collections require a bit more work, but this work will be paid off by massive reduction
+        in memory consumption.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/memory-allocation-in-java/">Various types of memory allocation in Java</a>: how to allocate a large
+    memory buffer in Java and how to write any Java types into such buffer.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>low level memory access in Java</strong>.
+</p>
+<ul>
+    <li>
+        Array size in Java is limited by the biggest <code>int</code> value = <code>2^31 - 1</code>. On the other hand,
+        you are not limited by <code>2Gb - 1</code> bytes as a size of your array - you may allocate a <code>long[]</code>,
+        which occupies 8 times more memory (<code>16Gb - 8</code> bytes).
+    </li>
+    <li>
+        You may use <code>sun.misc.Unsafe.allocateMemory(long size)</code> for allocating a buffer longer than 2Gb, but
+        you will have to free such buffers yourself.
+    </li>
+    <li>
+        You can use <code>sun.misc.Unsafe</code> memory access methods for reading/writing any Java datatype from/to
+        both Java arrays and <code>Unsafe</code> buffers in the uniform manner.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/memory-introspection-using-sun-misc-unsafe-and-reflection/">Memory introspection using sun.misc.Unsafe and reflection</a>:
+    how to find out Java object memory layout using <code>sun.misc.Unsafe</code> and reflection.
+</p>
+<p>
+    Tags: <strong>memory usage in Java</strong>, <strong>memory allocation in Java</strong>.
+</p>
+
+<ul>
+    <li>
+        You can use the following <code>sun.misc.Unsafe</code> methods for obtaining Java object layout information:
+        <code>objectFieldOffset</code>, <code>arrayBaseOffset</code> and <code>arrayIndexScale</code>.
+    </li>
+    <li>
+        Java <code>Object</code> reference size depends on your environment. It may be equal to 4 or 8 bytes depending
+        on your JVM settings and on the amount of memory you have given to your JVM. It is always 8 bytes for heaps
+        over 32G, but for smaller heaps it is 4 bytes unless you will turn off <code>-XX:-UseCompressedOops</code>
+        JVM setting.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/protobuf-data-encoding-for-numeric-datatypes/">Protobuf data encoding for numeric datatypes</a>:
+    what type of numeric data encoding is used in Google Protobuf, how it impacts the compressed data size and how fast is it.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>serialization in Java</strong>.
+</p>
+<ul>
+    <li>
+        Always try to upgrade to integer datatypes if you have found that some <code>double/float</code>
+        fields in your serializable collections contain only integer values. This will increase the compression
+        ratio of the general purpose algorithms on your binary data.
+    </li>
+    <li>
+        Try to use <a href="http://code.google.com/p/protobuf/" rel="nofollow">Google protobuf</a> or any other similar
+        encoding for your integer data if a noticeable part of your values happen to be small (either non-negative or
+        by absolute value). You will get a noticeable data size reduction at a very low CPU cost, which will help you
+        to store and later read a higher number of messages per time unit.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/use-case-compacting-price-field-disk-representation/">Use case: compacting price field disk representation</a>:
+    <code>double</code>, <code>short</code>, <code>java.math.BigDecimal</code>: an example of compacting your data:
+</p>
+<p>
+    Tags: <strong>high throughput</strong>, <strong>finance</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        Try to avoid storing <code>double</code> values in your disk data structures. Often same information
+        may be represented in a smaller number of bytes (compare, for example, 0.01 converted with <code>writePriceUnsigned</code>
+        and <code>3f 84 7a e1 47 ae 14 7b</code> - binary representation of 0.01).
+    </li>
+    <li>
+        Analyze properties of the data you have to store in the largest data structures in your programs. Try to identify
+        cases when most of your data can fit into a more compact data type than an original one.
+    </li>
+    <li>
+        See <a href="http://java-performance.info/use-case-how-to-compact-a-long-to-long-mapping/">Use case: how to compact a long-to-long mapping</a> for other ideas of compacting your data.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/use-case-how-to-compact-a-long-to-long-mapping/">Use case: how to compact a long-to-long mapping</a>: a use case where we try to identify
+    some long-2-long mapping properties in order to represent it in the most compact form.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>data compression</strong>.
+</p>
+<ul>
+    <li>
+        Analyze properties of the data you have to store in the largest data structures in your programs. Try to identify
+        cases when most of your data can fit into a more compact data type than an original one. Number-to-number maps
+        can be especially effectively compacted if you can notice that keys are nearly consecutive values. In this case
+        a map can be converted into the array.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/string-packing-converting-characters-to-bytes/">String packing part 1: converting characters to bytes</a>:
+    we discuss Java objects memory layout and consumption. After that we try to pack a <code>String</code> into a more compact representation, trying
+    to minimize using any <code>Objects</code>.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>data compression</strong>.
+</p>
+
+<ul>
+    <li>
+        <code>java.lang.String</code> objects were designed to be fast and flexible. That's why they can share internal
+        <code>char[]</code> with other strings. They also cache the calculated hash code value, because strings are often
+        used as <code>HashMap</code> keys or <code>HashSet</code> values. But these properties add a great penalty
+        for short strings memory footprint. We can avoid this penalty by implementing our own string replacement objects.
+    </li>
+    <li>
+        Oracle developers tried to solve the same problem in late Java 6 releases by introducing
+        <code>-XX:+UseCompressedStrings</code> option. Unfortunately, it is not supported anymore in Java 7, maybe due
+        to not so big memory savings as one may expect from it.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/string-packing-converting-strings-to-any-other-objects/">String packing part 2: converting Strings to any other objects</a>:
+    we discuss how and when to convert a <code>String</code> into various more compact Java objects for temporary string representation.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>, <strong>data compression</strong>.
+</p>
+<ul>
+    <li>
+        If you have a big collection of strings or objects with <code>String</code> fields in memory
+        and you know that in some cases (at least at 10% of cases, for example) these strings may be actually
+        converted to primitive type values, you may replace your <code>String</code> fields
+        with <code>Object</code> fields and use provided <code>pack/unpack</code> methods to convert
+        <code>String</code>s to <code>Object</code>s and back, thus saving memory.
+    </li>
+    <li>
+        If you couldn't convert a string to a primitive, consider converting your strings into <code>byte[]</code>
+        in UTF-8 encoding. This is loseless conversion, so you could always convert your binary <code>byte[]</code>
+        back into an original string.
+    </li>
+</ul>
+
+<!-------------------------- Small tricks ------------------------------------>
+
+<h2>Small tricks</h2>
+
+<p>
+    <a href="http://java-performance.info/io-bound-algorithms-ssd-vs-hdd/">I/O bound algorithms: SSD vs HDD</a>:
+    This article will investigate an impact of modern SSDs on the I/O bound algorithms of HDD era.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>hardware</strong>, <strong>Java IO</strong>.
+</p>
+<ul>
+    <li>
+        Replacing an HDD storage with an SSD one can turn your application from being I/O bound to being CPU-bound.
+        It is especially related to a pure stream data read/write operations, because modern SSDs are capable
+        to process data at speeds over 300Mb/sec (few applications can produce data at such speed).
+    </li>
+    <li>
+        Modern operating systems try to write data in the background, not blocking your application. Your write
+        requests will be blocked only if OS can't write data faster than your application produces it.
+    </li>
+    <li>
+        SSD seek time has dramatically decreased compared to HDD seek time (~100 seeks/sec for HDD -> over 2000 seeks/sec
+        for SSD). On the other hand, even SSD seek is too slow compared to modern CPU speed. On my laptop, CPU
+        can execute about a million commands while an SSD executes a seek operation. Always try to arrange your data
+        as a stream.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/object-assignments-type-conversions-on-the-low-level-in-java/">Forbidden Java actions: object assignments,
+        type conversions etc on the low level in Java</a>: This article will reveal you a few details about the low level Java memory layout: we will see how to implement
+    <code>Object</code> assignments using just primitive types. Then we will see what's hidden in the array header and will
+    convert an array of one type into an array of another type.
+</p>
+<p>
+    Tags: <strong>memory usage in Java</strong>, <strong>memory allocation in Java</strong>, <strong>unsafe memory access in Java</strong>.
+</p>
+<ul>
+    <li>
+        All Java object references occupy 4 bytes for under 32G heaps. You can use <code>sun.misc.Unsafe</code> in
+        order to treat such references as <code>int</code> fields.
+    </li>
+    <li>
+        Java arrays contain element type as <code>int</code> at the offset=8 in the array header. Length (<code>int</code>)
+        is stored at offset=12. Changing these values is possible, but care must be taken in order not to extend an updated
+        array outside of initially allocated memory.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/updating-final-and-static-final-fields/">Forbidden Java actions: updating final and static final fields</a>:
+    This article will discuss how you can update <code>final</code> or <code>static final</code> fields in Java using reflection and
+    <code>sun.misc.Unsafe</code>.
+</p>
+<p>
+    Tags: <strong>memory usage in Java</strong>, <strong>memory allocation in Java</strong>, <strong>unsafe memory access in Java</strong>.
+</p>
+<ul>
+    <li>
+        If you want to update a <code>private</code> and/or <code>final</code> field using Java reflection -
+        make a <code>Method</code> or <code>Field</code> accessible via <code>Method/Field.setAccessible( true )</code>
+        and then set a new field value.
+    </li>
+    <li>
+        If you want to update a <code>final static</code> field using reflection - you will need to make 2 steps:
+        make the field itself accessible and then make accessible <code>modifiers</code> field of <code>Field</code>
+        you want to update and remove <code>final</code> flag from <code>Field</code> modifiers. Such updates
+        to static final fields of primitive/<code>String</code> initialized with complile-time expressions will not be
+        visible to clients, because static fields initialized with constant expressions (JLS 15.28) are inlined.
+    </li>
+    <li>
+        You may also update <code>final</code> and <code>static final</code> fields using <code>sun.misc.Unsafe</code>.
+        Use <code>Unsafe.putN( base, offset, newValue )</code> methods for updates. <code>base</code> is the owner of a field
+        for instance fields and the <code>Class</code> object for static fields. <code>offset</code> could be obtained
+        with <code>Unsafe.objectFieldOffset( Field )</code> for instance fields and <code>Unsafe.staticFieldOffset( Field )</code>
+        for static fields.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/forbidden-java-actions-not-declaring-a-checked-exception-avoiding-a-constructor-while-creating-an-object/">Forbidden Java actions: not declaring a checked exception; avoiding a constructor while creating an object</a>:
+    In this article we will see how to throw a checked exception in Java without declaring it in the method
+    <code>throws</code> clause and how to create an object without calling any of its constructors.
+</p>
+<p>
+    Tags: <strong>memory usage in Java</strong>, <strong>memory allocation in Java</strong>, <strong>unsafe memory access in Java</strong>.
+</p>
+<ul>
+    <li>
+        There are several ways to avoid declaring a checked exception in a method which throws it. You can use
+        <code>Thread.stop(Throwable)</code>, <code>Class.newInstance</code> (and throw an exception in the constructor),
+        <code>sun.misc.Unsafe.throwException</code> or use generic type erasure in order to avoid a checked exception
+        declaration in the <code>throws</code> clause. We do not recommend you to use any of these practices :)
+    </li>
+    <li>
+        In Java you may create an object without calling any of its constructors. There are 2 legal ways to do it -
+        cloning and serializing. <code>sun.misc.Unsafe</code> allows you to create an uninitialized instance of an object
+        bypassing its constructors using <code>Unsafe.allocateInstance</code> method.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/static-constructor-is-not-jit-optimized/">Static constructor code is not JIT-optimized in a lot of cases</a>:
+    Static constructor code is generally executed in the interpreted mode, even if you have a heavy calculations
+    in it. But there is a way to force it run in the compiled mode:
+</p>
+<p>
+    Tags: <strong>Java pitfalls</strong>, <strong>avoid it</strong>.
+</p>
+<ul>
+    <li>
+        If you need to execute CPU-expensive logic in your class static constructor, check if it takes excessive time
+        to execute it. In this case try to move that logic into a separate helper class.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/inefficient-byte-to-string-constructor/">Inefficient byte[] to String constructor</a>: be careful when using
+    <code>public String(byte bytes[], int offset, int length, Charset charset)</code> constructor in Java 6:
+</p>
+<p>
+    Tags: <strong>Java pitfalls</strong>, <strong>avoid it</strong>.
+</p>
+<ul>
+    <li>
+        Always make a copy of a part of your byte array you want to convert into a String, otherwise this
+        constructor will make a temporary copy of your full original buffer.
+    </li>
+    <li>
+        Try to avoid unnecessary memory allocations in your program, because it may impact performance of your program
+        in case if it is already using enough memory (1G+).
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/java-varargs-performance-issues/">Java varargs performance issues</a>:
+    a short review of the actual varargs implementation in Java 5+.
+</p>
+<ul>
+    <li>
+        Varargs are great for most application code because they shorten program code, but they should be replaced
+        with precompiled arrays when all members of varargs are known constants.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/primitive-types-to-string-conversion-and-string-concatenation/">Primitive types to String conversion and String concatenation</a>:
+    a description of various types of string concatenation in Java as well as a few JVM options helping us
+    to make the string concatenation even faster.
+</p>
+<ul>
+    <li>
+        Never use concatenation with an empty string <code>""</code> as a "to string conversion". Use appropriate
+        <code>String.valueOf</code> or wrapper types <code>toString(value)</code> methods instead.
+    </li>
+    <li>
+        Whenever possible, use <code>StringBuilder</code> for string concatenation. Check old code and get rid of
+        <code>StringBuffer</code> is possible.
+    </li>
+    <li>
+        Use <code>-XX:+OptimizeStringConcat</code> option introduced in Java 6 update 20 in order to improve string concatenation
+        performance. It is turned on by default in most of Java 7 releases, but it is still turned off in Java 6_41.
+    </li>
+</ul>
+
+
+
+<!--------------------------------------- Use cases ----------------------------------------------->
+
+<h2>Use cases</h2>
+<p>
+    In this set of articles we try to apply principles discussed in the other articles to the "real world" problems.
+</p>
+
+<p>
+    <a href="http://java-performance.info/fix-message-processing-writing-a-fix-parser/">Use case: FIX messages processing. Part 1: Writing a simple FIX parser</a> and
+    <a href="http://java-performance.info/fix-messages-processing-fix-gateway-implementation/">Use case: FIX messages processing. Part 2: Composing a message out of fields: possible gateway implementation</a>:
+    <a href="http://en.wikipedia.org/wiki/Financial_Information_eXchange" rel="nofollow">a tag-based FIX message</a> parsing and composing
+    is described in two these articles. In essence, we parse a <code>0x0001</code> separated string into a list of
+    <code>name=value</code> tags, which are converted to actual datatypes after that. In the second part we will discuss
+    a best way to compose these messages back to String format as a part of a gateway implementation.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>.
+</p>
+
+<ul>
+    <li>
+        Always try to cache parsed dates if they do not have a time component in case of message processing:
+        number of various dates in modern financial data is very low.
+    </li>
+    <li>
+        <code>String.split</code> should usually be avoided. The only exception is a single character pattern in Java 7.
+        You can still write faster code even in this case, but you should add some parsing logic into a splitting loop.
+    </li>
+    <li>
+        Never parse a "field=value" pair with <code>String.split</code>. <code>String.indexOf(char)</code>
+        with separator character is a far better alternative.
+    </li>
+    <li>
+        Always try to avoid "binary/string -> Java type -> binary/string" conversions for short-living objects.
+        It is always better to store an original message (if you don't modify a message) or original fields
+        (if you modify only some fields) and reuse them when you have to compose an output message, rather than to convert
+        back from Java types into binary/text message. Besides saving CPU cycles on data conversions, you will also
+        avoid unnecessary memory allocations for converted values.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/use-case-optimizing-memory-footprint-of-read-only-csv-file-trove-unsafe-bytebuffer-data-compression/">Use case: Optimizing memory footprint of a read only csv file (Trove, Unsafe, ByteBuffer, data compression)</a>:
+    we will see how to optimize memory consumption of a Java program which has to store a large set of readonly data in memory
+    (using <code>ByteBuffer</code> or <code>sun.misc.Unsafe</code>).
+    We will also try replacing index fields with their hash codes, still supporting the case of hash code collisions.
+</p>
+<p>
+    Tags: <strong>low latency</strong>, <strong>high throughput</strong>, <strong>finance</strong>,
+    <strong>CPU optimization</strong>, <strong>memory optimization</strong>.
+</p>
+<ul>
+    <li>
+        If you want to keep a large number of read-only records in memory, consider storing them in the most possible
+        compact form in a <a href="http://java-performance.info/various-methods-of-binary-serialization-in-java/">ByteBuffer</a> (or using <code>sun.misc.Unsafe</code>).
+    </li>
+    <li>
+        Use <a href="http://java-performance.info/primitive-types-collections-trove-library/">Trove maps</a> for indices.
+    </li>
+    <li>
+        Check if you need to keep your ID field values as maps keys (you can still check ID field
+        stored in <code>ByteBuffer</code>) or <a href="http://java-performance.info/hashcode-method-performance-tuning/">hash code</a> is sufficient as a key.
+    </li>
+    <li>
+        If you know the possible query keys in advance - don't store IDs at all - hash code
+        is sufficient replacement for map keys in a lot of situations.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/single-file-vs-multi-file-storage/">Single file vs multi file storage</a>:
+    a short research on the file system cache implementation in Windows 7 and Linux.
+</p>
+<p>
+    Tags: <strong>hardware</strong>, <strong>file system</strong>, <strong>CPU optimization</strong>.
+</p>
+<ul>
+    <li>
+        In general, avoid storing your data in a large number of data files. At least, limit the number of such files,
+        so that the growth of your data will not linearly impact the number of files you have to process.
+    </li>
+    <li>
+        If you still need to handle a large number of small files, use Linux and any of its native file systems
+        which allow you to use 4K sectors (thus limiting the storage and read/write overhead).
+    </li>
+    <li>
+        Once you have read the files (at least in Linux), you may expect to find them in the file cache, especially
+        if the global memory consumption in your system is not too high. The same applies to the case of one application
+        writing these files to disk and another one reading them - chances are high that the second program will
+        read these files from OS file cache instead of actually reading them from the disk.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/static-code-compilation-groovy-2-0/">Static code compilation in Groovy 2.0</a>:
+    we will see how static compilation in Groovy makes it as fast as Java.
+</p>
+<p>
+    Tags: <strong>Groovy</strong>, <strong>dynamic languages</strong>, <strong>CPU optimization</strong>.
+</p>
+<ul>
+    <li>
+        Groovy is a dynamic JVM language using <i>dynamic dispatch</i> for its method calls. Dynamic dispatch
+        in Groovy 2.1.9 is approximately 3 times slower compared to a normal Java method call due to the need to obtain
+        a method name and argument types (method signature) and match it to the cached <code>java.lang.reflect.Method</code>.
+    </li>
+    <li>
+        Groovy 2.0 has added the static compilation feature via <code>@CompileStatic</code> annotation,
+        which allows to compile most of Groovy method calls
+        into direct JVM bytecode method calls, thus avoiding all the dynamic dispatch overhead. Besides performance
+        improvements, static compilation is also responsible for type checking of your Groovy code, letting you
+        to discover a lot of typos/mistakes at compile time, thus reducing the need for extensive coverage
+        unit tests.
+    </li>
+</ul>
+
+<p>
+    <a href="http://java-performance.info/high-performance-money-class/">Implementing a high performance Money class</a>:
+    how to implement the efficient <code>Money</code> class capable to deal with the arbitrary precision calculations.
+</p>
+<p>
+    Tags: <strong>money</strong>, <strong>monetary calcualtions</strong>, <strong>double</strong>, <strong>BigDecimal</strong>,
+    <strong>finance</strong>, <strong>HFT</strong>, <strong>low latency</strong>.
+</p>
+<ul>
+    <li>
+        You should avoid using <code>BigDecimal</code> for monetary calculations - its operations run 10+ times
+        slower than the equivalent <code>long/double</code> operations.
+    </li>
+    <li>
+        Three following observations will help you to efficiently implement your <code>long <-> double</code> conversion layer:
+    </li>
+    <li>
+        1. We can check that a <code>double</code> variable contains an integer value if we will cast it to <code>long</code>
+        and then back to <code>double</code> and get the original value. Both casts are cheap operations.
+    </li>
+    <li>
+        2. If we have a <code>double</code> value, which is possibly one ulp off the actual result, we may try to multiply this
+        value by a sufficiently large power of 10 and check if the result is an integer value (see rule 1). If not, try to add
+        or subtract ulp from the original value and multiply it by a power of 10 again (use <code>Math.nextAfter</code> to
+        add/subtract ulp).
+    </li>
+    <li>
+        3. If we will divide a <code>long</code> value by a <code>double</code> non-negative power of 10 (1, 10, 100, 1000, ...) - the
+        result will never contain an error. Same applies to the case of division of a <code>double</code> containing
+        <code>long</code> value by a <code>long</code> non-negative power of 10. At the same time we can not replace
+        division by 10<sup>N</sup> by multiplication by 10<sup>-N</sup>: the result will be off by ulp in many cases.
+        That's a pity, because multiplication is still significantly faster than division on modern CPUs. At the same time,
+        we can safely use multiplication by 10<sup>-N</sup> if we are allowed to round the result using <code>Math.round</code>.
+    </li>
+</ul>
+
+
+
+<a href="https://plus.google.com/112202724001660929418?rel=author">Author Google profile</a>
+<br/>
+<a href="https://www.linkedin.com/in/javaperformance">Author Linkedin profile</a>
+
+
+</body>
+</html>

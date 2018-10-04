@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns#">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns#">
+<![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Java Performance Tuning Guide - Java performance tuning guide - various tips on improving performance of your Java code</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="http://java-performance.info/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="http://d1k2jhzcfaebet.cloudfront.net/wp-content/themes/twentytwelve/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<!-- This site is optimized with the Yoast SEO plugin v3.4 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Java performance tuning guide - various tips on improving performance of your Java code"/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="http://java-performance.info/" />
+<link rel="next" href="http://java-performance.info/page/2/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Java Performance Tuning Guide - Java performance tuning guide - various tips on improving performance of your Java code" />
+<meta property="og:description" content="Java performance tuning guide - various tips on improving performance of your Java code" />
+<meta property="og:url" content="http://java-performance.info/" />
+<meta property="og:site_name" content="Java Performance Tuning Guide" />
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/java-performance.info\/","name":"Java Performance Tuning Guide","potentialAction":{"@type":"SearchAction","target":"http:\/\/java-performance.info\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Java Performance Tuning Guide &raquo; Feed" href="http://java-performance.info/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Java Performance Tuning Guide &raquo; Comments Feed" href="http://java-performance.info/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/java-performance.info\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.5.15"}};
+			!function(a,b,c){function d(a){var c,d,e,f=b.createElement("canvas"),g=f.getContext&&f.getContext("2d"),h=String.fromCharCode;if(!g||!g.fillText)return!1;switch(g.textBaseline="top",g.font="600 32px Arial",a){case"flag":return g.fillText(h(55356,56806,55356,56826),0,0),f.toDataURL().length>3e3;case"diversity":return g.fillText(h(55356,57221),0,0),c=g.getImageData(16,16,1,1).data,d=c[0]+","+c[1]+","+c[2]+","+c[3],g.fillText(h(55356,57221,55356,57343),0,0),c=g.getImageData(16,16,1,1).data,e=c[0]+","+c[1]+","+c[2]+","+c[3],d!==e;case"simple":return g.fillText(h(55357,56835),0,0),0!==g.getImageData(16,16,1,1).data[0];case"unicode8":return g.fillText(h(55356,57135),0,0),0!==g.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='bwp-syntax-css'  href='http://java-performance.info/wp-content/plugins/better-wordpress-syntax-based-on-geshi/css/bwp-syntax.css?ver=4.5.15' type='text/css' media='all' />
+<link rel='stylesheet' id='twentytwelve-fonts-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&#038;subset=latin,latin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='twentytwelve-style-css'  href='http://d1k2jhzcfaebet.cloudfront.net/wp-content/themes/twentytwelve/style.css?ver=4.5.15' type='text/css' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://d1k2jhzcfaebet.cloudfront.net/wp-content/themes/twentytwelve/css/ie.css?ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript' src='http://d1k2jhzcfaebet.cloudfront.net/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://d1k2jhzcfaebet.cloudfront.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='http://java-performance.info/wp-content/plugins/better-wordpress-syntax-based-on-geshi/js/bwp-syntax.js?ver=4.5.15'></script>
+<link rel='https://api.w.org/' href='http://java-performance.info/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://java-performance.info/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://java-performance.info/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.5.15" />
+<link rel="canonical" href="http://java-performance.info/"/>	<style type="text/css" id="twentytwelve-header-css">
+			.site-header h1 a,
+		.site-header h2 {
+			color: #444;
+		}
+		</style>
+	<!-- 
+			Plugin: Super Simple Google Analytics 
+	Plugin URL: Super Simple Google Analytics
+
+
+	-->
+
+<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-35728696-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script></head>
+
+<body class="home blog custom-font-enabled single-author">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+		<hgroup>
+			<h1 class="site-title"><a href="http://java-performance.info/" title="Java Performance Tuning Guide" rel="home">Java Performance Tuning Guide</a></h1>
+			<h2 class="site-description">Java performance tuning guide &#8211; various tips on improving performance of your Java code</h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle">Menu</h3>
+			<a class="assistive-text" href="#content" title="Skip to content">Skip to content</a>
+			<div class="nav-menu"><ul><li class="current_page_item"><a href="http://java-performance.info/">Home</a></li></ul></div>
+		</nav><!-- #site-navigation -->
+
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+		
+										
+	<article id="post-962" class="post-962 post type-post status-publish format-standard hentry category-intermediate category-overviews tag-jdk-7 tag-jdk-8 tag-jmc tag-tools">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/java-server-application-troubleshooting-using-jdk-tools/" rel="bookmark">Java server application troubleshooting using JDK tools</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/java-server-application-troubleshooting-using-jdk-tools/#respond" rel="nofollow"><span class="leave-reply">Leave a reply</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<table border="0">
+<tr>
+<td><a href="#intro">1. Introduction</a></td>
+</tr>
+<tr>
+<td><a href="#scenarios">2. Troubleshooting scenarios</a></td>
+</tr>
+<tr>
+<td>
+<table border="0">
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#jvmlist">2.1. Getting a list of running JVMs</a></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#heapdump">2.2. Making a heap dump</a></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#histogram">2.3. Analyzing a class histogram</a></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#threaddump">2.4. Making a thread dump</a></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#jfr">2.5. Running Java Flight Recorder</a></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p><a id="intro"></a></p>
+<h2>1. Introduction</h2>
+<p>
+    In the Java world most of us are used to GUI tools for all stages of Java application development: writing your code, debugging and profiling it. We often prefer to set up the server environment on our dev boxes and try to reproduce the problems locally using familiar tools. Unfortunately, it is often impossible to reproduce some issues locally for various reasons. For example, you may not be authorised to access the real client data which is processed by your server application.
+</p>
+<p>
+    In situations like this one you need to troubleshoot the application remotely on the server box. You should keep in mind that you can not properly troubleshoot an application with bare JRE in your hands: it contains all the troubleshooting functionality, but there is literally no way to access it. As a result, you need either a JDK or some 3rd party tools on the same box. This article will describe JDK tools, because you are likely to be allowed to use it on production boxes compared to any 3rd party tools which require security audit in many organizations.
+</p>
+<p>
+    In general case, it is sufficient just to unpack the JDK distribution to your box &#8211; you don&#8217;t need to install it properly for troubleshooting purposes (actually, proper installation may be undesirable in a lot of cases). For JMX based functionality you can install literally any Java 7/8 JDK, but some tools can not recognize the future JDK, so <b>I advice you to install either the latest Java 7/8 JDK or the build exactly matching to server JRE</b> &#8211; it allows you to dump the app heap for applications with no safepoints being accessed at the moment (some applications in the idle mode are  the easy example of &#8220;no safepoints&#8221; applications).
+</p>
+<p><a id="scenarios"></a></p>
+<h2>2. Troubleshooting scenarios</h2>
+<p><a id="jvmlist"></a></p>
+<h3>2.1. Getting a list of running JVMs</h3>
+<p>
+    In order to start working you nearly always need to get a list of running JVMs, their process IDs and command line arguments. Sometimes it may enough: you may find a second instance of the same application doing the same job concurrently (and damaging the output files / reopening sockets / doing some other stupid things).
+</p>
+<p>
+    Just run <code>jcmd</code> without any arguments. It will print you a list of running JVMs:
+</p>
+<blockquote>
+<pre>3824 org.jetbrains.idea.maven.server.RemoteMavenServer
+2196
+780 sun.tools.jcmd.JCmd</pre>
+</blockquote>
+<p>
+    Now you can see what diagnostic commands are available for a given JVM by running <code>jcmd &lt;PID&gt; help</code> command. Here is a sample output for VisualVM:
+</p>
+<blockquote>
+<pre>&gt;jcmd 3036 help
+
+3036:
+The following commands are available:
+JFR.stop
+JFR.start
+JFR.dump
+JFR.check
+VM.native_memory
+VM.check_commercial_features
+VM.unlock_commercial_features
+ManagementAgent.stop
+ManagementAgent.start_local
+ManagementAgent.start
+GC.rotate_log
+Thread.print
+GC.class_stats
+GC.class_histogram
+GC.heap_dump
+GC.run_finalization
+GC.run
+VM.uptime
+VM.flags
+VM.system_properties
+VM.command_line
+VM.version
+help</pre>
+</blockquote>
+<p>
+    Type <code>jcmd &lt;PID&gt; &lt;COMMAND_NAME&gt;</code> to either run a diagnostic command or get an error message asking for command arguments:
+</p>
+<blockquote>
+<pre>&gt;jcmd 3036 GC.heap_dump
+
+3036:
+java.lang.IllegalArgumentException: The argument 'filename' is mandatory.</pre>
+</blockquote>
+<p>
+    You can get more information about a diganostic command arguments by using the following command: <code>jcmd &lt;PID&gt; help &lt;COMMAND_NAME&gt;</code>. For example, here is the output for <code>GC.heap_dump</code> command:
+</p>
+<blockquote>
+<pre>&gt;jcmd 3036 help GC.heap_dump
+        
+3036:
+GC.heap_dump
+Generate a HPROF format dump of the Java heap.
+
+Impact: High: Depends on Java heap size and content. Request a full GC unless the '-all' option is specified.
+
+Permission: java.lang.management.ManagementPermission(monitor)
+
+Syntax : GC.heap_dump [options] &lt;filename&gt;
+
+Arguments:
+filename :  Name of the dump file (STRING, no default value)
+
+Options: (options must be specified using the &lt;key&gt; or &lt;key&gt;=&lt;value&gt; syntax)
+-all : [optional] Dump all objects, including unreachable objects (BOOLEAN, false)</pre>
+</blockquote>
+<p> <a rel="nofollow" href="http://java-performance.info/java-server-application-troubleshooting-using-jdk-tools/#more-962" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/jdk-7/" rel="tag nofollow">jdk 7</a>, <a href="http://java-performance.info/tag/jdk-8/" rel="tag nofollow">jdk 8</a>, <a href="http://java-performance.info/tag/jmc/" rel="tag nofollow">JMC</a>, <a href="http://java-performance.info/tag/tools/" rel="tag nofollow">tools</a> on <a href="http://java-performance.info/java-server-application-troubleshooting-using-jdk-tools/" title="12:13 am" rel="bookmark"><time class="entry-date" datetime="2015-07-21T00:13:24+00:00">July 21, 2015</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-955" class="post-955 post type-post status-publish format-standard hentry category-trivial tag-java-7 tag-string-switch">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/string-switch-implementation/" rel="bookmark">String switch implementation</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/string-switch-implementation/#respond" rel="nofollow"><span class="leave-reply">Leave a reply</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    This article covers the implementation details of <code>String switch</code> introduced in Java 7. It is a syntactic sugar on top of the normal <code>switch</code> operator.
+</p>
+<p>
+    Suppose you have the following method:
+</p>
+<blockquote>
+
+<div class="bwp-syntax-block clearfix">
+<div class="bwp-syntax-toolbar" style="right: 15px;" ><div class="bwp-syntax-control"><a href="javascript:;" class="bwp-syntax-source-switch" title="View Source Code"></a></div></div>
+<div class="bwp-syntax-wrapper clearfix bwp-syntax-simple" style=" height: 252px;"><table class="java"><tbody><tr class="li1"><td class="ln"><pre class="de1">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="de1"><pre class="de1"><span class="kw1">public</span> <span class="kw4">int</span> switchTest<span class="br0">&#40;</span> <span class="kw1">final</span> <span class="kw3">String</span> s <span class="br0">&#41;</span>
+<span class="br0">&#123;</span>
+&nbsp; &nbsp; <span class="kw1">switch</span> <span class="br0">&#40;</span> s <span class="br0">&#41;</span>
+&nbsp; &nbsp; <span class="br0">&#123;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">case</span> <span class="st0">&quot;a&quot;</span> <span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">System</span>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">&quot;aa&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="nu0">11</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">case</span> <span class="st0">&quot;b&quot;</span> <span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">System</span>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">&quot;bb&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="nu0">22</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">default</span> <span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">System</span>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">&quot;cc&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="nu0">33</span><span class="sy0">;</span>
+&nbsp; &nbsp; <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre></td></tr></tbody></table></div>
+<div class="bwp-syntax-source"><pre class="no-parse">public int switchTest( final String s )
+{
+    switch ( s )
+    {
+        case "a" :
+            System.out.println("aa");
+            return 11;
+        case "b" :
+            System.out.println("bb");
+            return 22;
+        default :
+            System.out.println("cc");
+            return 33;
+    }
+}</pre></div></div>
+
+</blockquote>
+<p>
+    It is converted by <code>javac</code> into the following code (decompiled back into Java):
+</p>
+<blockquote>
+
+<div class="bwp-syntax-block clearfix">
+<div class="bwp-syntax-toolbar" style="right: 15px;" ><div class="bwp-syntax-control"><a href="javascript:;" class="bwp-syntax-source-switch" title="View Source Code"></a></div></div>
+<div class="bwp-syntax-wrapper clearfix bwp-syntax-simple" style=" height: 252px;"><table class="java"><tbody><tr class="li1"><td class="ln"><pre class="de1">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="de1"><pre class="de1"><span class="kw1">public</span> <span class="kw4">int</span> switchTest<span class="br0">&#40;</span><span class="kw3">String</span> var1<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp; &nbsp; <span class="kw4">byte</span> var3 <span class="sy0">=</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span>
+&nbsp; &nbsp; <span class="kw1">switch</span><span class="br0">&#40;</span>var1.<span class="me1">hashCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp; &nbsp; <span class="kw1">case</span> <span class="nu0">97</span><span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">&#40;</span>var1.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;a&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var3 <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">&#125;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">break</span><span class="sy0">;</span>
+&nbsp; &nbsp; <span class="kw1">case</span> <span class="nu0">98</span><span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span><span class="br0">&#40;</span>var1.<span class="me1">equals</span><span class="br0">&#40;</span><span class="st0">&quot;b&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var3 <span class="sy0">=</span> <span class="nu0">1</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">&#125;</span>
+&nbsp; &nbsp; <span class="br0">&#125;</span>
+&nbsp;
+&nbsp; &nbsp; <span class="kw1">switch</span><span class="br0">&#40;</span>var3<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp; &nbsp; <span class="kw1">case</span> <span class="nu0">0</span><span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">System</span>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">&quot;aa&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="nu0">11</span><span class="sy0">;</span>
+&nbsp; &nbsp; <span class="kw1">case</span> <span class="nu0">1</span><span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">System</span>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">&quot;bb&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="nu0">22</span><span class="sy0">;</span>
+&nbsp; &nbsp; <span class="kw1">default</span><span class="sy0">:</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw3">System</span>.<span class="me1">out</span>.<span class="me1">println</span><span class="br0">&#40;</span><span class="st0">&quot;cc&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="nu0">33</span><span class="sy0">;</span>
+&nbsp; &nbsp; <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre></td></tr></tbody></table></div>
+<div class="bwp-syntax-source"><pre class="no-parse">public int switchTest(String var1) {
+    byte var3 = -1;
+    switch(var1.hashCode()) {
+    case 97:
+        if(var1.equals("a")) {
+            var3 = 0;
+        }
+        break;
+    case 98:
+        if(var1.equals("b")) {
+            var3 = 1;
+        }
+    }
+
+    switch(var3) {
+    case 0:
+        System.out.println("aa");
+        return 11;
+    case 1:
+        System.out.println("bb");
+        return 22;
+    default:
+        System.out.println("cc");
+        return 33;
+    }
+}</pre></div></div>
+
+</blockquote>
+<p>
+    The generated code consists of 2 parts:
+</p>
+<ul>
+<li>
+        Translation from <code>String</code> into a distinct <code>int</code> for each case, which is implemented in the first <code>switch</code> statement.
+    </li>
+<li>
+        The actual <code>switch</code> based on <code>int</code>-s.
+    </li>
+</ul>
+<p>
+    The first <code>switch</code> contains a <code>case</code> for each distinct <code>String.hashCode</code> in the original <code>String switch</code> labels. After matching by hash code, a string is compared for equality to every string with the same hash code. It is pretty unlikely that 2 strings used in <code>switch</code> labels will have the same hash code, so in most cases you will end up with exactly one <code>String.equals</code> call.
+</p>
+<p>
+    After seeing the generated code, it becomes clear why <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-14.html#jls-14.11" rel="nofollow">you can not use <code>null</code> as a switch label</a>: the first <code>switch</code> starts from calculating the <code>hashCode</code> of the <code>switch</code> argument.
+</p>
+<p>
+    What can we say about the performance of the underlying <code>int switch</code>? As you can <a href="http://java-performance.info/string-switch-performance/#switch">find in one of my earlier articles</a>, a <code>switch</code> is implemented as a fixed map with a table size of approximately 20 (which is fine for most of common cases).
+</p>
+<p>
+    Finally, we should note that <code>String.hashCode</code> implementation has implicitly became the part of the Java Language Specification after it was used in the <code>String switch</code> implementation. It can no longer be changed without breaking the <code>.class</code> files containing <code>String switch</code>, which were compiled with the older versions of Java.</p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/trivial/" >Trivial</a> and tagged <a href="http://java-performance.info/tag/java-7/" rel="tag nofollow">Java 7</a>, <a href="http://java-performance.info/tag/string-switch/" rel="tag nofollow">string switch</a> on <a href="http://java-performance.info/string-switch-implementation/" title="10:52 pm" rel="bookmark"><time class="entry-date" datetime="2015-07-04T22:52:35+00:00">July 4, 2015</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-921" class="post-921 post type-post status-publish format-standard hentry category-cpu-optimization-2 category-memory-optimization-2 category-overviews tag-jmc tag-joverflow tag-profiler">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/oracle-java-mission-control-overview/" rel="bookmark">Oracle Java Mission Control Overview</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/oracle-java-mission-control-overview/#respond" rel="nofollow"><span class="leave-reply">Leave a reply</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<h2>Introduction</h2>
+<p>
+    This article will describe the Java Mission Control &#8211; a JDK GUI tool (<code>jmc / jmc.exe</code>) available since Java 7u40. We will also discuss Java Flight Recorder &#8211; a surprisingly good JDK profiler with some features not available in any other project. Finally, we will look at JOverflow Analyzer &#8211; yet another semi-free tool (free for development, commercial for production), which allows you to analyze a lot of memory usage anti-patterns in your application based on a simple HPROF file.
+</p>
+<h2>Java Mission Control</h2>
+<p>
+    <a href="http://www.oracle.com/technetwork/java/javaseproducts/mission-control/java-mission-control-1998576.html" rel="nofollow">Oracle Java Mission Control</a> is a tool available in the Oracle JDK since Java 7u40. This tool originates from JRockit JVM where it was available for years. JRockit and its version of JMC were well described in a Oracle JRockit: The Definitive Guide book written by two JRockit senior developers (also visit the <a href="http://hirt.se/blog/" rel="nofollow">Marcus Hirt blog</a> &#8211; the first place you should be looking for any JMC news).
+</p>
+<p>
+    Oracle JMC could be used for 2 main purposes:
+</p>
+<ul>
+<li>
+        Monitoring the state of multiple running Oracle JVMs
+    </li>
+<li>
+        Java Flight Recorder dump file analysis
+    </li>
+</ul>
+<h2>JMC license</h2>
+<p>
+    Current JMC license (see &#8220;Supplemental license terms&#8221; <a href="http://www.oracle.com/technetwork/java/javase/terms/license/index.html" rel="nofollow">here</a> ) allows you to freely use JMC for development, but it requires the purchase of a commercial license if you want to use it in production (this is my personal opinion, I am not a lawyer 🙂 ). This means that you can avoid spending extra dollars if you have a proper QA process 🙂
+</p>
+<h2>JMC plug-ins</h2>
+<p>
+    JMC offers a few plugins. You can install them via <code>Help -> Install New Software</code> menu (you may not know that plugins exist and never go there 🙁 ). Note that each plugin may have its own license, so be careful and read the licenses. I will give an overview of &#8220;JOverflow Analysis&#8221; plugin in this article &#8211; it looks for a list of inefficient memory usage patterns in your app heap.
+</p>
+<h2>Realtime process monitoring</h2>
+<p>
+    You can attach to a JVM by right-clicking on it in the JVM Browser tab of the main window and choosing &#8220;Start JMX Console&#8221; menu option. You will see the following screen. There is nothing fancy here, just pay attention to the &#8220;+&#8221; buttons which allow you to add more counters to this screen.
+</p>
+<div id="attachment_922" style="width: 635px" class="wp-caption alignnone"><a href="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/06/main_monitoring.png"><img src="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/06/main_monitoring-1024x622.png" alt="Main monitoring screen" width="625" height="380" class="size-large wp-image-922" srcset="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/06/main_monitoring-1024x622.png 1024w, http://java-performance.info/wp-content/uploads/2015/06/main_monitoring-300x182.png 300w, http://java-performance.info/wp-content/uploads/2015/06/main_monitoring-624x379.png 624w, http://java-performance.info/wp-content/uploads/2015/06/main_monitoring.png 1278w" sizes="(max-width: 625px) 100vw, 625px" /></a><p class="wp-caption-text">Main monitoring screen</p></div>
+<p> <a rel="nofollow" href="http://java-performance.info/oracle-java-mission-control-overview/#more-921" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/cpu-optimization-2/" >CPU optimization</a>, <a href="http://java-performance.info/category/memory-optimization-2/" >Memory optimization</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/jmc/" rel="tag nofollow">JMC</a>, <a href="http://java-performance.info/tag/joverflow/" rel="tag nofollow">JOverflow</a>, <a href="http://java-performance.info/tag/profiler/" rel="tag nofollow">profiler</a> on <a href="http://java-performance.info/oracle-java-mission-control-overview/" title="12:00 pm" rel="bookmark"><time class="entry-date" datetime="2015-06-20T12:00:24+00:00">June 20, 2015</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-889" class="post-889 post type-post status-publish format-standard hentry category-advanced category-cpu-optimization-2 category-java-tricks tag-fastutil tag-hashmap tag-koloboke">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/implementing-world-fastest-java-int-to-int-hash-map/" rel="bookmark">Implementing a world fastest Java int-to-int hash map*</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/implementing-world-fastest-java-int-to-int-hash-map/#respond" rel="nofollow"><span class="leave-reply">Leave a reply</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    * <font size="-1">Fastest among int-to-int map implementations I have tested in <a href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/">my previous article</a> in the tests I have implemented for that article.</font>
+</p>
+<p>
+    I would like to thank <a href="http://vigna.di.unimi.it/" rel="nofollow">Sebastiano Vigna</a> and <a href="https://github.com/leventov/" rel="nofollow">Roman Leventov</a> for sharing their hash map wisdom with me. Some implementation ideas were inspired by &#8220;Code Optimization: Effective Memory Usage&#8221; by Kris Kaspersky.
+</p>
+<p>
+    This article will give you a step by step overview of various implementation tricks used in the modern hash map implementations. At the end of this article you will have a probably fastest Java int-to-int hash map implementation available at the moment of writing of this article.
+</p>
+<h2>Open indexing</h2>
+<p>
+    Most of modern hash maps are based on the idea of open indexing. What does it mean? Your map is based on the array of keys (values will always be placed at the matching array index, so forget about them for now). You have to find your key in the array of keys for each map operation. How does it implemented?
+</p>
+<p>
+    First of all, you need the initial lookup position in the array. It may be calculated by any function which maps a key into an integer in the range <code>[0, array.length - 1]</code>. A key is usually mapped into an integer by means of <code>hashCode</code> method. A simplest function here could be <code>Math.abs(key.hashCode() % array.length)</code> (keep in mind that <code>%</code> result could be negative).
+</p>
+<p>
+    As you understand, a mapping of large set of keys into a small set of integer values means that you may end up with some collisions (they are called hash collisions) &#8211; same results of the initial function for the different keys. Collisions are resolved by trying to apply another function to the original array index. The simplest of such functions is <code>(prevIdx + 1) % array.length</code>. There is one requirement for such functions &#8211; if applied in a loop, they should cover the whole set or array cells, so that you can use the whole array capacity. Another example of such function is incrementing the index by one prime number if the array length is another prime number.
+</p>
+<h3>Free and removed cells</h3>
+<p>
+    In theory, that&#8217;s enough to implement your own hash map. In practice, you need to distinguish free and removed cells from occupied cells (you can avoid using removed cells if you&#8217;ll do extra work in <code>remove</code> method &#8211; see how it is implemented in the latest <a href="http://fastutil.di.unimi.it/" rel="nofollow">FastUtil</a>). Removed cells are also known as &#8220;tombstones&#8221;.
+</p>
+<p>
+    Your keys array is initially filled with free &#8220;cells&#8221;. You set a cell into &#8220;removed&#8221; state if you need to remove an existing key.
+</p>
+<p>
+    Let&#8217;s take a look at an example:
+</p>
+<div id="attachment_890" style="width: 643px" class="wp-caption alignnone"><a href="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/03/openIndex.png"><img src="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/03/openIndex.png" alt="Open indexing example" width="633" height="202" class="size-full wp-image-890" srcset="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/03/openIndex.png 633w, http://java-performance.info/wp-content/uploads/2015/03/openIndex-300x96.png 300w, http://java-performance.info/wp-content/uploads/2015/03/openIndex-624x199.png 624w" sizes="(max-width: 633px) 100vw, 633px" /></a><p class="wp-caption-text">Open indexing example</p></div>
+<p>
+    This <code>int</code> key map uses the initial and next functions defined above:
+</p>
+<blockquote>
+
+<div class="bwp-syntax-block clearfix">
+<div class="bwp-syntax-toolbar"><div class="bwp-syntax-control"><a href="javascript:;" class="bwp-syntax-source-switch" title="View Source Code"></a></div></div>
+<div class="bwp-syntax-wrapper clearfix bwp-syntax-simple"><table class="java"><tbody><tr class="li1"><td class="ln"><pre class="de1">1
+2
+</pre></td><td class="de1"><pre class="de1">initial <span class="sy0">=</span> <span class="kw3">Math</span>.<span class="me1">abs</span><span class="br0">&#40;</span> key <span class="sy0">%</span> array.<span class="me1">length</span> <span class="br0">&#41;</span><span class="sy0">;</span>
+nextIdx <span class="sy0">=</span> <span class="br0">&#40;</span> prevIdx <span class="sy0">+</span> <span class="nu0">1</span> <span class="br0">&#41;</span> <span class="sy0">%</span> array.<span class="me1">length</span><span class="sy0">;</span></pre></td></tr></tbody></table></div>
+<div class="bwp-syntax-source"><pre class="no-parse">initial = Math.abs( key % array.length );
+nextIdx = ( prevIdx + 1 ) % array.length;</pre></div></div>
+
+</blockquote>
+<p>
+    This map originally contained keys 1, 2, 3 and 4, but key=3 was subsequently removed from a map, so it was replaced with a removed (&#8220;R&#8221;) placeholder.
+</p>
+<p>
+    Let&#8217;s see what should we do to find the following keys:
+</p>
+<table border="1">
+<tr>
+<td>Key</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>2</td>
+<td>
+            Start function points at a cell with index=2 at once. We have key=2 at a cell with index=2, so no further lookup is required.
+        </td>
+</tr>
+<tr>
+<td>3</td>
+<td>
+            Start function points at a cell with index=3. This cell is &#8220;removed&#8221;, so we have to apply &#8220;nextIdx&#8221; function in a loop until we either find a key or a free cell. We check cell index=4 next &#8211; bad luck, key is not equal. Then we check cell index=5: it is a free cell, so we stop the lookup &#8211; key is not found.
+        </td>
+</tr>
+</table>
+<p>
+    Next, let&#8217;s see what will happen if we want to add key=10: <code>initial = key % array.length = 10 % 9 = 1</code>. Cell at index=1 is already occupied with another key, so we can not use it. So is cell at index=2. The cell at index=3 is &#8220;removed&#8221;, so we can reuse it and put key=10 into it.
+</p>
+<h3>Removed cells cleanup</h3>
+<p>
+    In many cases your hash map may degrade to O(n<sup>2</sup>) complexity if you would keep the removed cells in the map. Fastest maps are implementing the removed cells cleanup one way or another. As a result, all other map methods will need to distinguish just 2 cell states: free or used. Besides that, <code>remove</code> method is usually called infrequently compared to <code>get</code> and less frequently than <code>put</code>, which means that some extra complexity during key removal will be paid off by fasted execution of other methods. This article will use FastUtil cleanup logic.
+</p>
+<h3>Key scrambling</h3>
+<p>
+    The initial index function I have mentioned above ( <code>initial = Math.abs( key % array.length );</code> ) will put consecutive keys in the consecutive array cells. This is highly undesirable if your next cell function is simply picking up the next array cell, because it will cause the long lookup chains to be created in a pretty common case.
+</p>
+<p>
+    In order to avoid it, we need to &#8220;scramble&#8221; the key, shuffling its bits. I will rely on FastUtil scrambling code:
+</p>
+<blockquote>
+
+<div class="bwp-syntax-block clearfix">
+<div class="bwp-syntax-toolbar"><div class="bwp-syntax-control"><a href="javascript:;" class="bwp-syntax-source-switch" title="View Source Code"></a></div></div>
+<div class="bwp-syntax-wrapper clearfix bwp-syntax-simple"><table class="java"><tbody><tr class="li1"><td class="ln"><pre class="de1">1
+2
+3
+4
+5
+6
+</pre></td><td class="de1"><pre class="de1"><span class="kw1">private</span> <span class="kw1">static</span> <span class="kw1">final</span> <span class="kw4">int</span> INT_PHI <span class="sy0">=</span> 0x9E3779B9<span class="sy0">;</span>
+&nbsp;
+<span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> phiMix<span class="br0">&#40;</span> <span class="kw1">final</span> <span class="kw4">int</span> x <span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp; &nbsp; <span class="kw1">final</span> <span class="kw4">int</span> h <span class="sy0">=</span> x <span class="sy0">*</span> INT_PHI<span class="sy0">;</span>
+&nbsp; &nbsp; <span class="kw1">return</span> h <span class="sy0">^</span> <span class="br0">&#40;</span>h <span class="sy0">&gt;&gt;</span> <span class="nu0">16</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre></td></tr></tbody></table></div>
+<div class="bwp-syntax-source"><pre class="no-parse">private static final int INT_PHI = 0x9E3779B9;
+
+public static int phiMix( final int x ) {
+    final int h = x * INT_PHI;
+    return h ^ (h &gt;&gt; 16);
+}</pre></div></div>
+
+</blockquote>
+<p>
+    As a result, consecutive keys will not be placed in the consecutive array cells, thus keeping the average hash chain length under control. As for &#8220;random&#8221; keys case, you are likely to end up with a pretty good distribution of keys over the keys array as well.
+</p>
+<p>
+    Now you are definitely ready to implement your own hash map. We will be implementing an <code>int-int</code> map in the next several sections of this article.
+</p>
+<p> <a rel="nofollow" href="http://java-performance.info/implementing-world-fastest-java-int-to-int-hash-map/#more-889" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/advanced/" >Advanced</a>, <a href="http://java-performance.info/category/cpu-optimization-2/" >CPU optimization</a>, <a href="http://java-performance.info/category/java-tricks/" >Java tricks</a> and tagged <a href="http://java-performance.info/tag/fastutil/" rel="tag nofollow">FastUtil</a>, <a href="http://java-performance.info/tag/hashmap/" rel="tag nofollow">hashmap</a>, <a href="http://java-performance.info/tag/koloboke/" rel="tag nofollow">Koloboke</a> on <a href="http://java-performance.info/implementing-world-fastest-java-int-to-int-hash-map/" title="3:00 pm" rel="bookmark"><time class="entry-date" datetime="2015-03-08T15:00:49+00:00">March 8, 2015</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-866" class="post-866 post type-post status-publish format-standard hentry category-cpu-optimization-2 category-intermediate category-memory-optimization-2 category-overviews tag-fastutil tag-gs tag-hashmap tag-hppc tag-identity-maps tag-jdk-8 tag-koloboke tag-trove">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/" rel="bookmark">Large HashMap overview: JDK, FastUtil, Goldman Sachs, HPPC, Koloboke, Trove &#8211; January 2015 version</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/#comments" rel="nofollow">2 Replies</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    This is a major update of <a href="http://java-performance.info/large-hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove/">the previous version</a> of this article. The reasons for this update are:
+</p>
+<ul>
+<li>The major performance updates in <a href="http://mvnrepository.com/artifact/it.unimi.dsi/fastutil/6.6.0" rel="nofollow">fastutil 6.6.0</a></li>
+<li>Updates in the &#8220;get&#8221; test from the original article, addition of &#8220;put/update&#8221; and &#8220;put/remove&#8221; tests</li>
+<li>Adding identity maps to all tests</li>
+<li>
+        Now using different objects for any operations after map population (in case of Object keys &#8211; except identity maps). Old approach of reusing the same keys gave the unfair advantage to Koloboke.
+    </li>
+</ul>
+<p>
+    I would like to thank <a href="http://vigna.di.unimi.it/" rel="nofollow">Sebastiano Vigna</a> for providing the initial versions of &#8220;get&#8221; and &#8220;put&#8221; tests.
+</p>
+<h2>Introduction</h2>
+<p>
+    This article will give you an overview of hash map implementations in 5 well known libraries and JDK <code>HashMap</code> as a baseline. We will test separately:
+</p>
+<ul>
+<li>Primitive to primitive maps</li>
+<li>Primitive to object maps</li>
+<li>Object to primitive maps</li>
+<li>Object to Object maps</li>
+<li>Object (identity) to Object maps</li>
+</ul>
+<p>
+    This article will provide you the results of 3 tests:
+</p>
+<ul>
+<li>
+        &#8220;Get&#8221; test: Populate a map with a pregenerated set of keys (in the JMH setup), make ~50% successful and ~50% unsuccessful &#8220;get&#8221; calls. For non-identity maps with object keys we use a distinct set of keys (the different object with the same value is used for successful &#8220;get&#8221; calls).
+    </li>
+<li>
+        &#8220;Put/update&#8221; test: Add a pregenerated set of keys to the map. In the second loop add the equal set of keys (different objects with the same values) to this map again (make the updates). Identical keys are used for identity maps and for maps with primitive keys.
+    </li>
+<li>
+        &#8220;Put/remove&#8221; test: In a loop: add 2 entries to a map, remove 1 of existing entries (&#8220;add&#8221; pointer is increased by 2 on each iteration, &#8220;remove&#8221; pointer is increased by 1).
+    </li>
+</ul>
+<p>
+    This article will just give you the test results. There will be a followup article on the most interesting implementation details of the various hash maps.
+</p>
+<h2>Test participants</h2>
+<h3>JDK 8</h3>
+<p>
+    JDK <code>HashMap</code> is the oldest hash map implementation in this test. It got a couple of major updates recently &#8211; <a href="http://java-performance.info/core-java-7-change-log/">a shared underlying storage</a> for the empty maps in Java 7u40 and a possibility to convert underlying hash bucket linked lists into tree maps (for better worse case performance) in Java 8.
+</p>
+<h3>FastUtil 6.6.0</h3>
+<p>
+    <a href="http://fastutil.di.unimi.it/" rel="nofollow">FastUtil</a> provides a developer a set of all 4 options listed above (all combinations of primitives and objects). Besides that, there are several other types of maps available for each parameter type combination: array map, AVL tree map and RB tree map. Nevertheless, we are only interested in hash maps in this article.
+</p>
+<h3>Goldman Sachs Collections 5.1.0</h3>
+<p>
+    Goldman Sachs has open sourced <a href="https://github.com/goldmansachs/gs-collections" rel="nofollow">its collections library</a> about 3 years ago. In my opinion, this library provides the widest range of collections out of box (if you need them). You should definitely pay attention to it if you need more than a hash map, tree map and a list for your work 🙂 For the purposes of this article, GS collections provide a normal, synchronized and unmodifiable versions of each hash map. The last 2 are just facades for the normal map, so they don&#8217;t provide any performance advantages.
+</p>
+<h3>HPPC 0.6.1</h3>
+<p>
+    <a href="http://labs.carrotsearch.com/hppc.html" rel="nofollow">HPPC</a> provides array lists, array dequeues, hash sets and hash maps for all primitive types. HPPC provides normal hash maps for primitive keys and both normal and identity hash maps for object keys.
+</p>
+<h3>Koloboke 0.6.5</h3>
+<p>
+    <a href="https://github.com/OpenHFT/Koloboke" rel="nofollow">Koloboke</a> is the youngest of all libraries in this article. It is developed as a part of an <a href="http://openhft.net/" rel="nofollow">OpenHFT</a> project by <a href="https://github.com/leventov/" rel="nofollow">Roman Leventov</a>. This library currently provides hash maps and hash sets for all primitive/object combinations. This library was recently renamed from HFTC, so some artifacts in my tests will still use the old library name.
+</p>
+<h3>Trove 3.0.3</h3>
+<p>
+    <a href="http://trove.starlight-systems.com/" rel="nofollow">Trove</a> is available for a long time and quite stable. Unfortunately, not much development is happening in this project at the moment. Trove provides you the list, stack, queue, hash set and map implementations for all primitive/object combinations. I have already written <a href="http://java-performance.info/primitive-types-collections-trove-library/">about Trove</a>.
+</p>
+<h2>Data storage implementations and tests</h2>
+<p>
+    This article will look at 5 different sorts of maps:
+</p>
+<ol>
+<li><code>int</code>&#8211;<code>int</code></li>
+<li><code>int</code>&#8211;<code>Integer</code></li>
+<li><code>Integer</code>&#8211;<code>int</code></li>
+<li><code>Integer</code>&#8211;<code>Integer</code></li>
+<li><code>Integer (identity map)</code>&#8211;<code>Integer</code></li>
+</ol>
+<p>
+    We will use <a href="http://java-performance.info/jmh/">JMH 1.0</a> for testing. Here is the test description: for each map size in (10K, 100K, 1M, 10M, 100M) (outer loop) generate a set of random keys (they will be used for each test at a given map size) and then run a test for each map implementations (inner loop). Each test will be run <code>100M / map_size</code> times. &#8220;get&#8221;, &#8220;put&#8221; and &#8220;remove&#8221; tests are run separately, so you can update the test source code and run only a few of them.
+</p>
+<p>
+    <b>Note that each test suite takes around 7-8 hours on my box.</b> Spreadsheet-friendly results will be printed to stdout once all test suites will finish.
+</p>
+<h3>int-int</h3>
+<p>
+    Each section will start with a table showing how data is stored inside each map. Only arrays will be shown here (some maps have special fields for a few corner cases).
+</p>
+<table border="1">
+<tr>
+<td>tests.maptests.primitive.FastUtilMapTest</td>
+<td>int[] key, int[] value</td>
+</tr>
+<tr>
+<td>tests.maptests.primitive.GsMutableMapTest</td>
+<td>int[] keys, int[] values</td>
+</tr>
+<tr>
+<td>tests.maptests.primitive.HftcMutableMapTest</td>
+<td>long[] (key-low bits, value-high bits)</td>
+</tr>
+<tr>
+<td>tests.maptests.primitive.HppcMapTest</td>
+<td>int[] keys, int[] values, boolean[] allocated</td>
+</tr>
+<tr>
+<td>tests.maptests.primitive.TroveMapTest</td>
+<td>int[] _set, int[] _values, byte[] _states</td>
+</tr>
+</table>
+<p>
+    As you can see, Koloboke is using a single array, FastUtil and GS use 2 arrays, and HPPC and Trove use 3 arrays to store the same data. Let&#8217;s see what would be the actual performance.
+</p>
+<h4>&#8220;Get&#8221; test results</h4>
+<p>
+    All &#8220;get&#8221; tests make around 50% of unsuccessful <code>get</code> calls in order to test both success and failure paths in each map.
+</p>
+<p>
+    Each test results section will contain the results graph. X axis will show a map size, Y axis &#8211; time to run a test in milliseconds. Note, that each test in a graph has a fixed number of map method calls: 100M <code>get</code> call for &#8220;get&#8221; test; 200M <code>put</code> calls for &#8220;put&#8221; test; 100M <code>put</code> and 50M <code>remove</code> calls for &#8220;remove&#8221; tests.
+</p>
+<p>
+    There would be the links to OpenOffice spreadsheets with all test results at the end of this article.
+</p>
+<div id="attachment_867" style="width: 821px" class="wp-caption alignnone"><a href="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/02/get_prim.gif"><img src="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/02/get_prim.gif" alt="int-int &#039;get&#039; test results" width="811" height="413" class="size-full wp-image-867" /></a><p class="wp-caption-text">int-int &#8216;get&#8217; test results</p></div>
+<p>
+    GS and FastUtil test results lines are nearly parallel, but FastUtil is faster due to a lower constant factor. Koloboke becomes fastest only on large enough maps. Trove is slower than other implementations at each map size.
+</p>
+<h4>&#8220;Put&#8221; test results</h4>
+<p>
+    &#8220;Put&#8221; tests insert all keys into a map and then use another equal set of keys to insert entries into a map again (these methods calls would update the existing entries). We make 100M <code>put</code> calls with &#8220;insert&#8221; functionality and 100M <code>put</code> calls with &#8220;update&#8221; functionality in each test.
+</p>
+<div id="attachment_868" style="width: 938px" class="wp-caption alignnone"><a href="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/02/put_prim.gif"><img src="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/02/put_prim.gif" alt="int-int &#039;put&#039; test results" width="928" height="445" class="size-full wp-image-868" /></a><p class="wp-caption-text">int-int &#8216;put&#8217; test results</p></div>
+<p>
+    This test shows the implementation difference more clear: Koloboke is fastest from the start (though FastUtil is as fast on small maps); GS and FastUtil are parallel again (but GS is always slower). HPPC and Trove are the slowest.
+</p>
+<h4>&#8220;Remove&#8221; test results</h4>
+<p>
+    In &#8220;remove&#8221; test we interleave 2 <code>put</code> operations with 1 <code>remove</code> operation, so that a map size grows by 1 after each group of <code>put/remove</code> calls. In total we make 100M <code>put</code> and 50M <code>remove</code> calls.
+</p>
+<div id="attachment_869" style="width: 910px" class="wp-caption alignnone"><a href="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/02/remove_prim.gif"><img src="http://d1k2jhzcfaebet.cloudfront.net/wp-content/uploads/2015/02/remove_prim.gif" alt="int-int &#039;remove&#039; test results" width="900" height="444" class="size-full wp-image-869" /></a><p class="wp-caption-text">int-int &#8216;remove&#8217; test results</p></div>
+<p>
+    Results are similar to &#8220;put&#8221; test (of course, both tests make a majority of <code>put</code> calls!): Koloboke is quickly becoming the fastest implementation; FastUtil is a bit faster than GS on all map sizes; HPPC and Trove are the slowest, but HPPC performs reasonably good on map sizes up to 1M entries.
+</p>
+<h4>int-int summary</h4>
+<p>
+    An underlying storage implementation is the most important factor defining the hash map performance: the fewer memory accesses an implementation makes (especially for large maps which do not into CPU cache) to access an entry &#8211; the faster it would be. As you can see, the single array Koloboke is faster than other implementations in most of tests on large map sizes. For smaller map sizes, CPU cache starts hiding the costs of accessing several arrays &#8211; in this case other implementations may be faster due to less CPU commands required for a method call: FastUtil is the second best implementation for primitive collection tests due to its highly optimized code.
+</p>
+<p> <a rel="nofollow" href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/#more-866" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/cpu-optimization-2/" >CPU optimization</a>, <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/memory-optimization-2/" >Memory optimization</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/fastutil/" rel="tag nofollow">FastUtil</a>, <a href="http://java-performance.info/tag/gs/" rel="tag nofollow">GS</a>, <a href="http://java-performance.info/tag/hashmap/" rel="tag nofollow">hashmap</a>, <a href="http://java-performance.info/tag/hppc/" rel="tag nofollow">hppc</a>, <a href="http://java-performance.info/tag/identity-maps/" rel="tag nofollow">identity maps</a>, <a href="http://java-performance.info/tag/jdk-8/" rel="tag nofollow">jdk 8</a>, <a href="http://java-performance.info/tag/koloboke/" rel="tag nofollow">Koloboke</a>, <a href="http://java-performance.info/tag/trove/" rel="tag nofollow">trove</a> on <a href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/" title="11:00 pm" rel="bookmark"><time class="entry-date" datetime="2015-02-06T23:00:40+00:00">February 6, 2015</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-830" class="post-830 post type-post status-publish format-standard hentry category-intermediate category-memory-optimization-2 category-overviews tag-32g tag-64-bit-reference tag-huge-java-heap tag-xmx32g">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/over-32g-heap-java/" rel="bookmark">Going over Xmx32G heap boundary means you will have less memory available</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/over-32g-heap-java/#comments" rel="nofollow">1 Reply</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    This small article will remind you what happens to Oracle JVM once your heap setting goes over 32G. By default, <a href="http://java-performance.info/memory-introspection-using-sun-misc-unsafe-and-reflection/">all references in JVM occupy 4 bytes on heaps under 32G</a>. This decision is made by JVM at start-up time. You can use 8 byte references on small heaps if you will clear the <code>-XX:-UseCompressedOops</code> JVM option (it does not make any sense for production systems!).
+</p>
+<p>
+    Once your heap exceeds 32G, you are in 64 bit land, so your object references will now use 8 bytes instead of 4. As Scott Oaks mentioned in his &#8220;Java Performance: The Definitive Guide&#8221; book (pages 234-236, read my review of this book <a href="http://java-performance.info/java-performance-the-definitive-guide-by-scott-oaks/">here</a>), an average Java program uses about 20% of heap for object references. <b>It means that by setting anything between Xmx32G and Xmx37G &#8211; Xmx38G you will actually reduce the amount of heap available for your application</b> (actual numbers, of course, depend on your application). This may become a big surprise for anyone thinking that adding extra memory will let his/her application to process more data 🙂
+</p>
+<p> <a rel="nofollow" href="http://java-performance.info/over-32g-heap-java/#more-830" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/memory-optimization-2/" >Memory optimization</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/32g/" rel="tag nofollow">32g</a>, <a href="http://java-performance.info/tag/64-bit-reference/" rel="tag nofollow">64 bit reference</a>, <a href="http://java-performance.info/tag/huge-java-heap/" rel="tag nofollow">huge Java heap</a>, <a href="http://java-performance.info/tag/xmx32g/" rel="tag nofollow">xmx32g</a> on <a href="http://java-performance.info/over-32g-heap-java/" title="11:57 am" rel="bookmark"><time class="entry-date" datetime="2014-12-31T11:57:37+00:00">December 31, 2014</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-822" class="post-822 post type-post status-publish format-standard hentry category-cpu-optimization-2 category-intermediate category-overviews tag-compression tag-deflate tag-gzip tag-jmh tag-lz4 tag-snappy">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/performance-general-compression/" rel="bookmark">Performance of various general compression algorithms &#8211; some of them are unbelievably fast!</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/performance-general-compression/#comments" rel="nofollow">3 Replies</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    <b>07 Jan 2015 update: extending LZ4 description (thanks to <a href="https://twitter.com/mikaelgrev" rel="nofollow">Mikael Grev</a> for a hint!)</b>
+</p>
+<p>
+    This article will give you an overview of several general compression algorithm implementations performance. As it turned out, some of them could be used even when your CPU requirements are pretty strict.
+</p>
+<p>
+    In this article we will compare:
+</p>
+<ul>
+<li>
+        JDK GZIP &#8211; a slow algorithm with a good compression, which could be used for long term data compression. Implemented in JDK <code>java.util.zip.GZIPInputStream / GZIPOutputStream</code>.
+    </li>
+<li>
+        JDK deflate &#8211; another algorithm available in JDK (it is used for zip files). Unlike GZIP, you can set compression level for this algorithm, which allows you to trade compression time for the output file size. Available levels are 0 (store, no compression), 1 (fastest compression) to 9 (slowest compression). Implemented as <code>java.util.zip.DeflaterOutputStream / InflaterInputStream</code>.
+    </li>
+<li>
+        <a href="https://github.com/jpountz/lz4-java" rel="nofollow">Java implementation</a> of <a href="http://en.wikipedia.org/wiki/LZ4_%28compression_algorithm%29" rel="nofollow">LZ4 compression algorithm</a> &#8211; this is the fastest algorithm in this article with a compression level a bit worse than the fastest deflate. I advice you to read <a href="http://en.wikipedia.org/wiki/LZ4_%28compression_algorithm%29" rel="nofollow">the wikipedia article</a> about this algorithm to understand its usage. It is distributed under a friendly <a href="http://www.apache.org/licenses/LICENSE-2.0" rel="nofollow">Apache license 2.0</a>.
+    </li>
+<li>
+        <a href="http://en.wikipedia.org/wiki/Snappy_%28software%29" rel="nofollow">Snappy</a> &#8211; a popular compressor developed in Google, which aims to be fast and provide relatively good compression. I have tested <a href="https://github.com/xerial/snappy-java" rel="nofollow">this implementation</a>. It is also distributed under <a href="http://www.apache.org/licenses/LICENSE-2.0" rel="nofollow">Apache license 2.0</a>.
+    </li>
+</ul>
+<p> <a rel="nofollow" href="http://java-performance.info/performance-general-compression/#more-822" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/cpu-optimization-2/" >CPU optimization</a>, <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/compression/" rel="tag nofollow">compression</a>, <a href="http://java-performance.info/tag/deflate/" rel="tag nofollow">deflate</a>, <a href="http://java-performance.info/tag/gzip/" rel="tag nofollow">gzip</a>, <a href="http://java-performance.info/tag/jmh/" rel="tag nofollow">JMH</a>, <a href="http://java-performance.info/tag/lz4/" rel="tag nofollow">lz4</a>, <a href="http://java-performance.info/tag/snappy/" rel="tag nofollow">snappy</a> on <a href="http://java-performance.info/performance-general-compression/" title="4:18 pm" rel="bookmark"><time class="entry-date" datetime="2014-12-20T16:18:20+00:00">December 20, 2014</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-798" class="post-798 post type-post status-publish format-standard hentry category-cpu-optimization-2 category-intermediate category-memory-optimization-2 category-overviews tag-fastutil tag-gs-collections tag-hashmap tag-hppc tag-jdk8 tag-koloboke tag-map tag-trove">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/large-hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove/" rel="bookmark">Large HashMap overview: JDK, FastUtil, Goldman Sachs, HPPC, Koloboke, Trove</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/large-hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove/#comments" rel="nofollow">3 Replies</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    <b><br />
+        This article is outdated! A newer version covering the latest versions of collections libraries is available <a href="http://java-performance.info/hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove-january-2015/">here</a>.<br />
+    </b>
+</p>
+<p> <a rel="nofollow" href="http://java-performance.info/large-hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove/#more-798" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/cpu-optimization-2/" >CPU optimization</a>, <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/memory-optimization-2/" >Memory optimization</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/fastutil/" rel="tag nofollow">FastUtil</a>, <a href="http://java-performance.info/tag/gs-collections/" rel="tag nofollow">GS collections</a>, <a href="http://java-performance.info/tag/hashmap/" rel="tag nofollow">hashmap</a>, <a href="http://java-performance.info/tag/hppc/" rel="tag nofollow">hppc</a>, <a href="http://java-performance.info/tag/jdk8/" rel="tag nofollow">jdk8</a>, <a href="http://java-performance.info/tag/koloboke/" rel="tag nofollow">Koloboke</a>, <a href="http://java-performance.info/tag/map/" rel="tag nofollow">map</a>, <a href="http://java-performance.info/tag/trove/" rel="tag nofollow">trove</a> on <a href="http://java-performance.info/large-hashmap-overview-jdk-fastutil-goldman-sachs-hppc-koloboke-trove/" title="10:41 pm" rel="bookmark"><time class="entry-date" datetime="2014-11-01T22:41:26+00:00">November 1, 2014</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-750" class="post-750 post type-post status-publish format-standard hentry category-cpu-optimization-2 category-intermediate category-memory-optimization-2 category-overviews tag-jmh tag-micrbenchmarking tag-oracle">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/jmh/" rel="bookmark">Introduction to JMH</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/jmh/#comments" rel="nofollow">12 Replies</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/">Mikhail Vorontsov</a></p>
+<p>
+    <b>11 Sep 2014: Article was updated for JMH 1.0.</b>
+</p>
+<p>
+    <b>10 May 2014: Original version.</b>
+</p>
+<h2>Introduction</h2>
+<p>
+    This article will give you an overview of basic rules and abilities of JMH. The second article will give you <a href="http://java-performance.info/introduction-jmh-profilers/">an overview of JMH profilers</a>.
+</p>
+<p>
+    <a href="http://openjdk.java.net/projects/code-tools/jmh/" rel="nofollow">JMH</a> is a new microbenchmarking framework (first released late-2013). Its distinctive advantage over other frameworks is that it is developed by the same guys in Oracle who implement the JIT. In particular I want to mention <a href="http://shipilev.net/" rel="nofollow">Aleksey Shipilev and his brilliant blog</a>. JMH is likely to be in sync with the latest Oracle JRE changes, which makes its results very reliable.
+</p>
+<p>
+    You can find JMH examples <a href="http://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-samples/src/main/java/org/openjdk/jmh/samples/" rel="nofollow">here</a>.
+</p>
+<p>
+    JMH has only 2 requirements (everything else are recommendations):
+</p>
+<ul>
+<li>You need to create a maven project using a command from the <a href="http://openjdk.java.net/projects/code-tools/jmh/" rel="nofollow">JMH official web page</a></li>
+<li>You need to annotate test methods with <code>@Benchmark</code> annotation</li>
+</ul>
+<p>
+    In some cases, it is not convenient to create a new project just for the performance testing purposes. In this situation you can rather easily add JMH into an existing project. You need to make the following steps:
+</p>
+<ol>
+<li>Ensure your project directory structure is recognizable by Maven (your benchmarks are at src/main/java at least)</li>
+<li>
+        Copy 2 JMH maven dependencies and <code>maven-shade-plugin</code> from the <a href="http://hg.openjdk.java.net/code-tools/jmh/file/tip/jmh-archetypes/jmh-java-benchmark-archetype/src/main/resources/archetype-resources/pom.xml" rel="nofollow">JMH archetype</a>. No other plugins mentioned in the archetype are required at the moment of writing (JMH 1.0).
+    </li>
+</ol>
+<h2>How to run</h2>
+<p>
+    Run the following maven command to create a template JMH project from an archetype (it may change over the time, check for the latest version near the start of the <a href="http://openjdk.java.net/projects/code-tools/jmh/" rel="nofollow">the official JMH page</a>):
+</p>
+<blockquote>
+<pre>$ mvn archetype:generate \
+          -DinteractiveMode=false \
+          -DarchetypeGroupId=org.openjdk.jmh \
+          -DarchetypeArtifactId=jmh-java-benchmark-archetype \
+          -DgroupId=org.sample \
+          -DartifactId=test \
+          -Dversion=1.0</pre>
+</blockquote>
+<p>
+    Alternatively, copy 2 JMH dependencies and <code>maven-shade-plugin</code> from the JMH archetype (as described above).
+</p>
+<p>
+    Create one (or a few) java files. Annotate some methods in them with <code>@Benchmark</code> annotation &#8211; these would be your performance benchmarks.
+</p>
+<p>
+    You have at least 2 simple options to run your tests::
+</p>
+<table border="1">
+<tr>
+<td>
+            Follow the procedure from <a href="http://openjdk.java.net/projects/code-tools/jmh/" rel="nofollow">the official JMH page</a>):</p>
+<blockquote>
+<pre>$ cd your_project_directory/
+$ mvn clean install
+$ java -jar target/benchmarks.jar</pre>
+</blockquote>
+<p>            The last command should be entered <b>verbatim</b> &#8211; regardless of your project settings you will end up with <code>target/benchmarks.jar</code> sufficient to run all your tests. This option has a slight disadvantage &#8211; it will use the default JMH settings for all settings not provided via annotations ( <code>@Fork, @Warmup</code> and <code>@Measurement</code> annotations are getting nearly mandatory in this mode). Use <code>java -jar target/benchmarks.jar -h</code> command to see all available command line options (there are plenty).
+        </td>
+</tr>
+<tr>
+<td>
+            Or use the old way: add <code>main</code> method to some of your classes and write a JMH start script inside it. Here is an example:</p>
+<blockquote>
+
+<div class="bwp-syntax-block clearfix">
+<div class="bwp-syntax-toolbar"><div class="bwp-syntax-control"><a href="javascript:;" class="bwp-syntax-source-switch" title="View Source Code"></a></div></div>
+<div class="bwp-syntax-wrapper clearfix bwp-syntax-simple"><table class="java"><tbody><tr class="li1"><td class="ln"><pre class="de1">1
+2
+3
+4
+5
+</pre></td><td class="de1"><pre class="de1">Options opt <span class="sy0">=</span> <span class="kw1">new</span> OptionsBuilder<span class="br0">&#40;</span><span class="br0">&#41;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .<span class="me1">include</span><span class="br0">&#40;</span><span class="st0">&quot;.*&quot;</span> <span class="sy0">+</span> YourClass.<span class="kw1">class</span>.<span class="me1">getSimpleName</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">+</span> <span class="st0">&quot;.*&quot;</span><span class="br0">&#41;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .<span class="me1">forks</span><span class="br0">&#40;</span><span class="nu0">1</span><span class="br0">&#41;</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .<span class="me1">build</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">new</span> Runner<span class="br0">&#40;</span>opt<span class="br0">&#41;</span>.<span class="me1">run</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre></td></tr></tbody></table></div>
+<div class="bwp-syntax-source"><pre class="no-parse">Options opt = new OptionsBuilder()
+                .include(".*" + YourClass.class.getSimpleName() + ".*")
+                .forks(1)
+                .build();
+new Runner(opt).run();</pre></div></div>
+
+</blockquote>
+<p>            After that you can run it with <code>target/benchmarks.jar</code> as your classpath:</p>
+<blockquote>
+<pre>$ cd your_project_directory/
+$ mvn clean install
+$ java -cp target/benchmarks.jar your.test.ClassName</pre>
+</blockquote>
+</td>
+</tr>
+</table>
+<p>
+    Now after extensive &#8220;how to run it&#8221; manual, let&#8217;s look at the framework itself.
+</p>
+<p> <a rel="nofollow" href="http://java-performance.info/jmh/#more-750" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/cpu-optimization-2/" >CPU optimization</a>, <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/memory-optimization-2/" >Memory optimization</a>, <a href="http://java-performance.info/category/overviews/" >Overviews</a> and tagged <a href="http://java-performance.info/tag/jmh/" rel="tag nofollow">JMH</a>, <a href="http://java-performance.info/tag/micrbenchmarking/" rel="tag nofollow">micrbenchmarking</a>, <a href="http://java-performance.info/tag/oracle/" rel="tag nofollow">Oracle</a> on <a href="http://java-performance.info/jmh/" title="3:02 pm" rel="bookmark"><time class="entry-date" datetime="2014-09-13T15:02:48+00:00">September 13, 2014</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+							
+	<article id="post-788" class="post-788 post type-post status-publish format-standard hentry category-intermediate category-memory-optimization-2 tag-deduplication tag-java-8 tag-memory-optimization tag-string">
+				<header class="entry-header">
+									<h1 class="entry-title">
+				<a href="http://java-performance.info/java-string-deduplication/" rel="bookmark">String deduplication feature (from Java 8 update 20)</a>
+			</h1>
+										<div class="comments-link">
+					<a href="http://java-performance.info/java-string-deduplication/#comments" rel="nofollow">5 Replies</a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>by <a href="http://java-performance.info/author/Mike/" rel="nofollow">Mikhail Vorontsov</a></p>
+<p>
+    This article will provide you a short overview of a string deduplication feature added into Java 8 update 20.
+</p>
+<p>
+    <code>String</code> objects consume a large amount of memory in an average application. Some of these strings may be duplicated &#8211; there exist several distinct instances of the same String (<code>a != b, but a.equals(b))</code>. In practice, <b>a lot</b> of <code>String</code>s could be duplicated due to various reasons.
+</p>
+<p>
+    Originally, JDK offered <a href="http://java-performance.info/string-intern-in-java-6-7-8/"><code>String.intern()</code> method</a> to deal with the string duplication. The disadvantage of this method is that <b>you</b> have to find which strings should be interned. This generally requires a heap analysis tool with a duplicate string lookup ability, like <a href="http://www.yourkit.com/features/" rel="nofollow">YourKit profiler</a>. Nevertheless, if used properly, string interning is a powerful memory saving tool &#8211; it allows you to reuse the whole <code>String</code> objects (each of whose is adding 24 bytes overhead to the underlying <code>char[]</code>).
+</p>
+<p>
+    Starting from Java 7 update 6, <a href="http://java-performance.info/changes-to-string-java-1-7-0_06/">each <code>String</code> object has its own <b>private</b> underlying <code>char[]</code></a>. This allows JVM to make an automatic optimization &#8211; if an underlying <code>char[]</code> is never exposed to the client, then JVM can find 2 strings with the same contents, and replace the underlying <code>char[]</code> of one string with an underlying <code>char[]</code> of another string.
+</p>
+<p>
+    That&#8217;s done by the string deduplication feature added into Java 8 update 20. How it works:
+</p>
+<p> <a rel="nofollow" href="http://java-performance.info/java-string-deduplication/#more-788" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://java-performance.info/category/intermediate/" >Intermediate</a>, <a href="http://java-performance.info/category/memory-optimization-2/" >Memory optimization</a> and tagged <a href="http://java-performance.info/tag/deduplication/" rel="tag nofollow">deduplication</a>, <a href="http://java-performance.info/tag/java-8/" rel="tag nofollow">Java 8</a>, <a href="http://java-performance.info/tag/memory-optimization/" rel="tag nofollow">memory optimization</a>, <a href="http://java-performance.info/tag/string/" rel="tag nofollow">string</a> on <a href="http://java-performance.info/java-string-deduplication/" title="7:31 pm" rel="bookmark"><time class="entry-date" datetime="2014-09-03T19:31:23+00:00">September 3, 2014</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://java-performance.info/author/Mike/" title="View all posts by admin" rel="author">admin</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+			
+					<nav id="nav-below" class="navigation" role="navigation">
+			<h3 class="assistive-text">Post navigation</h3>
+			<div class="nav-previous"><a href="http://java-performance.info/page/2/" ><span class="meta-nav">&larr;</span> Older posts</a></div>
+			<div class="nav-next"></div>
+		</nav><!-- #nav-below .navigation -->
+	
+		
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+			<aside id="text-2" class="widget widget_text"><h3 class="widget-title">Summary</h3>			<div class="textwidget"><p><a href="http://java-performance.com" rel="nofollow" target="_blank">Java performance tuning guide summary</a> - all you could read on this website in one page.</p>
+</div>
+		</aside><aside id="tag_cloud-2" class="widget widget_tag_cloud"><h3 class="widget-title">Tags</h3><div class="tagcloud"><a rel="nofollow" href='http://java-performance.info/tag/algorithms/' class='tag-link-90 tag-link-position-1' title='2 topics' style='font-size: 8pt;'>algorithms</a>
+<a rel="nofollow" href='http://java-performance.info/tag/array/' class='tag-link-69 tag-link-position-2' title='3 topics' style='font-size: 9.66336633663pt;'>array</a>
+<a rel="nofollow" href='http://java-performance.info/tag/avoiding-worst-practices/' class='tag-link-14 tag-link-position-3' title='4 topics' style='font-size: 11.0495049505pt;'>avoiding worst practices</a>
+<a rel="nofollow" href='http://java-performance.info/tag/bigdecimal/' class='tag-link-42 tag-link-position-4' title='2 topics' style='font-size: 8pt;'>BigDecimal</a>
+<a rel="nofollow" href='http://java-performance.info/tag/binary-serialization/' class='tag-link-29 tag-link-position-5' title='2 topics' style='font-size: 8pt;'>binary serialization</a>
+<a rel="nofollow" href='http://java-performance.info/tag/bitset/' class='tag-link-39 tag-link-position-6' title='4 topics' style='font-size: 11.0495049505pt;'>bitset</a>
+<a rel="nofollow" href='http://java-performance.info/tag/book-review/' class='tag-link-91 tag-link-position-7' title='4 topics' style='font-size: 11.0495049505pt;'>book review</a>
+<a rel="nofollow" href='http://java-performance.info/tag/boxing/' class='tag-link-17 tag-link-position-8' title='2 topics' style='font-size: 8pt;'>boxing</a>
+<a rel="nofollow" href='http://java-performance.info/tag/byte-buffer/' class='tag-link-35 tag-link-position-9' title='3 topics' style='font-size: 9.66336633663pt;'>byte buffer</a>
+<a rel="nofollow" href='http://java-performance.info/tag/collections/' class='tag-link-3 tag-link-position-10' title='12 topics' style='font-size: 16.7326732673pt;'>collections</a>
+<a rel="nofollow" href='http://java-performance.info/tag/cpu-optimization/' class='tag-link-4 tag-link-position-11' title='30 topics' style='font-size: 22pt;'>cpu optimization</a>
+<a rel="nofollow" href='http://java-performance.info/tag/data-compression/' class='tag-link-16 tag-link-position-12' title='9 topics' style='font-size: 15.2079207921pt;'>data compression</a>
+<a rel="nofollow" href='http://java-performance.info/tag/datatype-optimization/' class='tag-link-15 tag-link-position-13' title='6 topics' style='font-size: 13.1287128713pt;'>datatype optimization</a>
+<a rel="nofollow" href='http://java-performance.info/tag/date/' class='tag-link-20 tag-link-position-14' title='4 topics' style='font-size: 11.0495049505pt;'>date</a>
+<a rel="nofollow" href='http://java-performance.info/tag/dateformat/' class='tag-link-21 tag-link-position-15' title='3 topics' style='font-size: 9.66336633663pt;'>dateformat</a>
+<a rel="nofollow" href='http://java-performance.info/tag/double/' class='tag-link-41 tag-link-position-16' title='2 topics' style='font-size: 8pt;'>double</a>
+<a rel="nofollow" href='http://java-performance.info/tag/exceptions/' class='tag-link-48 tag-link-position-17' title='3 topics' style='font-size: 9.66336633663pt;'>exceptions</a>
+<a rel="nofollow" href='http://java-performance.info/tag/fastutil/' class='tag-link-152 tag-link-position-18' title='3 topics' style='font-size: 9.66336633663pt;'>FastUtil</a>
+<a rel="nofollow" href='http://java-performance.info/tag/fix/' class='tag-link-43 tag-link-position-19' title='2 topics' style='font-size: 8pt;'>FIX</a>
+<a rel="nofollow" href='http://java-performance.info/tag/hashcode/' class='tag-link-50 tag-link-position-20' title='2 topics' style='font-size: 8pt;'>hashcode</a>
+<a rel="nofollow" href='http://java-performance.info/tag/hashmap/' class='tag-link-147 tag-link-position-21' title='3 topics' style='font-size: 9.66336633663pt;'>hashmap</a>
+<a rel="nofollow" href='http://java-performance.info/tag/hdd/' class='tag-link-77 tag-link-position-22' title='2 topics' style='font-size: 8pt;'>hdd</a>
+<a rel="nofollow" href='http://java-performance.info/tag/hppc/' class='tag-link-149 tag-link-position-23' title='2 topics' style='font-size: 8pt;'>hppc</a>
+<a rel="nofollow" href='http://java-performance.info/tag/io/' class='tag-link-28 tag-link-position-24' title='4 topics' style='font-size: 11.0495049505pt;'>io</a>
+<a rel="nofollow" href='http://java-performance.info/tag/java-7/' class='tag-link-107 tag-link-position-25' title='5 topics' style='font-size: 12.1584158416pt;'>Java 7</a>
+<a rel="nofollow" href='http://java-performance.info/tag/java-8/' class='tag-link-108 tag-link-position-26' title='9 topics' style='font-size: 15.2079207921pt;'>Java 8</a>
+<a rel="nofollow" href='http://java-performance.info/tag/java-dates/' class='tag-link-22 tag-link-position-27' title='2 topics' style='font-size: 8pt;'>java dates</a>
+<a rel="nofollow" href='http://java-performance.info/tag/jdk-8/' class='tag-link-163 tag-link-position-28' title='2 topics' style='font-size: 8pt;'>jdk 8</a>
+<a rel="nofollow" href='http://java-performance.info/tag/jmh/' class='tag-link-139 tag-link-position-29' title='3 topics' style='font-size: 9.66336633663pt;'>JMH</a>
+<a rel="nofollow" href='http://java-performance.info/tag/jni/' class='tag-link-36 tag-link-position-30' title='2 topics' style='font-size: 8pt;'>JNI</a>
+<a rel="nofollow" href='http://java-performance.info/tag/koloboke/' class='tag-link-150 tag-link-position-31' title='3 topics' style='font-size: 9.66336633663pt;'>Koloboke</a>
+<a rel="nofollow" href='http://java-performance.info/tag/map/' class='tag-link-64 tag-link-position-32' title='3 topics' style='font-size: 9.66336633663pt;'>map</a>
+<a rel="nofollow" href='http://java-performance.info/tag/memory-layout/' class='tag-link-54 tag-link-position-33' title='3 topics' style='font-size: 9.66336633663pt;'>memory layout</a>
+<a rel="nofollow" href='http://java-performance.info/tag/memory-optimization/' class='tag-link-6 tag-link-position-34' title='23 topics' style='font-size: 20.4752475248pt;'>memory optimization</a>
+<a rel="nofollow" href='http://java-performance.info/tag/multithreading/' class='tag-link-109 tag-link-position-35' title='2 topics' style='font-size: 8pt;'>multithreading</a>
+<a rel="nofollow" href='http://java-performance.info/tag/parsing/' class='tag-link-44 tag-link-position-36' title='2 topics' style='font-size: 8pt;'>parsing</a>
+<a rel="nofollow" href='http://java-performance.info/tag/primitive-collections/' class='tag-link-10 tag-link-position-37' title='4 topics' style='font-size: 11.0495049505pt;'>primitive collections</a>
+<a rel="nofollow" href='http://java-performance.info/tag/profiler/' class='tag-link-142 tag-link-position-38' title='2 topics' style='font-size: 8pt;'>profiler</a>
+<a rel="nofollow" href='http://java-performance.info/tag/ssd/' class='tag-link-76 tag-link-position-39' title='2 topics' style='font-size: 8pt;'>ssd</a>
+<a rel="nofollow" href='http://java-performance.info/tag/string/' class='tag-link-33 tag-link-position-40' title='11 topics' style='font-size: 16.3168316832pt;'>string</a>
+<a rel="nofollow" href='http://java-performance.info/tag/string-concatenation/' class='tag-link-46 tag-link-position-41' title='2 topics' style='font-size: 8pt;'>string concatenation</a>
+<a rel="nofollow" href='http://java-performance.info/tag/string-pool/' class='tag-link-101 tag-link-position-42' title='3 topics' style='font-size: 9.66336633663pt;'>string pool</a>
+<a rel="nofollow" href='http://java-performance.info/tag/sun-misc-unsafe/' class='tag-link-31 tag-link-position-43' title='7 topics' style='font-size: 13.8217821782pt;'>sun.misc.Unsafe</a>
+<a rel="nofollow" href='http://java-performance.info/tag/tools/' class='tag-link-55 tag-link-position-44' title='2 topics' style='font-size: 8pt;'>tools</a>
+<a rel="nofollow" href='http://java-performance.info/tag/trove/' class='tag-link-11 tag-link-position-45' title='7 topics' style='font-size: 13.8217821782pt;'>trove</a></div>
+</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+					</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type='text/javascript' src='http://d1k2jhzcfaebet.cloudfront.net/wp-content/themes/twentytwelve/js/navigation.js?ver=1.0'></script>
+<script type='text/javascript' src='http://d1k2jhzcfaebet.cloudfront.net/wp-includes/js/wp-embed.min.js?ver=4.5.15'></script>
+<script type="text/javascript">
+		  
+		  (function() {
+		    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		    po.src = 'https://apis.google.com/js/plusone.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		  })();
+		</script></body>
+</html>
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+Content Delivery Network via Amazon Web Services: CloudFront: d1k2jhzcfaebet.cloudfront.net
+
+ Served from: java-performance.info @ 2018-10-04 09:59:40 by W3 Total Cache -->
