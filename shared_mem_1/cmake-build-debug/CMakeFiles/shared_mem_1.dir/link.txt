@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/shared_mem_1.dir/main.c.o  -o shared_mem_1 

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilya/progi/shared_mem_1/main.c
+sys/types.h
+-
+sys/ipc.h
+-
+sys/shm.h
+-
+stdio.h
+-
+errno.h
+-
+stdlib.h
+-
+unistd.h
+-
+sys/wait.h
+-
+
