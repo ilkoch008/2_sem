@@ -1,0 +1,3 @@
+/home/ilya/progi/sockets/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ilya/progi/sockets/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ilya/progi/sockets/cmake-build-debug/CMakeFiles/sockets.dir

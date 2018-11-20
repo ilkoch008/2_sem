@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilya/progi/message_receive/consts.h
+
+/home/ilya/progi/message_receive/main.c
+stdio.h
+-
+sys/types.h
+-
+sys/ipc.h
+-
+sys/msg.h
+-
+stdlib.h
+-
+string.h
+-
+consts.h
+/home/ilya/progi/message_receive/consts.h
+

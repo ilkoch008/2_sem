@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/message_send.dir/main.c.o  -o message_send 
