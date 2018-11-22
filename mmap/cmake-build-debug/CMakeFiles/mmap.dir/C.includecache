@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilya/progi/mmap/main.c
+stdio.h
+-
+stdlib.h
+-
+fcntl.h
+-
+sys/types.h
+-
+unistd.h
+-
+sys/mman.h
+-
+

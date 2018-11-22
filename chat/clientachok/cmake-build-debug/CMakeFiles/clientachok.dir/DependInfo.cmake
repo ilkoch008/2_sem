@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/ilya/progi/clientachok/main.c" "/home/ilya/progi/clientachok/cmake-build-debug/CMakeFiles/clientachok.dir/main.c.o"
+  "/home/ilya/progi/chat/clientachok/main.c" "/home/ilya/progi/chat/clientachok/cmake-build-debug/CMakeFiles/clientachok.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

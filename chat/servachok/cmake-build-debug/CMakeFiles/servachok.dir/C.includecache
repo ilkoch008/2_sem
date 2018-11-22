@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/ilya/progi/servachok/main.c
+/home/ilya/progi/chat/servachok/main.c
 stdio.h
 -
 string.h

@@ -51,10 +51,6 @@ int main() {
         exit(1);
     }
 
-//    if(pthread_mutex_init(&mutex, NULL)){
-//        printf("mutex_init error");
-//        exit(1);
-//    }
 
     pthread_t thid;
     int result = pthread_create(&thid, (pthread_attr_t *) NULL, reader, &sd_read);
@@ -76,10 +72,6 @@ int main() {
             close(sd_write);
             exit(1);
         }
-        //pthread_mutex_unlock(&mutex);
-//        bzero(buf, sizeof(buf));
-//        read(sd_write, buf, sizeof(buf));
-//        printf("%s", buf);
     }
     close(sd_write);
     return 0;
@@ -106,15 +98,10 @@ void readName(char *myName){
 
 void *reader(void *arg){
     int sd = *(int *) arg;
-    char bbuf[512];
     char buf[512];
-    //sched_yield();
     ssize_t test;
     while (1) {
-        //bzero(bbuf, sizeof(bbuf));
         bzero(buf, sizeof(buf));
-        //pthread_mutex_lock(&mutex);
-        //sleep(1);
         test = read(sd, buf, sizeof(buf) - 1);
         if (test < 0)
             exit(1);

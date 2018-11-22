@@ -81,8 +81,8 @@ void *write_to_Client(void *arg_write){
     char buf[512];
     while(1) {
         if(read(fd[my_proc_num][0], buf, 511 * sizeof(char)) <= 0){
-            printf("error in readingMessages");
-            exit(1);
+            perror("user disconnected\n");
+            break;
         };
         write(cliSd, buf, strlen(buf) * sizeof(char));
         bzero(buf, sizeof(buf));

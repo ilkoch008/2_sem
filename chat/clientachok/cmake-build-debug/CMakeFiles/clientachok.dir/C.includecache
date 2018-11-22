@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/ilya/progi/clientachok/main.c
+/home/ilya/progi/chat/clientachok/main.c
 stdio.h
 -
 netinet/in.h
