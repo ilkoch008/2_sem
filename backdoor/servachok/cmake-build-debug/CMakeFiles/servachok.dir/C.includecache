@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ilya/progi/backdoor/servachok/main.c
+stdio.h
+-
+string.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+stdlib.h
+-
+unistd.h
+-
+pthread.h
+-
+bits/sigthread.h
+-
+

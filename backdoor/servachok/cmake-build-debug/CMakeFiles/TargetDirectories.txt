@@ -1,0 +1,3 @@
+/home/ilya/progi/backdoor/servachok/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ilya/progi/backdoor/servachok/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ilya/progi/backdoor/servachok/cmake-build-debug/CMakeFiles/servachok.dir
